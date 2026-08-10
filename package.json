@@ -1,0 +1,26 @@
+{
+    "name": "resume-generator",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start -p $PORT"
+    },
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.32.1",
+        "@react-pdf/renderer": "^3.4.4",
+        "docx": "^9.0.0",
+        "formidable": "^2.1.1",
+        "jsonc-parser": "^3.3.1",
+        "next": "^14.2.35",
+        "nodemailer": "^7.0.11",
+        "openai": "^4.20.0",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "resend": "^6.5.2"
+    },
+    "engines": {
+        "node": "20.x"
+    }
+}

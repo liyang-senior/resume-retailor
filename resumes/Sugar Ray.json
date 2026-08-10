@@ -1,0 +1,49 @@
+{
+  "name": "Sugar Ray Ledesma",
+  "title": "Senior Full Stack Engineer",
+  "email": "sugarledesma2000@gmail.com",
+  "phone": "",
+  "location": "Taguig City, Philippines",
+  "postalCode": "1630",
+  "linkedin": "https://linkedin.com/in/sugar-ray-ledesma-b880a83a9",
+  "website": "",
+  "github": "",
+  "base_skills": {},
+  "experience": [
+    {
+      "company": "Upwork",
+      "title": "Senior Full Stack Engineer",
+      "location": "",
+      "start_date": "05/2023",
+      "end_date": "Present",
+      "skills": [" Node.js", "Express.js", "React.js", "MongoDB", "SQL", "Typescript", "AWS", "Docker", "Git", "CI/CD", "Redux", "Jest", "Cypress"],
+      "base_bullets": [""]
+    },
+    {
+      "company": "BluePeak Software Solutions",
+      "title": "Backend Software Engineer",
+      "location": "",
+      "start_date": "05/2018",
+      "end_date": "04/2023",
+      "skills": ["Node.js", "Express.js", "MongoDB", "SQL", "Typescript", "AWS", "Docker", "Git", "CI/CD", "Redux", "Jest", "Cypress", "GraphQL", "RESTful APIs"],
+      "base_bullets": [""]
+    },
+    {
+      "company": "Nexora Digital Labs",
+      "title": "Frontend Software Engineer",
+      "location": "",
+      "start_date": "01/2016",
+      "end_date": "12/2019",
+      "skills": ["React.js", "Next.js", "Tailwind CSS", "Typescript", "AWS", "Docker", "Git", "CI/CD", "Redux", "Jest", "Cypress", "GraphQL", "RESTful APIs"],
+      "base_bullets": [""]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Sc. in Computer Science",
+      "school": "Taguig City University",
+      "start_year": "2013",
+      "end_year": "2017"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "Ricardo K Langdon",
+  "title": "Lead Devops Engineer",
+  "email": "rlangdon1098@gmail.com",
+  "phone": "+13463556022",
+  "location": "Pompano Beach, Florida",
+  "postalCode": "33060",
+  "linkedin": "https://www.linkedin.com/in/ricardo-langdon-669b623b9/",
+  "website": "",
+  "github": "",
+  "base_skills": {},
+  "experience": [
+    {
+      "company": "Leapwork",
+      "title": "Lead Devops Engineer",
+      "location": "",
+      "start_date": "03/2020",
+      "end_date": "02/2026",
+      "skills": ["AWS", "Docker", "Git", "CI/CD", "Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "GitHub", "Bitbucket", "Azure", "Google Cloud", "Oracle Cloud", "Microsoft Azure", "Microsoft 365", "Microsoft Azure DevOps", "Microsoft Azure Pipelines", "Microsoft Azure DevOps", "Microsoft Azure Pipelines", "Microsoft Azure DevOps", "Microsoft Azure Pipelines"],
+      "base_bullets": [""]
+    },
+    {
+      "company": "ORIL",
+      "title": "DevOps & Site Reliability Engineer",
+      "location": "",
+      "start_date": "04/2016",
+      "end_date": "02/2020",
+      "skills": ["Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "GitHub", "Bitbucket", "Azure", "Google Cloud", "Oracle Cloud", "Microsoft Azure", "Microsoft 365", "Microsoft Azure DevOps", "Microsoft Azure Pipelines", "Microsoft Azure DevOps", "Microsoft Azure Pipelines", "Microsoft Azure DevOps", "Microsoft Azure Pipelines"],
+      "base_bullets": [""]
+    },
+    {
+      "company": "Cleveroad",
+      "title": "DevOps Engineer & Infrastructure Specialist",
+      "location": "",
+      "start_date": "09/2013",
+      "end_date": "03/2016",
+      "skills": ["Kubernetes", "Terraform", "Ansible", "Jenkins", "GitLab", "GitHub", "Bitbucket", "Azure", "Google Cloud", "Oracle Cloud", "Microsoft Azure", "Microsoft 365", "Microsoft Azure DevOps", "Microsoft Azure Pipelines", "Microsoft Azure DevOps", "Microsoft Azure Pipelines", "Microsoft Azure DevOps", "Microsoft Azure Pipelines"],
+      "base_bullets": [""]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.S. in Computer Science",
+      "school": "Florida Polytechnic University",
+      "start_year": "2009",
+      "end_year": "2013"
+    }
+  ]
+}

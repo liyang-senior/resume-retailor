@@ -1,0 +1,93 @@
+{
+  "name": "Maurice C Williams",
+  "title": "Senior Full Stack Engineer",
+  "email": "mauricewilliams800913@gmail.com",
+  "phone": "+1 (346) 355 6022",
+  "location": "Brooklyn, New York",
+  "postalCode": "11212",
+  "linkedin": "https://linkedin.com/in/maurice-williams-2a958a3a8",
+  "website": "",
+  "github": "",
+  "base_skills": {},
+  "experience": [
+    {
+      "company": "Raia Labs",
+      "title": "Senior Full Stack Engineer",
+      "location": "Sarasota, FL",
+      "start_date": "08/2020",
+      "end_date": "01/2026",
+      "skills": [
+        " Node.js",
+        "Express.js",
+        "React.js",
+        "MongoDB",
+        "SQL",
+        "Vue",
+        "Typescript",
+        "AWS",
+        "Docker",
+        "Git",
+        "CI/CD",
+        "Redux",
+        "Jest",
+        "Cypress"
+      ],
+      "base_bullets": [""]
+    },
+    {
+      "company": "StackOverdrive",
+      "title": "Full Stack Developer",
+      "location": "New York, NY",
+      "start_date": "05/2016",
+      "end_date": "06/2020",
+      "skills": [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "SQL",
+        "Typescript",
+        "AWS",
+        "Docker",
+        "Git",
+        "CI/CD",
+        "Redux",
+        "Jest",
+        "Cypress",
+        "GraphQL",
+        "RESTful APIs"
+      ],
+      "base_bullets": [""]
+    },
+    {
+      "company": "TechWize",
+      "title": "Full Stack Engineer",
+      "location": "New York, NY",
+      "start_date": "08/2013",
+      "end_date": "04/2016",
+      "skills": [
+        "React.js",
+        "Next.js",
+        "Tailwind CSS",
+        "Typescript",
+        "AWS",
+        "Docker",
+        "Git",
+        "CI/CD",
+        "Redux",
+        "Jest",
+        "Cypress",
+        "GraphQL",
+        "RESTful APIs"
+      ],
+      "base_bullets": [""]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.Sc. in Computer Science",
+      "school": "University at Albany (SUNY)",
+      "start_year": "2009",
+      "end_year": "2013"
+    }
+  ]
+}

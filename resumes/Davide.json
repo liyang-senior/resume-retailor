@@ -1,0 +1,73 @@
+{
+  "name": "Davide Giovanardi",
+  "title": "Senior Machine Learning Engineer",
+  "email": "davidegiovanardi@proton.me",
+  "phone": "+1 (360) 548-1455",
+  "location": "Mountain View, CA",
+  "postalCode": "94041",
+  "linkedin": "https://www.linkedin.com/in/dgiova/",
+  "website": "",
+  "github": "",
+  "base_skills": {},
+  "experience": [
+    {
+      "company": "Robinhood",
+      "title": "Senior Machine Learning Engineer",
+      "location": "",
+      "start_date": "09/2024",
+      "end_date": "04/2026",
+      "skills": [""],
+      "base_bullets": [""]
+    },
+    {
+      "company": "Zoom",
+      "title": "Senior Machine Learning Engineer",
+      "location": "",
+      "start_date": "03/2021",
+      "end_date": "09/2024",
+      "skills": [""],
+      "base_bullets": [""]
+    },
+    {
+      "company": "Stanford University",
+      "title": "Graduate Teaching Assistant",
+      "location": "",
+      "start_date": "09/2020",
+      "end_date": "03/2021",
+      "skills": [""],
+      "base_bullets": [""]
+    },
+    {
+      "company": "JPMorgan Chase & Co",
+      "title": "AI & Machine Learning Associate",
+      "location": "",
+      "start_date": "06/2020",
+      "end_date": "09/2020",
+      "skills": [""],
+      "base_bullets": [""]
+    },
+    {
+      "company": "Intel Corporation",
+      "title": "Machine Learning Intern",
+      "location": "",
+      "start_date": "01/2019",
+      "end_date": "09/2019",
+      "skills": [""],
+      "base_bullets": [""]
+    }
+  ],
+  "education": [
+    {
+      "degree": "MS Computational and Mathematical",
+      "school": "Stanford University",
+      "start_year": "2019",
+      "end_year": "2021"
+    },
+    {
+      "degree": "Master of Science STEM",
+      "school": "UC San Diego",
+      "start_year": "2018",
+      "end_year": "2019"
+    }
+  ]
+}
