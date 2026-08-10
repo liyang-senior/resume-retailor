@@ -7,42 +7,7 @@ export const profileTemplateMapping = {
     resume: "Rahul Monga",
     template: "Resume-Executive-Navy",
   },
-  hasan: {
-    resume: "Hasan Khan",
-    template: "Resume-Executive-Navy",
-  },
-  davide: {
-    resume: "Davide Giovanardi",
-    template: "Resume-Executive-Navy",
-  },
-  deekshith: {
-    resume: "Deekshith Reddy Gopidi",
-    template: "Resume-Executive-Navy",
-  },
-  praveen: {
-    resume: "Praveen Chaulagain",
-    template: "Resume-Executive-Navy",
-  },
-  kedar: {
-    resume: "Kedar Kumar Nanda",
-    template: "Resume-Executive-Navy",
-  },
-  swetha: {
-    resume: "Swetha Bezawada",
-    template: "Resume-Executive-Navy",
-  },
-  hardika: {
-    resume: "Hardika Narula",
-    template: "Resume-Executive-Navy",
-  },
-  rao: {
-    resume: "Amruutha Chandrasekarrao",
-    template: "Resume-Executive-Navy",
-  },
-  oscar: {
-    resume: "Oscar Adeyemi Adimi",
-    template: "Resume-Executive-Navy",
-  },
+  
   /////////////////////////////
   maurice: {
     resume: "Maurice",
@@ -59,12 +24,7 @@ export const profileTemplateMapping = {
   ariel: {
     resume: "Ariel Berjit",
     template: "Resume-Executive-Navy",
-  },
-  /////////////////////////////////////
-  matthew: {
-    resume: "Matthew",
-    template: "Resume-Executive-Navy",
-  },
+  }
 };
 
 /**
