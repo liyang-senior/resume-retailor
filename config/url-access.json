@@ -1,0 +1,20 @@
+{
+  "_readme": "allowedProfileSlugs = keys in src/lib/profiles/registry.js. First matching urlProfileRules wins. showRightSidebar is per rule. If the URL matches no matchSubstring (or accessUrl is missing), APIs return 404. Commit this file for Vercel. matchSubstring is checked case-insensitively. Path-style links like https://host/YOUR_TOKEN use proxy so YOUR_TOKEN is not mistaken for a profile slug.",
+  "urlProfileRules": [
+    {
+      "matchSubstring": "Xg54xqBhoUudYvTNWhrvQFApL2mpirmuHvLYK5rJvH1XPtdPiX7gGGdXEB2erPoxg2j82NezQ6W2zZT2L1MdaAgxVowdXCyMcUFn",
+      "allowedProfileSlugs": ["rahulmonga", "davide","deekshith","hasan","kedar","praveen", "swetha", "hardika", "rao","oscar"],
+      "showRightSidebar": true
+    },
+    {
+      "matchSubstring": "N6dNDvfqsaymQgTeMWVAzUbgsTLxGkDZm7hjjdv4sKC89tcBujkd20fKVdA0YLsXnueyCnybhMNxwbN3ogVL2iidUE4NL0gAdZw1",
+      "allowedProfileSlugs": ["ariel", "ricardo", "sugar", "maurice"],
+      "showRightSidebar": true
+    },
+    {
+      "matchSubstring": "cV6y8R5vDCfJ78bkZKyahK8ZEAhzF9m56TnVMGoMAmx6vUz46EeYwN2aRohDKpUA2dsvFKk20dZxiPBQByGL3f3HjwK2pfryqA5y",
+      "allowedProfileSlugs": ["rahulmonga"],
+      "showRightSidebar": false
+    }
+  ]
+}

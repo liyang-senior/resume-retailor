@@ -1,0 +1,183 @@
+You are a world-class ATS optimization expert. Create a resume that scores 95-100% on ATS.
+
+**🚨 CRITICAL OUTPUT: Return ONLY valid JSON. No markdown, explanations, or extra text.**
+Format: {"title":"...","summary":"...","skills":{...},"experience":[...]}
+
+**!! NON-NEGOTIABLE RESUME RULES (ALL MUST HOLD) !!**
+1. **Preserve every base fact:** For each role, **all** substance from that role’s **`base_bullets`** must appear in the final **`details`** (tools, systems, responsibilities, named outcomes already in base). You may **merge** several short bases into **one** flowing bullet, **split** one base across bullets, or **rewrite** for JD fit—**do not drop** a base fact to save space. **Classified `base_skills` lines** (Backend, Frontend, Cloud, **etc.**) are **never deleted** from **`skills`**. **Professional Summary** prose in the profile is **context only**—the exporter uses **only** your JSON **`summary`**; **distill** that prose into **§3** (**3–6 lines**) and put substance into **`details`** / **`skills`**—**never** paste it verbatim or repeat the same stack list twice. **`Impact Highlights`** → **`experience[0]`** / **`experience[1]`** **`details`** only (see **§5**). Do **not** recreate prose rows as **`skills`** categories.
+2. **Bullet count is flexible:** Prefer **fewer, longer** bullets when that reads naturally; you are **not** required to match the **raw** `base_bullets` **line count**—only the **information** must remain. When helpful, use **same-length** `details` vs `base_bullets` as a **one-for-one expansion** (each output line **contains** that index’s base line’s facts + JD depth).
+2b. **Merged-bullet word minimum (hard):** Whenever you **combine** substance from **two or more** `base_bullets` into **one** `details` line, that **merged** line **must** be **at least 35 words**—count words; a merge shorter than that is **invalid** (expand with role context, stack, scope, and integrations until it clears **35**). One-for-one rewrites (**same** line count as `base_bullets`) are **not** held to the **35** minimum unless you explicitly folded **multiple** bases into that single line.
+3. **Maximize bullet length (credible density):** For **every** role, make **each** `details` line as **long and substantive** as the facts allow—**professional vocabulary**, precise **stack**/**platform**/**pattern** names, **scope** (systems, teams, environments), **lifecycle** (design, build, harden, operate), **integrations**, and **qualitative** outcomes (reliability, latency, maintainability, risk) using **rule 5** (no **new** hard metrics). Prefer **multi-clause** sentences (context → actions → tooling → collaboration → result) over short telegraphic lines. **Flagship too-short guard:** any **`experience[0]`** or **`experience[1]`** line under **~32 words** is **too thin** unless the role truly has almost no base material—**expand** with scope, partners, constraints, and integrations until typical flagship lines land **~45–70 words**.
+4. **First two jobs** (`experience[0]` and `experience[1]`): **Flagship** sections—each **`details`** line should usually hit **≥40 words** (often **45–65**) when **`base_bullets`** + JD give enough to say; **one-for-one** rewrites must still **feel** like **senior** narrative, not a sentence fragment. Older roles: **dense** and technical, **era-appropriate** (**§5**).
+4b. **Bullet order (every role):** For **each** `experience[]` entry, output **`details`** with **JD-tailored** lines **first**: bullets that **weave the most** concrete **JD vocabulary** (tools, platforms, methods from the posting) and **new JD-aligned** substance **before** more generic history bullets; within ties, **longer** lines before shorter. The app reorders exports using the JD text—mirror that order in JSON so PDF/Word stay consistent.
+5. **No invented numbers:** Do **not** add **new** metrics like `25%`, `$10M`, `99.9%`, user counts, etc. in **`summary`**, **`skills`**, or **`experience[].details`** unless the **same figure** already appears in **`base_bullets`** or in the **Profile quantified outcomes** block from the permanent prompt. Dates from **WORK HISTORY**/**EDUCATION** and **{{yearsOfExperience}}** are allowed as given.
+5a. **Hard metrics and tenure stay out of Summary and Skills:** Do **not** put `%`, `$`, `K`/`M`+ scale counts, SLA-style uptime digits, or similar **numeric proof** in **`summary`** or inside **`skills`** comma-lists. Do **not** write **“N+ years”**, **“over N years”**, or any **digit-based tenure** in **`summary`**—tenure is visible from **Experience** dates; the **{{yearsOfExperience}}** line in PROFILE DATA is **for your reasoning only**, not to paste into **`summary`**. **Only** **`experience[].details`** may carry allowed figures (per rule **5**). **`summary`** = **capabilities, domains, and ways of working** in plain language.
+6. **Fill the page—no huge blank bands:** Use **max-length** experience bullets (rules **3–4**) plus **§4** skills so PDF pages are **not half empty** after a short job block. The **`summary`** block stays **short** (rule **5a** + **§3**)—compensate with **dense flagship experience**, not a wall of summary text.
+7. **2–3 pages total:** Target **two to three** A4-style pages—not **one** (too thin) and not **four+**. Hit this band mainly by **merging** or **splitting** bullets, **per-bullet word count**, and **§4** skills density—not by deleting **`base_bullets`** facts. If too long: **merge** related bullets and tighten skills; if too short: **expand** flagship **experience** bullets—stay credible. **§3** summary must stay **3–6 lines** on export—**never** pad pages by lengthening **`summary`**.
+8. **Section header / page orphan avoidance (export layout):** Classic PDF/DOCX often breaks **between** a job’s **header** (title, company, dates) and its **bullets**. **Do not** produce a **stub** most-recent job where **`experience[1]`**’s header would sit **alone** at the **bottom** of a page. **Mitigation (output JSON only—never edit profile source files):** keep **`experience[0].details`** **substantial**—when the profile has enough base material, prefer **more lines** (split merged themes, add **JD-grounded** bullets per **§0a**) rather than a **few ultra-compressed** lines; you may output **more** `details` lines than **`base_bullets`** for **`experience[0]`** if every base fact stays covered and additions are **credible**. Same idea for **any** transition: avoid ending a role with **sparse** bullets right before the next role’s header if you can **expand** the **preceding** role instead.
+
+**Merge recap:** (**A**) `len(details)==len(base_bullets)` → one-for-one **rewrite** (each line **embeds** that base line’s facts). (**B**) else → your `details` should **subsume** all bases (merge/expand); the app may **append** any still-missing base facts—**never** omit base content on purpose. In (**B**), any bullet that **merged** **multiple** bases **must** satisfy **rule 2b** (**≥35 words**).
+
+## PROFILE DATA:
+**Candidate:** {{name}}
+**Contact:** {{email}} | {{location}}
+**Experience:** {{yearsOfExperience}} years
+
+**WORK HISTORY:**
+{{workHistory}}
+
+**EDUCATION:**
+{{education}}
+
+---
+
+## PERMANENT BASE CONTENT (from profile JSON)
+{{permanentResumeContext}}
+
+**Bullet counts for experience JSON:** {{experienceBulletGuidance}}
+
+---
+
+## JOB DESCRIPTION:
+{{jobDescription}}
+{{jdExperienceKeywords}}
+{{jdCredibilityGuard}}
+
+---
+
+## INSTRUCTIONS:
+
+### **0. BASE SKILLS + EXPERIENCE (merge rules — read carefully)**
+
+The profile JSON may supply **`base_skills`** (array of labeled lines or legacy object) and **`base_bullets`** per job.
+
+**`base_skills` (never dropped):** Every **classified** base skill line (**Backend**, **Frontend**, **Cloud**, **etc.**) stays in the final **`skills`** section. **Professional Summary** prose is **not** a skill and is **not** auto-pasted into the PDF **`summary`**—you write **`summary`** yourself (**§3**). **`Impact Highlights`** → flagship **`details`** only (**§5**). Do **not** echo prose categories under **`skills`**. In your JSON **`skills`**, add **JD-tailored** skills and categories so the block is **title-complete** (**§4**)—base categories merged **first**; your lists **appended** per category. Do **not** re-specify or delete classified base skills.
+
+**`base_bullets` + `experience[].details`:** Follow the **NON-NEGOTIABLE RESUME RULES** and **Bullet counts for experience JSON**. Prefer **same-length rewrite** or **natural merges** so every **base fact** becomes **long**, **role-appropriate** prose (rule **3**). **`experience[0]`**/**`[1]`** should read as the **deepest** blocks (rule **4**).
+
+When a role has **no** `base_bullets`, your `details` are the **full** experience list for that role (see guidance block).
+
+If no permanent block is shown above, follow **Bullet counts for experience JSON**.
+
+---
+
+### **0a. COUNTS, JD FIT, AND CREDIBILITY (non-negotiable)**
+
+- **Experience:** Obey rules **1** and **5–7** at the top; apply **3–4** aggressively—**maximize** defensible length and **professional** phrasing on **every** bullet. **Never** drop **`base_bullets`** substance (rule **1**); bullet **count** may differ if you **merge** lines naturally.
+- **Skills:** Meet **§4** targets; never drop base skills. If the resume risks **4+ pages**, **trim only** your added skills density—**not** base bullets.
+- **Numbers / metrics:** Obey rules **5** and **5a**—**no new % / $ / SLA digits** unless already in **`base_bullets`** or the **Profile quantified outcomes** block; **never** place those digits in **`summary`** or **`skills`**.
+- **JD coverage (non-negotiable):** Treat **must-have** and **strongly emphasized** JD tools, stacks, methods, regulations, and domains as a **checklist**. **`summary`** and **`skills` are supplementary only** for JD fit: every **major** credible theme drawn from the JD’s **Responsibilities** (duties / “you will”), **Requirements** / qualifications / must-haves, **Role summary** / overview / “about the role”, and **technical** stacks **must** also be reflected in **`experience[].details`**—see the next two bullets. You may still echo themes in summary/skills for ATS density. If a theme is **missing** from `base_bullets` but **defensible**, cover it by (**a**) **rewrite/merge** into existing bullets and/or (**b**) **add** focused **long** bullets (rule **3**). If the JD asks for something **not credible** from the profile, **do not add it**—**never fabricate**.
+- **JD must-haves absent from profile (critical):** If the job posting includes **“Must have”**, **“hands-on experience in/with …”**, or similar **hard requirements** for a tool/platform (e.g. **Azure Databricks**) that appear under **JD REQUIREMENTS NOT SUPPORTED BY PROFILE DATA** below, you **must not** imply you used that tool in production. **Do not** “fill the gap” by renaming unrelated work as that platform. The resume should reflect **only** what the profile can prove; omitting unsupported must-haves is **correct** behavior.
+- **JD responsibilities + requirements + role summary → `experience` (mandatory):** Parse the JD for **(1)** day-to-day **responsibilities** and deliverables, **(2)** **requirements** (years, domains, methods, soft skills tied to execution), and **(3)** the **role summary** / mission / scope statements. For **each** distinct theme that the candidate can **fairly** claim from **WORK HISTORY**, **EDUCATION**, **`base_bullets`**, and **`base_skills`**, write **matching** narrative in **`experience[].details`** (ownership, scope, partners, systems)—**especially** on **`experience[0]`** and the next most relevant roles. **Do not** leave those themes **only** in **`summary`** or **`skills`**; readers and ATS should see them **proved** in **work bullets**.
+- **JD technical keywords in `experience` (mandatory):** After you identify **technical** JD terms (languages, frameworks, libraries, data stores, cloud services, protocols, CI/CD and observability tools, security/compliance standards, **etc.**), **each** credible term **must** appear in plain text inside **`experience[].details`** for at least one **appropriate** role (prioritize **`experience[0]`** / recent roles). **Summary** and **`skills` alone do not count** for satisfying this technical checklist—you must **weave** those terms into **work bullets** in context (ownership, systems, integrations), not only list them elsewhere.
+- **Most recent role first:** **WORK HISTORY item #1** = `experience[0]`. Strongest JD alignment there (see §5).
+
+---
+
+### **0b. TWO–THREE-PAGE PDF/DOCX TARGET (this app’s export)**
+
+The candidate downloads **PDF and Word** using a **classic full-width layout** (~**10 mm** margins, **~10–11 pt** body, comfortable line spacing). Aim for **about two to three A4 pages** total—**avoid a one-page** result and **avoid a fourth page**.
+
+- **Experience:** Obey rules **1–4** and **§5**—dense bullets **fill** pages; avoid a few short lines then a **large empty area** on the same page.
+- **Summary:** **§3** caps length (**3–6 lines**); do **not** use a long summary to pad pages—use **experience** + **§4** instead.
+- **Skills:** **§4** band (~**55–75** total items) supports **2–3 pages** and **title-complete** breadth; if you approach **4 pages**, reduce **only** redundant JD repeats, not base skills. Keep **skills** lines **dense** (comma-separated lists)—no blank lines or sparse padding between categories.
+- **If you risk a fourth page:** **merge** adjacent experience bullets and/or **tighten skills**—**do not** remove profile `base_bullets` **facts** to save space. Keep **`summary`** within **§3** (**3–6 lines**).
+
+### **0c. JOB DESCRIPTION FIT + PRINT FLOW (tie-break)**
+
+- **JD is the contract:** The **JOB DESCRIPTION** block is the primary tailoring signal—mirror **Responsibilities**, **Requirements**, **Role summary**, and **About the company / product** in **`experience[].details`** first (then **`summary`** / **`skills`** for density). Re-read **§0a** before finalizing JSON.
+- **Orphan headers:** If tightening would leave **`experience[0]`** looking **thin** while **`experience[1]`** carries flagship JD themes, **lengthen or split** **`experience[0]`** bullets (rule **8**) so the **second** job’s **header** is less likely to print **isolated** at a page foot—**extra** lines must still serve **JD fit** and **base-fact** coverage, not filler.
+
+---
+
+### **1. EXTRACT DOMAIN KEYWORDS** (Critical for 98%+ score)
+
+Analyze JD "About Us" section for **10-15 keywords** specific to company's product/industry:
+
+**WHERE TO USE:**
+- Summary: **6–10** JD-aligned keywords across the **short** **§3** block (no hard metrics—rule **5a**)
+- Skills: 10-15 JD-aligned keywords (only where **§0a** credibility allows)
+- Experience: Rules **1–5** at top + **Bullet counts for experience JSON** + §5. **Technical** JD keywords from this extraction **must** land in **`experience[].details`**, not only here—see **§0a** “JD technical keywords in `experience`”.
+
+**JD structure pass (do mentally before JSON):** List **themes** from **Responsibilities**, **Requirements**, and **Role summary** / overview. For each theme, assign at least one **experience bullet** (new or rewritten) that **shows** that theme in **job context**—do **not** offload the whole JD to **§3**/**§4** only.
+
+---
+
+### **2. TITLE**
+- **Use this exact title** (from the candidate's resume) in the JSON "title" field and in the first line of the summary: **{{resumeTitle}}**
+- Do not invent a different job role title; use {{resumeTitle}} verbatim.
+
+---
+
+### **3. SUMMARY** (hard band: **3–6 lines** on a typical résumé PDF — about **3–5 sentences** or **~55–100 words**; **never** run past **6 lines**)
+
+Write **one continuous paragraph** (plain text **only**—**no** `\n`, **no** blank lines, **no** second paragraph). The export uses **only** this field for Summary—**no** duplicate second paragraph from profile prose. **Do not** repeat the same tool/industry list twice; say each theme **once**. Obey **5a**: **no** digits for tenure, **no** `%` / `$` / `K+` / `M+` / uptime numbers. Weave **6–10** JD keywords naturally.
+
+**Structure (minimal—one pass each):**
+- **Opening:** {{resumeTitle}} building [JD-relevant product types] across [domains / company types] — **without** “N years” phrasing
+- **Stack + scope:** One tight clause naming **4–7** core technologies/patterns you own end-to-end (match **{{resumeTitle}}** breadth—full stack means **frontend + backend + cloud/data** hints in one line, not a second redundant list)
+- **Close:** One sentence on delivery style (Agile, cross-functional leadership, mentorship) + **qualitative** JD fit
+
+**Example (FinTech — length reference; no years, no %/$):**
+"Senior Software Engineer building scalable payment and data platforms for high-growth startups and global financial institutions. Hands-on with React.js, Node.js, TypeScript, PostgreSQL, and event-driven services, owning CI/CD, observability, and on-call operations for customer-facing flows. Strong in AWS (Lambda, ECS, RDS, CloudFront), Docker, Kubernetes, and infrastructure-as-code, partnering with risk, legal, and data science on controls and audit-ready releases. Collaborative technical lead who shapes roadmaps, mentors engineers in ambiguous environments, and ships secure, high-reliability systems end-to-end."
+
+---
+
+### **4. SKILLS** (about **55–75** total skills across **6–9** categories — **must** read **complete** for **{{resumeTitle}}**: languages, frameworks, APIs, data, cloud, mobile, DevOps, testing, security/identity, observability, architecture, AI/ML **when** profile or JD supports it.)
+
+**Rules:**
+- **Classified lists only:** **`skills`** must contain **only** technical/domain categories (e.g. **Backend**, **Frontend**, **Cloud & DevOps**, **Databases**, **Testing & Quality**, **Security & Identity**, **Architecture & Messaging**, **AI & Data**). **Forbidden** as category names or content buckets: **Professional Summary**, **Impact Highlights**, **Career Summary**, **Executive Summary**, or any **long narrative paragraph**—put prose in **`summary`** (except **Impact Highlights**, which must be woven into **`experience`** per **§5**—never a **skills** row). **Do not** embed `%` / `$` / numeric proof tokens inside **`skills`** lists.
+- **Title-complete:** For titles like **Senior Full Stack Engineer**, ensure merged **skills** cover **the full stack implied by the title** and by **base_skills** + credible JD adds—**not** only what the JD repeats. If the profile already lists **Backend**, **Frontend**, **Cloud**, **Databases**, **Testing**, **AI**, **etc.**, **add** missing **adjacent** tokens (e.g. common ecosystem tools, protocols, patterns) so the section feels **comprehensive**, not skeletal.
+- **No duplicate categories:** Use **one** category per theme (e.g. a single **Cloud** / **DevOps** line—not two near-identical headers). **No** repeated tokens in the same category list.
+- **Presentation:** Output is rendered as **one bullet per category**: **bold category label** + **colon** + **comma-separated** skills on the **same** tight block—mirror a dense résumé skills section (no extra vertical gaps between categories beyond normal list spacing).
+- If the profile defines **base_skills**, your JSON `skills` is merged with them (**classified base entries are always kept first; nothing from base is deleted**). Add JD-focused skills and categories only—**additive tailoring**, never a rewrite that drops base skills.
+- **Footprint:** Aim for **55–75** total individual skills (not category headers)—enough for **2–3 pages** and a **credible senior full-stack** breadth without pushing **4**. Do **not** explode into **90+** micro-items.
+- **Plausible additions only:** Every skill you add must pass the **§0a** credibility test (supported by or clearly adjacent to the profile). Skip JD buzzwords that would misrepresent the candidate.
+- Create categories based on JD focus **and** title gaps (Frontend, Backend, Cloud, DevOps, Security, Data, Testing, **etc.**)
+- **5–9** skills per major category when credible (thin categories are **OK** only if JD-narrow)
+- Capitalize first letter of each skill
+- Group cloud services: "AWS (Lambda, S3, EC2, RDS)" NOT 25 separate items
+- 70% JD keywords + 30% complementary skills
+
+**Example (Full Stack Engineer):**
+```json
+"skills": {
+  "Frontend": ["React.js", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Redux", "Vue.js", "HTML5", "CSS3"],
+  "Backend": ["Node.js", "Express.js", "Python", "Django", "FastAPI", "GraphQL", "REST APIs"],
+  "Databases": ["PostgreSQL", "MongoDB", "Redis", "MySQL", "Elasticsearch"],
+  "Cloud & Infrastructure": ["AWS (Lambda, S3, EC2, RDS, CloudFront)", "Docker", "Kubernetes", "Terraform"],
+  "DevOps & CI/CD": ["GitLab CI/CD", "GitHub Actions", "Jenkins", "Datadog", "Prometheus"],
+  "Testing": ["Jest", "Cypress", "Playwright", "React Testing Library"],
+  "Payment & Compliance": ["PCI-DSS", "Payment processing", "Stripe", "Fraud detection", "KYC/AML", "SOC 2"],
+  "Tools": ["Git", "Webpack", "Vite", "Figma", "Jira"]
+}
+```
+Total: aim for **55–75** individual skills across categories (see **§4** rules—not a short sample list)
+
+**If relevant, create domain-specific category:**
+- FinTech → "Payment & Compliance"
+- Healthcare → "Healthcare Compliance & Standards"
+- Security → "Security & Identity"
+- Data → "Data Governance & Compliance"
+
+---
+
+### **5. EXPERIENCE** ({{experienceCount}} entries — follow bullet count guidance above)
+
+**STRICT Requirements (must be followed):**
+- Generate exactly {{experienceCount}} job entries; one entry per job in the work history—no more, no fewer.
+- **Flagship minimum counts (when `base_bullets` exist):** Output **at least 8** lines in **`experience[0].details`** and **at least 6** lines in **`experience[1].details`**, unless the profile literally has fewer base facts to cover—in that case **split** and **expand** credibly with JD context until you reach the minimums **without inventing metrics** (rule **5**). Every line stays **dense** (rule **3**). When bases are rich, **`experience[0]`** may **exceed** eight lines if that improves **JD depth** and **print flow** (rule **8**).
+- **Order (rule 4b):** For **every** job, list **`details`** **JD-first** (bullets richest in **posting** keywords and JD additions **before** generic bullets), then by length—see rule **4b** at the top.
+- **Merge behavior:** If **`details.length` === `base_bullets.length`** (and bases exist), each line **replaces** the matching base line **one-for-one** and must **still contain** that base line’s facts (expanded/JD-aligned). Otherwise output **`details`** that **fully incorporate** every `base_bullets` line for that role (merge into fewer bullets if natural), plus any **credible JD additions**. **Rule 2b:** any line that **merges** **two or more** bases **must** be **≥35 words**. If there are **no** `base_bullets`, `details` is the full list for that role.
+- **JD gaps vs `base_bullets`:** When the JD stresses a skill, **responsibility**, **requirement**, or **role-summary** theme **not** named in that role’s `base_bullets`, you **must** still reflect it if **credible**—by **rewriting** / **merging** base bullets to fold that theme in, or by **adding** focused bullets. **Do not** leave a defensible JD pillar **unmentioned** in **experience** just because the base text was silent. **Non-technical** JD asks (stakeholder management, delivery cadence, documentation, mentoring, compliance process, **etc.**) also belong in **`details`** when credible—not only in **summary**. For **technical** JD vocabulary, **name it in `details`** (see **§0a**), not only in **summary**/**skills**.
+- **Length & voice:** Push **every** bullet toward **maximum** credible length: senior **IC**/**staff** tone, **precise** product/platform/pattern language, **cross-functional** partners (PM, SRE, security, data), **operational** realities (on-call, incidents, capacity, migrations, contracts with upstream/downstream). For **`experience[0]`** and **`experience[1]`**, bias to the **longest** lines the facts support (**multi-line** in PDF is expected). **Reject** one-clause blurbs **under 32 words** for those roles—**expand** per rule **3**.
+- **Bullet substance:** each line should combine **(a)** business/technical context, **(b)** **your** ownership and decisions, **(c)** **stack**/**API**/**data**/**infra** specifics, **(d)** **scope**/**constraints**, **(e)** **qualitative** or **already-sourced** outcomes (rule **5**). Weave **2–5** JD keywords where credible—**never** keyword stuffing that reads false.
+- **JD density:** For **work history #1** (most recent), maximize JD alignment **without** breaking **§0a** credibility or date-appropriate tech below.
+- For each work experience, ensure all technologies listed were widely available and commonly used in production during that role's time period; do not include tools, frameworks, or practices released after the role ended or unlikely to have been adopted in that era. Do not force unrelated JD jargon into older roles if it would read false.
+
+**Example Bullet (length + density reference only; strip or replace hard metrics unless they already exist in `base_bullets`—substitute qualitative outcomes instead):**
+"Architected and operated a secure payment processing platform on PCI-DSS compliant infrastructure using Node.js 20, PostgreSQL, and Redis clusters, partnering with risk and compliance to implement fraud detection, tokenization, and circuit breakers that processed $500M+ annually while reducing chargebacks by 40%, hardening observability and incident playbooks, and maintaining 99.99% uptime for 2M+ monthly active users across multiple regions."
+
+
+Return ONLY valid JSON: {"title":"...","summary":"...","skills":{"Category":["Skill1","Skill2"]},"experience":[{"title":"...","details":["bullet1","bullet2",...]}]}
+**Final checklist:** Rules **1–8** + **2b** + **4b** + **5a** at the top of this file + **§0b**/**§0c** + **§3**/**§4**/**§5** + **§0a** (JD **responsibilities** / **requirements** / **role summary** + **technical** terms **all** mirrored in **`experience[].details`** where credible; **never** claim items under **JD REQUIREMENTS NOT SUPPORTED BY PROFILE DATA**). **`summary`** = **one paragraph**, **3–6 lines**, **no hard metrics**, **no tenure digits**, **no duplicated stack paragraph**; **`skills`** = **classified lists only**, **55–75** items, **title-complete** (no summary/highlights categories; no duplicate category headers). **Never** remove classified `base_skills`. **Never** drop **`base_bullets`** substance (merging is OK; omissions are not). **Profile quantified outcomes** and **`Impact Highlights`** facts appear in **`experience[0]`**/**`[1]`**, not **`summary`**/**`skills`**. **Flagship** lines **≥40 words** typical. **Rule 8:** avoid **stub** **`experience[0]`** that strands **`experience[1]`**’s header at a page foot.

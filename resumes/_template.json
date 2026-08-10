@@ -4,15 +4,15 @@
   "email": "your.email@example.com",
   "phone": "+1 906 999 9785",
   "location": "City, State",
-  "postalCode": "12345",
+  "zip": "12345",
   "linkedin": "https://www.linkedin.com/in/yourprofile",
   "website": "https://yourwebsite.com",
   "github": "https://github.com/yourusername",
-
-  "base_skills": {
-    "Example category": ["Skill always kept on resume", "Another core skill"]
-  },
-
+  "cvLink": "",
+  "base_skills": [
+    "Languages and frameworks: Python, JavaScript, React",
+    "Version control: Git, GitHub"
+  ],
   "experience": [
     {
       "company": "Company Name 1",
@@ -21,7 +21,7 @@
       "start_date": "Jan 2020",
       "end_date": "Present",
       "base_bullets": [
-        "Optional: 25-35 word bullets always prepended for this job; JD adds more after these."
+        "Optional: base bullets. Merge: same-length details = 1:1 rewrite; else append few details after all bases. Prompt: maximize bullet length with professional terms; deepest on first two jobs; no invented %/$; 2–3 pages."
       ]
     },
     {
@@ -30,10 +30,11 @@
       "location": "City, State",
       "start_date": "Jan 2018",
       "end_date": "Dec 2019",
-      "base_bullets": [""]
+      "base_bullets": [
+        ""
+      ]
     }
   ],
-
   "education": [
     {
       "degree": "Bachelor of Science in Computer Science",
@@ -41,5 +42,8 @@
       "start_year": "2014",
       "end_year": "2018"
     }
-  ]
+  ],
+  "street": "",
+  "birthday": "",
+  "ssn": ""
 }

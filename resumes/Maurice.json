@@ -1,93 +1,111 @@
 {
-  "name": "Maurice C Williams",
+  "name": "Maurice Williams",
   "title": "Senior Full Stack Engineer",
-  "email": "mauricewilliams800913@gmail.com",
-  "phone": "+1 (346) 355 6022",
-  "location": "Brooklyn, New York",
-  "postalCode": "11212",
-  "linkedin": "https://linkedin.com/in/maurice-williams-2a958a3a8",
+  "email": "williamjonson565@gmail.com",
+  "phone": "+1 (346) 355-6022",
+  "location": "New York, NY",
+  "zip": "",
+  "linkedin": "https://www.linkedin.com/in/maurice-c-william-746306409",
   "website": "",
   "github": "",
-  "base_skills": {},
+  "cvLink": "",
+  "base_skills": [
+    "Backend: Node.js, NestJS, Express.js, Python (FastAPI, Django, Flask), .NET Core, REST APIs, GraphQL",
+    "Frontend: TypeScript, JavaScript, React, Next.js, Angular, React Native, TanStack, Tailwind, MUI",
+    "Cloud and DevOps: AWS, Azure, GCP, Docker, Kubernetes, CI/CD, Terraform",
+    "Architecture: Microservices, Multi-Tenant SaaS, Event-Driven Systems, Kafka, RabbitMQ",
+    "Databases: PostgreSQL, MongoDB, SQL Server, MySQL, Redis",
+    "AI and Automation: Machine Learning, Deep Learning, LLM Integration, Prompt Engineering, Predictive Modeling, Autonomous Workflows",
+    "Testing and QA: Jest, Cypress, React Testing Library, Jasmine, Karma, Protractor, Mocha, PyTest",
+    "Engineering Practices: System Architecture, Security (SOC2, XSS, CORS), Web Accessibility (WCAG), Agile/Scrum, Mentorship, Code Reviews"
+  ],
   "experience": [
     {
-      "company": "Raia Labs",
+      "company": "Roebling",
       "title": "Senior Full Stack Engineer",
-      "location": "Sarasota, FL",
-      "start_date": "08/2020",
-      "end_date": "01/2026",
-      "skills": [
-        " Node.js",
-        "Express.js",
-        "React.js",
-        "MongoDB",
-        "SQL",
-        "Vue",
-        "Typescript",
-        "AWS",
-        "Docker",
-        "Git",
-        "CI/CD",
-        "Redux",
-        "Jest",
-        "Cypress"
-      ],
-      "base_bullets": [""]
+      "location": "New York, NY",
+      "start_date": "01/2022",
+      "end_date": "02/2026",
+      "base_bullets": [
+        "Led development of AI-powered executive assessment platforms using TypeScript, Next.js, Python, and React Native, enabling real-time analytics and intelligent reporting systems.",
+        "Designed scalable backend services with Python and FastAPI integrated with OpenAI-based AI workflows, improving automation efficiency by 40%.",
+        "Built responsive cross-platform mobile applications with React Native for executive coaching and business intelligence solutions.",
+        "Architected cloud-native infrastructure on AWS using Docker and Kubernetes, achieving highly available and secure deployments.",
+        "Developed reusable frontend systems with Next.js and TypeScript, improving maintainability and reducing development time by 30%.",
+        "Implemented CI/CD pipelines with GitHub Actions and automated testing workflows, significantly improving release reliability and deployment frequency.",
+        "Mentored engineering teams on scalable architecture, AI integrations, and modern TypeScript development practices."
+      ]
     },
     {
-      "company": "StackOverdrive",
+      "company": "Napster",
+      "title": "Senior Full Stack Developer",
+      "location": "Los Angeles, CA",
+      "start_date": "03/2016",
+      "end_date": "12/2021",
+      "base_bullets": [
+        "Developed high-performance music streaming and subscription platforms using TypeScript, Next.js, PHP, and Python, serving millions of active users.",
+        "Integrated machine learning recommendation systems to personalize user content and improve engagement metrics by 35%.",
+        "Built scalable RESTful APIs and backend services with Python and PHP, optimizing media delivery and streaming reliability.",
+        "Led frontend modernization initiatives using Next.js and React, improving SEO, rendering performance, and user experience.",
+        "Implemented advanced analytics pipelines and recommendation engines leveraging Python, Pandas, and machine learning frameworks.",
+        "Optimized CI/CD workflows and cloud infrastructure deployments across AWS environments, reducing deployment times by 60%.",
+        "Collaborated with product and design teams to deliver seamless cross-platform digital experiences."
+      ]
+    },
+    {
+      "company": "Basen",
       "title": "Full Stack Developer",
-      "location": "New York, NY",
-      "start_date": "05/2016",
-      "end_date": "06/2020",
-      "skills": [
-        "Node.js",
-        "Express.js",
-        "MongoDB",
-        "SQL",
-        "Typescript",
-        "AWS",
-        "Docker",
-        "Git",
-        "CI/CD",
-        "Redux",
-        "Jest",
-        "Cypress",
-        "GraphQL",
-        "RESTful APIs"
-      ],
-      "base_bullets": [""]
+      "location": "San Francisco, CA",
+      "start_date": "02/2012",
+      "end_date": "02/2016",
+      "base_bullets": [
+        "Engineered enterprise SaaS applications using TypeScript, React, Next.js, Python, and Django for large-scale business clients.",
+        "Developed AI-integrated analytics dashboards and intelligent reporting systems using Python and machine learning libraries.",
+        "Built highly interactive frontend interfaces with React and Next.js while maintaining scalable backend services with Django REST Framework.",
+        "Designed and optimized PostgreSQL and MongoDB database architectures supporting high-volume transactional systems.",
+        "Integrated AI-powered automation tools to streamline reporting and reduce manual processing workloads by 35%.",
+        "Containerized applications using Docker and implemented cloud deployment strategies on AWS.",
+        "Improved application scalability and maintainability through reusable component architectures and modern TypeScript standards."
+      ]
     },
     {
-      "company": "TechWize",
-      "title": "Full Stack Engineer",
+      "company": "Splunk",
+      "title": "Junior Full Stack Developer",
+      "location": "San Jose, CA",
+      "start_date": "06/2007",
+      "end_date": "01/2012",
+      "base_bullets": [
+        "Developed enterprise monitoring and analytics applications using React, TypeScript, and Node.js for large-scale data processing systems.",
+        "Built reusable UI components and dynamic dashboards with React, improving frontend consistency and maintainability.",
+        "Designed RESTful APIs and backend microservices with Node.js and Express.js supporting real-time analytics workflows.",
+        "Integrated authentication and authorization systems using OAuth and JWT security standards.",
+        "Optimized frontend rendering performance and backend query efficiency, reducing application response times by 30%.",
+        "Collaborated with senior engineers in Agile development environments and contributed to code reviews and architecture discussions.",
+        "Assisted in implementation of CI/CD pipelines and automated testing strategies using Jest and Jenkins."
+      ]
+    },
+    {
+      "company": "Nasdaq",
+      "title": "Software Engineering Intern",
       "location": "New York, NY",
-      "start_date": "08/2013",
-      "end_date": "04/2016",
-      "skills": [
-        "React.js",
-        "Next.js",
-        "Tailwind CSS",
-        "Typescript",
-        "AWS",
-        "Docker",
-        "Git",
-        "CI/CD",
-        "Redux",
-        "Jest",
-        "Cypress",
-        "GraphQL",
-        "RESTful APIs"
-      ],
-      "base_bullets": [""]
+      "start_date": "05/2006",
+      "end_date": "05/2007",
+      "base_bullets": [
+        "Assisted in the development of internal financial applications using JavaScript, React, and Django.",
+        "Built frontend UI components and dashboards for financial data visualization and reporting systems.",
+        "Supported backend API development and database integration using Django and PostgreSQL.",
+        "Collaborated with engineering teams to improve application usability, reliability, and performance.",
+        "Participated in debugging, testing, and deployment activities within Agile software development environments.",
+        "Contributed to internal documentation and frontend modernization initiatives using modern JavaScript practices."
+      ]
     }
   ],
   "education": [
     {
-      "degree": "B.Sc. in Computer Science",
-      "school": "University at Albany (SUNY)",
-      "start_year": "2009",
-      "end_year": "2013"
+      "degree": "Bachelor's Degree",
+      "school": "Mercy University",
+      "start_year": "08/2002",
+      "end_year": "12/2006"
     }
   ]
 }

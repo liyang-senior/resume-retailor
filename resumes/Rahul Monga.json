@@ -4,97 +4,64 @@
   "email": "rahulmonga113@gmail.com",
   "phone": "+1 906 999 9785",
   "location": "Austin, TX",
-  "postalCode": "78704",
+  "zip": "78704",
   "linkedin": "https://www.linkedin.com/in/rahulm5000",
   "website": "",
   "github": "",
-  "base_skills": {},
+  "cvLink": "",
+  "base_skills": [
+    "Programming Languages: C#, Java, Python, JavaScript, TypeScript, SQL, HTML5, CSS3",
+    "Frontend Development: React, Vue.js, Angular, AngularJS, Next.js, Redux, NgRx, RxJS, SPA Development, PWA Development, Responsive Web Design, Material UI, Bootstrap, Tailwind CSS",
+    "Backend Development: .NET, .NET Core, ASP.NET Core, ASP.NET MVC, Java Spring Boot, Node.js, Express.js, REST APIs, GraphQL APIs, Microservices Architecture, Service-Oriented Architecture (SOA), Domain Driven Design (DDD), Clean Architecture, Dependency Injection",
+    "Cloud Platforms: Microsoft Azure, Azure App Services, Azure Kubernetes Service (AKS), Azure Functions, Azure Service Bus, Azure Storage, Azure Cosmos DB, Azure SQL, AWS EC2, AWS Lambda, AWS S3, AWS RDS",
+    "Artificial Intelligence & Machine Learning: Python ML pipelines, Predictive analytics, Recommendation systems, Natural Language Processing (NLP) integration, AI-powered search systems, Anomaly detection, Intelligent automation",
+    "Microservices & Distributed Systems: Event-driven architecture, CQRS, API Gateway patterns, Distributed messaging systems, Asynchronous processing, Redis caching, High availability system design",
+    "DevOps & CI/CD: Docker, Kubernetes, Azure DevOps, GitHub Actions, Jenkins, Terraform, Infrastructure as Code, Automated build pipelines",
+    "Databases: SQL Server, PostgreSQL, Azure SQL, Cosmos DB, NoSQL databases, Entity Framework, Entity Framework Core, LINQ, Query optimization, Indexing strategies",
+    "Security: OAuth2, OpenID Connect, JWT Authentication, Role-Based Access Control (RBAC), API Security, Secure coding practices",
+    "Testing: Unit Testing, Integration Testing, Test Driven Development (TDD), xUnit, NUnit, Moq, Selenium, Automated UI Testing",
+    "Monitoring & Performance: Azure Application Insights, Prometheus, Grafana, Distributed tracing, Structured logging, Performance tuning",
+    "Tools & Methodologies: Visual Studio, VS Code, Postman, Swagger/OpenAPI, Git, Jira, Confluence, Agile, Scrum, Kanban"
+  ],
   "experience": [
     {
       "company": "Dropbox",
       "title": "Senior Software Engineer - Tech Lead",
-      "location": "",
       "start_date": "06/2022",
       "end_date": "03/2026",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
-    },
-    {
-      "company": "Rapid7",
-      "title": "Principal Software Engineer",
       "location": "",
-      "start_date": "01/2018",
-      "end_date": "05/2022",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
-    },
-    {
-      "company": "Optoro",
-      "title": "Lead Software Engineer",
-      "location": "",
-      "start_date": "08/2016",
-      "end_date": "01/2018",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
-    },
-    {
-      "company": "Wedding Wire",
-      "title": "Senior Software Engineer",
-      "location": "",
-      "start_date": "09/2013",
-      "end_date": "08/2016",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
-    },
-    {
-      "company": "IBM",
-      "title": "Software Engineer",
-      "location": "",
-      "start_date": "06/2012",
-      "end_date": "09/2013",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
-    },
-    {
-      "company": "Lockheed Martin",
-      "title": "Full Stack Engineer",
-      "location": "",
-      "start_date": "06/2011",
-      "end_date": "06/2012",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
-    },
-    {
-      "company": "NCR",
-      "title": "Software Engineer",
-      "location": "",
-      "start_date": "06/2010",
-      "end_date": "08/2010",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
-    },
-    {
-      "company": "NIST",
-      "title": "Full Stack Engineer",
-      "location": "",
-      "start_date": "08/2007",
-      "end_date": "08/2009",
-      "skills": [".Net", ".Net Core", "Java", "AI"],
-      "base_bullets": [""]
+      "base_bullets": [
+        "Designed and implemented scalable backend services using ASP.NET Core and Java Spring Boot, enabling high-throughput processing and ensuring system reliability, maintainability, and extensibility across enterprise-level workloads and complex distributed environments.",
+        "Architected and developed reusable REST and GraphQL APIs using .NET Core and Java, improving cross-team integration efficiency and enabling frontend applications built with React, Vue.js, and Angular to consume consistent, well-defined service contracts.",
+        "Built event-driven systems using Azure Service Bus and Java-based consumers, enabling asynchronous processing, improved system decoupling, and better handling of high-volume workloads across distributed services.",
+        "Optimized backend performance by tuning Entity Framework queries, Java persistence layers, indexing strategies, and caching mechanisms, significantly reducing latency and improving throughput for critical platform services.",
+        "Developed secure authentication and authorization frameworks using OAuth2, OpenID Connect, and JWT, ensuring secure communication across both .NET and Java microservices in a distributed cloud environment.",
+        "Containerized backend services using Docker and orchestrated deployments on Azure Kubernetes Service, ensuring high availability, scalability, and efficient resource utilization across production workloads.",
+        "Built and maintained CI/CD pipelines using Azure DevOps and GitHub Actions, automating build, test, and deployment processes for both .NET and Java services, improving release velocity and consistency.",
+        "Integrated machine learning capabilities into backend services using Python pipelines connected to .NET and Java systems, enabling predictive analytics, anomaly detection, and intelligent automation features.",
+        "Optimized MSSQL queries and relational database management for high-performance applications.",
+        "Implemented event-driven architectures using Kafka and Kinesis, enabling real-time data streaming and processing across distributed services.",
+        "Integrated Large Language Models (LLMs) for AI-driven predictive features and enhanced search capabilities within backend services.",
+        "Implemented structured logging, distributed tracing, and monitoring using Application Insights, Prometheus, and Grafana, improving observability and enabling faster debugging and incident resolution.",
+        "Led a team of engineers in designing and delivering a large-scale platform built on C# (.NET Core) and Java microservices, driving technical direction, mentoring developers, and ensuring consistent engineering standards across distributed system development efforts."
+      ]
     }
   ],
   "education": [
-    {
-      "degree": "Master of Science (MS), Computer Science",
-      "school": "The Johns Hopkins University",
-      "start_year": "2013",
-      "end_year": "2014"
-    },
-    {
-      "degree": "Bachelor of Science (BS), Computer Science",
-      "school": "University of Maryland College Park",
-      "start_year": "2008",
-      "end_year": "2011"
-    }
-  ]
+  {
+    "degree": "Master of Science (MS), Computer Science",
+    "school": "Johns Hopkins University",
+    "start_year": "2013",
+    "end_year": "2014"
+  },
+  {
+    "degree": "Bachelor of Science (BS), Computer Science",
+    "school": "University of Maryland College Park",
+    "start_year": "2008",
+    "end_year": "2011"
+  }
+],
+"street": "3100 Menchaca Rd",
+"birthday": "9/4/1990",
+"ssn": "3391"
 }
