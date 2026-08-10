@@ -1,5 +1,5 @@
 /**
- * Client-only: builds `accessUrl=…` for APIs gated by `config/url-access.json`.
+ * Client-only: builds `accessUrl=…` for APIs gated by `URL_ACCESS_RULES`.
  * After a successful access check, the full URL that matched is stored in
  * sessionStorage so navigation to `/`, `/rahulmonga`, `/manual`, etc. still
  * sends the same accessUrl to the server.

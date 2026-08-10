@@ -1,6 +1,6 @@
 /**
  * Maps URL slug → résumé display name + PDF template id.
- * Keys are used in `config/url-access.json` (`allowedProfileSlugs`) and in routes `/[slug]`.
+ * Keys are used in `URL_ACCESS_RULES` (`allowedProfileSlugs`) and in routes `/[slug]`.
  */
 export const profileTemplateMapping = {
   rahulmonga: {

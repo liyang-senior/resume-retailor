@@ -1,8 +1,3 @@
-import fs from "fs";
-import path from "path";
-
-const CONFIG_PATH = path.join(process.cwd(), "config", "url-access.json");
-
 const DEFAULT_CONFIG = {
   urlProfileRules: [],
 };
@@ -34,16 +29,32 @@ function normalizeConfig(raw) {
 }
 
 /**
- * Load `config/url-access.json` (server-only). Safe defaults if missing or invalid.
+ * Parse `URL_ACCESS_RULES` env (JSON array of rules), or empty config.
+ * Shape per rule: { matchSubstring, allowedProfileSlugs, showRightSidebar? }
+ */
+function parseRulesFromEnv() {
+  const raw = process.env.URL_ACCESS_RULES;
+  if (typeof raw !== "string" || !raw.trim()) return null;
+  try {
+    const parsed = JSON.parse(raw.trim());
+    if (Array.isArray(parsed)) {
+      return normalizeConfig({ urlProfileRules: parsed });
+    }
+    if (parsed && Array.isArray(parsed.urlProfileRules)) {
+      return normalizeConfig(parsed);
+    }
+  } catch {
+    console.error("URL_ACCESS_RULES is not valid JSON");
+  }
+  return null;
+}
+
+/**
+ * Load URL access rules from `URL_ACCESS_RULES` (server-only).
+ * Safe defaults if missing or invalid.
  */
 export function loadUrlAccessRules() {
-  try {
-    if (!fs.existsSync(CONFIG_PATH)) return { ...DEFAULT_CONFIG };
-    const raw = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
-    return normalizeConfig(raw);
-  } catch {
-    return { ...DEFAULT_CONFIG };
-  }
+  return parseRulesFromEnv() || { ...DEFAULT_CONFIG };
 }
 
 /**
