@@ -7,7 +7,7 @@ services:
     startCommand: npm start
     envVars:
       - key: NODE_VERSION
-        value: 26.8.2
+        value: 24.21.0
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: ANTHROPIC_MODEL
