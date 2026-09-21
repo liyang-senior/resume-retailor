@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import OpenAI from "openai";
 import { AVAILABLE_MODELS, getDefaultModel } from "./models";
+import { callChatGPTSession } from "./chatgpt-session";
 
 // Initialize clients
 const anthropic = process.env.ANTHROPIC_API_KEY
@@ -13,6 +14,26 @@ const openai = process.env.OPENAI_API_KEY
 
 // Re-export for backward compatibility
 export { AVAILABLE_MODELS, getDefaultModel };
+
+// Which providers actually have credentials configured on this server.
+export function getConfiguredProviders() {
+  return {
+    openai: Boolean(process.env.OPENAI_API_KEY),
+    claude: Boolean(process.env.ANTHROPIC_API_KEY),
+    "chatgpt-session": Boolean(process.env.CHATGPT_SESSION_TOKEN),
+  };
+}
+
+// Best provider to use when the caller doesn't explicitly pick one — prefers
+// a paid API key if configured, otherwise falls back to the free ChatGPT
+// session so the app still works with zero API keys set up.
+export function resolveDefaultProvider() {
+  const configured = getConfiguredProviders();
+  if (configured.openai) return "openai";
+  if (configured.claude) return "claude";
+  if (configured["chatgpt-session"]) return "chatgpt-session";
+  return "openai";
+}
 
 // Call AI with timeout & retries (provider-agnostic)
 export async function callAI(
@@ -48,6 +69,8 @@ export async function callAI(
       return await callClaude(promptOrMessages, model, maxTokens, retries, timeoutMs);
     case "openai":
       return await callOpenAI(promptOrMessages, model, maxTokens, retries, timeoutMs);
+    case "chatgpt-session":
+      return await callChatGPTSession(promptOrMessages, model, maxTokens, retries, timeoutMs);
     default:
       throw new Error(`Provider ${provider} not implemented`);
   }

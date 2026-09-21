@@ -23,6 +23,6 @@
         "resend": "^6.5.2"
     },
     "engines": {
-        "node": "20.x"
+        "node": "26.x"
     }
 }

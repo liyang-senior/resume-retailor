@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import React from "react";
 import { renderToStream } from "@react-pdf/renderer";
-import { callAI } from "@/lib/ai/ai-service";
+import { callAI, resolveDefaultProvider } from "@/lib/ai/ai-service";
 import { getProfileBySlug } from "@/lib/profiles/registry";
 import { buildCoverLetterDocxBuffer } from "@/lib/cover-letter/cover-letter-docx";
 import { computeCoverLetterBaseFileName } from "@/lib/cover-letter/cover-letter-files";
@@ -45,9 +45,11 @@ export default async function handler(req, res) {
       companyName = null,
       targetRole = null,
       format = "pdf",
-      provider = "openai",
+      provider: requestedProvider = null,
       model = null,
     } = req.body || {};
+
+    const provider = requestedProvider || resolveDefaultProvider();
 
     if (!profileSlug) return res.status(400).send("Profile slug required");
     if (!jd || !String(jd).trim()) {

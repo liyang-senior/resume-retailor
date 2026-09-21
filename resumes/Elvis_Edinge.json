@@ -1,0 +1,135 @@
+{
+  "name": "Elvis Edinge",
+  "title": "Senior DevOps / SRE Engineer",
+  "email": "elviseedinge@gmail.com",
+  "phone": "+1 (945) 206-0255",
+  "location": "Bear, DE",
+  "zip": "19701",
+  "linkedin": "https://linkedin.com/in/elvisedinge",
+  "website": "",
+  "github": "",
+  "cvLink": "https://flowcv.com/resume/45koh0slbnmj",
+  "base_skills": [
+    "Cloud & Infrastructure: AWS, Cloud Infrastructure, Infrastructure as a Service (IaaS), High Availability, Scalability, Capacity Planning, Enterprise Infrastructure, Production & Non-Production Environments",
+    "DevOps & CI/CD: Jenkins, GitHub, Bitbucket, CI/CD Pipelines, Continuous Integration, Continuous Delivery, Build Automation, Deployment Automation, Release Management, Software Delivery Lifecycle",
+    "Infrastructure as Code & Automation: Terraform, Ansible, Ansible Playbooks, Infrastructure as Code (IaC), Configuration Management, Infrastructure Provisioning, Workflow Automation, Orchestration, Scripting, API Integration",
+    "Containers & Operating Systems: Docker, Containerization, Containerized Environments, Linux, Unix, Red Hat Enterprise Linux (RHEL), Linux Administration, System Administration, Package & Repository Management",
+    "SRE, Monitoring & Observability: Site Reliability Engineering, Prometheus, Grafana, SolarWinds, Infrastructure Monitoring, Application Monitoring, SLA/SLO Management, Incident Response, Root Cause Analysis, Post-Mortems, Performance Optimization, Capacity Management, 24x7 Production Support",
+    "Build, Release & Application Platforms: Maven, Nexus, Subversion, Build Management, Artifact Management, Application Release Management, Tomcat 6.x/7.x/8.x, Apache, Java Application Environments",
+    "Middleware, Messaging & Data Systems: Redis, Redis Replication, Failover & Redundancy, ActiveMQ, Message Queuing, Sybase, Database Connectivity, Database Support, Distributed Application Integration",
+    "IT Operations & Service Management: ServiceNow, Jira, Change Management, Incident Management, Asset Management, Configuration Management, IP Management, BMC Control-M, FileNet, Job Scheduling, Workload Automation",
+    "Security & DevSecOps: DevSecOps, Vulnerability Management, Infrastructure Security, Security Controls, Penetration Testing, Security Monitoring, Assets & Malware Management, Log Management, Security Policies & Standards"
+  ],
+  "experience": [
+    {
+      "company": "JPMorganChase",
+      "title": "Senior Site Reliability Engineer",
+      "start_date": "12/2023",
+      "end_date": "09/2026",
+      "location": "",
+      "base_bullets": [
+        "Develop and deploy software automation that streamlines repetitive operational processes, improves production efficiency, and increases the reliability and consistency of business-critical applications and supporting infrastructure.",
+        "Lead troubleshooting of complex production incidents by analyzing application behavior, system health, and infrastructure dependencies, coordinating recovery activities, and contributing technical findings to post-mortem reviews that help prevent recurring service disruptions.",
+        "Design and improve monitoring frameworks that provide actionable visibility into application health, infrastructure performance, and service behavior, supporting proactive issue detection, performance optimization, capacity planning, and long-term platform reliability.",
+        "Drive continuous reliability improvements by identifying operational bottlenecks, recurring failure patterns, and opportunities for automation across supported application environments.",
+        "Support fulfillment of SLAs and SLOs by monitoring service performance, availability, and operational health across highly available cloud platforms while helping engineering teams address conditions that could affect reliability.",
+        "Optimize application and infrastructure performance through monitoring, troubleshooting, capacity analysis, and operational improvements aligned with reliability engineering objectives.",
+        "Provide 24x7 production support coverage, responding to service disruptions and working across application and infrastructure layers to restore stable operations.",
+        "Build deep technical expertise across assigned application suites, enabling faster diagnosis of production issues and more effective collaboration with engineering and operations teams.",
+        "Participate in incident reviews and operational improvement initiatives, translating lessons from production issues into practical improvements to automation, monitoring, and system stability."
+      ]
+    },
+    {
+      "company": "Capital One",
+      "title": "Sr. DevOps/SRE Consultant",
+      "start_date": "09/2021",
+      "end_date": "11/2023",
+      "location": "",
+      "base_bullets": [
+        "Developed fully automated CI/CD pipelines for building, testing, and deploying applications across multiple platform environments, establishing repeatable delivery processes that improved deployment consistency and reduced manual intervention throughout the software delivery lifecycle.",
+        "Containerized application environments and leveraged cloud technologies to improve portability, scalability, and deployment consistency while creating standardized environments that supported reliable application delivery across enterprise infrastructure.",
+        "Maintained core infrastructure capable of supporting hundreds of thousands of concurrent users, helping ensure that enterprise platforms could scale effectively while maintaining availability, resiliency, and operational performance under demanding workloads.",
+        "Designed, built, and implemented resilient enterprise-class systems supporting production applications, information systems, networks, and data while aligning infrastructure architecture with availability, scalability, reliability, and operational requirements.",
+        "Built automated orchestration routines that measured and contextualized infrastructure and operational issues, giving engineering teams better visibility into conditions requiring remediation and improving the efficiency of ongoing platform management.",
+        "Identified infrastructure design gaps and recommended architecture improvements that strengthened scalability, maintainability, resiliency, and operational readiness across production environments.",
+        "Supported cloud and platform environments through rotational on-call responsibilities, troubleshooting infrastructure and application issues and helping maintain service continuity.",
+        "Monitored implementation of organizational technology policies, standards, and procedures across infrastructure environments to support consistent and controlled platform operations.",
+        "Collaborated across engineering, infrastructure, networking, and operations teams to resolve production issues and support reliable delivery of enterprise applications and services.",
+        "Improved operational consistency by applying automation and repeatable infrastructure processes across deployment, environment management, and production-support activities.",
+        "Supported continuous improvement of cloud and platform operations by evaluating existing infrastructure practices, identifying technical risks, and recommending practical enhancements to reliability and service performance."
+      ]
+    },
+    {
+      "company": "Comcast",
+      "title": "Engineering Ops Lead",
+      "start_date": "04/2019",
+      "end_date": "09/2021",
+      "location": "",
+      "base_bullets": [
+        "Built and operated Infrastructure as Code and automation workflows using Terraform, Ansible, Docker, GitHub, and Jenkins, improving repeatability across infrastructure provisioning, configuration management, and application delivery processes.",
+        "Led the Change Management Lifecycle, implementing structured change strategies and plans that improved adoption of infrastructure changes while supporting controlled execution across production and non-production environments.",
+        "Managed, upgraded, and troubleshot databases, systems, and supporting infrastructure for internal enterprise applications running across RHEL platforms, helping maintain reliable application operations.",
+        "Installed and configured infrastructure equipment across production and non-production environments to support automation initiatives and delivery of infrastructure through IaaS-oriented operational models.",
+        "Integrated automation with ServiceNow, Jira, Asset Management, Configuration Management, and IP Management platforms, enabling more consistent workflows across infrastructure and operations teams.",
+        "Developed scripting and API-based integrations between applications and operational platforms, reducing manual processes and enabling automated workflows across enterprise systems.",
+        "Implemented Prometheus and Grafana monitoring to collect infrastructure and application metrics and present operational data through dashboards that improved visibility into system health.",
+        "Applied project management, time management, and cross-functional communication skills to prioritize infrastructure issues, coordinate technical work, and communicate operational status effectively."
+      ]
+    },
+    {
+      "company": "TEKsystems",
+      "title": "DevOps Engineer",
+      "start_date": "05/2018",
+      "end_date": "03/2019",
+      "location": "",
+      "base_bullets": [
+        "Automated deployment of Redis multi-node environments using Ansible playbooks, configuring replication, failover, and redundancy to strengthen service availability and improve consistency across distributed application environments.",
+        "Implemented continuous-delivery workflows using Bitbucket, Jenkins, and Ansible, automating application build and deployment processes and contributing to a documented 20% reduction in release time.",
+        "Used SolarWinds to monitor application health and infrastructure vulnerabilities, helping identify operational conditions and potential issues affecting enterprise application environments.",
+        "Configured and integrated ActiveMQ to provide reliable message queuing and communication between distributed application components across supported environments.",
+        "Managed core software update policies and third-party repositories, providing guidance on repository configuration, package management, and controlled software updates.",
+        "Designed and recommended integrated system solutions that supported operational requirements while protecting proprietary and confidential systems and enterprise data.",
+        "Continuously evaluated infrastructure technologies, application environments, and operational threats to identify opportunities for platform improvement, reliability, and better system support."
+      ]
+    },
+    {
+      "company": "Vanguard",
+      "title": "DevOps Engineer",
+      "start_date": "07/2015",
+      "end_date": "05/2018",
+      "location": "",
+      "base_bullets": [
+        "Configured Java application build environments and automated deployments using Maven, Jenkins, and Ansible, helping standardize software delivery processes and contributing to a documented 20% reduction in release times.",
+        "Collaborated with development, application, networking, and security teams to coordinate application releases, provision environments, resolve deployment issues, and support controlled production elevation across shared enterprise systems.",
+        "Supported application packaging, build, and deployment pipelines for continuous integration and continuous delivery, creating staging directories, workspaces, and control files for production and non-production provisioning.",
+        "Managed application releases and maintained repository accuracy using Subversion and Nexus, supporting controlled source code, artifact management, and build processes.",
+        "Used ServiceNow and Jira for change, project, and defect management, contributing to a documented 90% improvement in alerting efficiency while maintaining environment and project visibility.",
+        "Supported production operations using FileNet, BMC Control-M, Tomcat, Apache, Linux, and RHEL, including automated job scheduling, enterprise content workflows, and application deployment activities.",
+        "Supported application configuration and production elevation involving vault integrations, application IDs, mainframe systems, Sybase, and database connection information across enterprise environments."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Master of Science - MS, Cybersecurity Technology",
+      "school": "University of Maryland Global Campus",
+      "start_year": "2021",
+      "end_year": "2022"
+    },
+    {
+      "degree": "Bachelor of Science - BS, Computer Science",
+      "school": "University of Maryland Global Campus",
+      "start_year": "2018",
+      "end_year": "2020"
+    },
+    {
+      "degree": "Associate of Science - AS, Computer and Information Sciences",
+      "school": "Delaware Technical Community College",
+      "start_year": "2013",
+      "end_year": "2015"
+    }
+  ],
+  "street": "112 Bell Ct",
+  "birthday": "10/30/1985",
+  "ssn": "5345"
+}

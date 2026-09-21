@@ -3,7 +3,7 @@ import path from "path";
 import React from "react";
 import { renderToStream } from "@react-pdf/renderer";
 import { getTemplate } from "@/lib/pdf-templates";
-import { callAI } from "@/lib/ai/ai-service";
+import { callAI, resolveDefaultProvider } from "@/lib/ai/ai-service";
 import {
   getTemplateForProfile,
   slugToProfileName,
@@ -37,11 +37,16 @@ export default async function handler(req, res) {
       profile: profileSlug,
       jd,
       template,
-      provider = "openai",
+      provider: requestedProvider = null,
       model = null,
       companyName = null,
       format = "pdf",
     } = req.body;
+
+    // Fall back to whichever provider is actually configured (prefers an API
+    // key if set, otherwise the ChatGPT session) when the client doesn't
+    // explicitly request one.
+    const provider = requestedProvider || resolveDefaultProvider();
 
     if (!profileSlug) return res.status(400).send("Profile slug required");
     if (!jd) return res.status(400).send("Job description required");
@@ -61,10 +66,12 @@ export default async function handler(req, res) {
       template || getTemplateForProfile(profileSlug) || "Resume";
 
     // Validate provider
-    if (!["claude", "openai"].includes(provider)) {
+    if (!["claude", "openai", "chatgpt-session"].includes(provider)) {
       return res
         .status(400)
-        .send(`Unsupported provider: ${provider}. Supported: claude, openai`);
+        .send(
+          `Unsupported provider: ${provider}. Supported: claude, openai, chatgpt-session`
+        );
     }
 
     // Load profile JSON using resume name

@@ -3,26 +3,20 @@
  * Keys are used in `URL_ACCESS_RULES` (`allowedProfileSlugs`) and in routes `/[slug]`.
  */
 export const profileTemplateMapping = {
-  rahulmonga: {
-    resume: "Rahul Monga",
+  carlos: {
+    resume: "Carlos_Francisco_Esponda",
     template: "Resume-Executive-Navy",
   },
-  
-  /////////////////////////////
-  maurice: {
-    resume: "Maurice",
+  christoper: {
+    resume: "Christopher_Michael_Wood",
     template: "Resume-Executive-Navy",
   },
-  sugar: {
-    resume: "Sugar Ray",
+  elvis: {
+    resume: "Elvis_Edinge",
     template: "Resume-Executive-Navy",
   },
-  ricardo: {
-    resume: "Ricardo",
-    template: "Resume-Executive-Navy",
-  },
-  ariel: {
-    resume: "Ariel Berjit",
+  joshua: {
+    resume: "Joshua_Eric_Person",
     template: "Resume-Executive-Navy",
   }
 };

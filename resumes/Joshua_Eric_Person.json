@@ -1,0 +1,128 @@
+{
+  "name": "Joshua Eric Person",
+  "title": "Cloud & DevOps Engineer",
+  "email": "joshuaopokubamfo@gmail.com",
+  "phone": "+1 4632276949",
+  "location": "Indianapolis, IN",
+  "zip": "",
+  "linkedin": "https://linkedin.com/in/joshua-person-4751655a",
+  "website": "",
+  "github": "",
+  "cvLink": "https://flowcv.com/resume/gm5gsiwfjn7i",
+  "base_skills": [
+    "Cloud Platforms: Amazon Web Services (AWS), EC2, S3, VPC, IAM, DNS, AWS Cost Explorer, Salesforce Hyperforce, Cloud Migration, Cloud Infrastructure Assessment",
+    "Infrastructure as Code: Terraform, Terraform Modules, AWS CloudFormation, Infrastructure as Code (IaC), Ansible, Infrastructure Provisioning, Configuration Management",
+    "Containers & Orchestration: Docker, Kubernetes, Containerization, Container Deployment, Cluster Operations, Application Deployment",
+    "CI/CD & DevOps: Jenkins, GitHub Actions, CI/CD Pipelines, Git, Version Control, Deployment Automation, Release Management, Production Deployments",
+    "Scripting & Automation: Python, Bash, Shell Scripting, Cloud Automation, Infrastructure Automation, AWS Account Bootstrap, Operational Scripting",
+    "Monitoring & Observability: Splunk, Prometheus, Grafana, Infrastructure Monitoring, Application Monitoring, Log Analysis, Alerting, Root-Cause Analysis",
+    "Systems & Networking: Linux, Windows Server, Cloud Networking, DNS, Network Troubleshooting, Connectivity Troubleshooting, Environment Validation",
+    "Operations & Service Management: ServiceNow, Jira Service Management, Incident Response, Incident Management, Change Management, Production Support, Technical Escalation, Technical Documentation"
+  ],
+  "experience": [
+    {
+      "company": "Salesforce",
+      "title": "Cloud Engineer, Technical Support",
+      "start_date": "12/2023",
+      "end_date": "09/2026",
+      "location": "Indianapolis, IN",
+      "base_bullets": [
+        "Work customer escalations for production issues across Salesforce Service Cloud and Hyperforce environments, reproducing issues, analyzing system behavior, and driving resolution through structured troubleshooting and engineering collaboration.",
+        "Investigate complex Salesforce platform issues by reviewing Splunk logs, Developer Console data, Salesforce configurations, and environment details to identify root causes across customer organizations and platform services.",
+        "Partner with Salesforce engineering teams on platform defects and complex technical investigations by providing detailed reproduction steps, technical analysis, logs, and environment insights to accelerate resolution.",
+        "Support cloud infrastructure investigations for Salesforce Hyperforce environments by analyzing AWS services, networking components, DNS configurations, IAM permissions, and monitoring data to identify infrastructure-related issues.",
+        "Collaborate with cloud engineering and platform teams to troubleshoot production reliability issues, validate cloud environment configurations, and improve operational processes across enterprise-scale cloud systems.",
+        "Perform Salesforce organization analysis using Workbench, Setup, and administrative tools to inspect customer environments, validate metadata behavior, troubleshoot configuration issues, and recommend Salesforce best practices.",
+        "Analyze production incidents using monitoring and logging platforms to identify failure patterns, perform root-cause analysis, and improve incident response and escalation workflows.",
+        "Support AWS-based infrastructure troubleshooting involving compute, networking, identity, and monitoring components while working with internal cloud specialists on complex production issues.",
+        "Improve technical escalation processes by documenting troubleshooting procedures, reproduction scenarios, environment details, and resolution steps to improve collaboration between support, engineering, and cloud teams.",
+        "Create and maintain technical documentation for recurring issues, cloud troubleshooting approaches, operational procedures, and customer-facing solutions to improve knowledge sharing and support efficiency."
+      ]
+    },
+    {
+      "company": "Nexus Technologies Group, LLC",
+      "title": "Cloud Consultant — Contract",
+      "start_date": "05/2022",
+      "end_date": "12/2023",
+      "location": "Indianapolis, IN",
+      "base_bullets": [
+        "Designed and maintained cloud infrastructure configurations using Terraform and AWS CloudFormation while following version-controlled development practices through Git-based workflows.",
+        "Automated cloud provisioning and operational tasks using Bash scripting, improving consistency across AWS account setup, configuration, and maintenance activities.",
+        "Performed AWS environment assessments by reviewing IAM policies, networking architecture, compute resources, storage configurations, and existing workloads to support migration and remediation planning.",
+        "Supported cloud cost optimization initiatives by analyzing AWS Cost Explorer data, identifying spending patterns, and documenting findings for technical discussions with customers and engineering teams.",
+        "Collaborated with senior cloud engineers and consultants to troubleshoot infrastructure issues, validate deployments, and implement improvements across AWS environments.",
+        "Documented cloud architecture findings, implementation steps, and operational procedures to support knowledge transfer and long-term maintainability.",
+        "Supported AWS cloud migration and Infrastructure as Code initiatives by developing and extending Terraform modules for VPC, IAM, EC2, and S3 resources within customer cloud environments.",
+        "Assisted with CI/CD workflow improvements by integrating infrastructure changes into Git-based processes and supporting repeatable deployment practices."
+      ]
+    },
+    {
+      "company": "Indiana University Health",
+      "title": "Systems Analyst Intermediate",
+      "start_date": "12/2020",
+      "end_date": "12/2023",
+      "location": "Indianapolis, IN",
+      "base_bullets": [
+        "Worked clinical, business, and end-user system tickets through the ServiceNow systems analyst queue, including Windows Server and Microsoft 365 issues affecting hospital staff.",
+        "Performed initial triage, DNS and network checks, and first-level remediation before escalating complex issues to senior analysts or vendor owners responsible for clinical applications.",
+        "Supported AWS workloads within the assigned environment, primarily EC2, S3, and related AWS services supporting hospital scheduling and reporting applications on the business side of the organization.",
+        "Monitored the environment for existing alerts before opening or escalating incidents and collaborated with senior systems analysts and AWS specialists when issues required additional permissions or deeper infrastructure expertise.",
+        "Worked within formal healthcare change-management windows to ensure production changes followed required review, approval, implementation, and operational-control procedures.",
+        "Maintained detailed ticket notes so senior engineers, auditors, and other technical teams could clearly understand what changes were performed and when they occurred.",
+        "Strengthened production change practices after encountering a downstream workload conflict near the end of a change window by incorporating downstream team schedules and operational activity into future change planning."
+      ]
+    },
+    {
+      "company": "Genesys",
+      "title": "Sr. Cloud Engineer",
+      "start_date": "08/2020",
+      "end_date": "12/2020",
+      "location": "Indianapolis, IN",
+      "base_bullets": [
+        "Performed cloud engineering activities involving AWS EC2, networking, and Bash scripting while supporting production cloud environments and infrastructure operations.",
+        "Assisted with cloud infrastructure troubleshooting by validating configurations, reviewing system behavior, and supporting remediation activities under established engineering processes.",
+        "Followed cloud engineering standards for infrastructure changes, operational procedures, and technical documentation to improve consistency across environments.",
+        "Documented completed infrastructure activities and troubleshooting findings to support knowledge transfer and operational continuity.",
+        "Assisted with cloud operations and infrastructure support by troubleshooting AWS resources, validating system configurations, analyzing operational issues, and collaborating with engineering teams to maintain reliable cloud environments."
+      ]
+    },
+    {
+      "company": "Brock Solutions",
+      "title": "Software Support Engineer",
+      "start_date": "03/2019",
+      "end_date": "08/2020",
+      "location": "Irving, TX",
+      "base_bullets": [
+        "Managed support tickets through Jira Service Management for airport customer sites running Brock's baggage-handling and real-time automation software across Linux and Windows Server environments.",
+        "Reviewed application logs, customer reproduction steps, and system behavior to perform initial root-cause analysis before escalating complex issues to Brock's product engineering organization.",
+        "Supported incidents where live baggage sorter or conveyor behavior did not match airport operations requirements, reproducing the issue internally and gathering the relevant logs before escalation.",
+        "Maintained communication with customer operations teams throughout incident investigation and escalation.",
+        "Participated in bridge calls with customer operations teams during off-hours production incidents, remaining engaged until the customer's environment was restored or a clear handoff was made to product engineering.",
+        "Improved troubleshooting accuracy after identifying a staging-to-production version mismatch by consistently validating exact production versions and patch levels before determining whether observed system behavior was expected."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Cloud Certification (Hands-on AWS SysOps Boot Camp)",
+      "school": "Indiana Wesleyan University",
+      "start_year": "2022",
+      "end_year": "2022"
+    },
+    {
+      "degree": "Bachelor of Science (Business Information Systems)",
+      "school": "Indiana Wesleyan University",
+      "start_year": "2017",
+      "end_year": "2020"
+    },
+    {
+      "degree": "Information Technology",
+      "school": "University of Indianapolis",
+      "start_year": "2007",
+      "end_year": "2012"
+    }
+  ],
+  "street": "1614 Stop 11 Rd, Apt 2",
+  "birthday": "3/14/1988",
+  "ssn": "9118"
+}

@@ -1,0 +1,114 @@
+{
+  "name": "Christopher Michael Wood",
+  "title": "Senior Full Stack Software Engineer",
+  "email": "christophermwood706@gmail.com",
+  "phone": "+1 (620) 250-1189",
+  "location": "Chattanooga, TN",
+  "zip": "37405",
+  "linkedin": "https://www.linkedin.com/in/christopher-wood-99953260",
+  "website": "",
+  "github": "",
+  "cvLink": "https://flowcv.com/resume/7cc9hmbv6p3w",
+  "base_skills": [
+    "Programming Languages & Runtimes: JavaScript, Node.js, Ruby, Object-Oriented Programming, Asynchronous Programming, Event-Driven Programming, Server-Side JavaScript, Programming Fundamentals",
+    "Frontend Engineering: JavaScript Web Applications, HTML, CSS, Client-Side Development, Component-Based UI Development, Responsive Web Applications, User-Facing Features, Form & Data Handling, Frontend/Backend Integration",
+    "Backend Frameworks & Application Development: Node.js, Ruby on Rails, Backend Services, Server-Side Development, MVC Architecture, Business Logic, Application Services, Background Processing, Modular Backend Development",
+    "API & Integration Engineering: RESTful APIs, API Design & Integration, Service Interfaces, Request/Response Processing, Data Validation, Error Handling, Application Integration, Internal System Integration, Client/Server Communication",
+    "Databases, ORM & Persistence: Entity Framework, Relational Databases, ORM, Database Design, Schema Design, Data Modeling, Data Access Layers, CRUD Operations, Application Persistence, Database Integration & Maintenance",
+    "Software Architecture & System Design: Application Architecture, System Design, Component Design, Separation of Concerns, Reusable Components, Integration Patterns, Scalability, Maintainability, Technical Specifications, Architecture Refactoring",
+    "Testing, Debugging & Performance: Unit Testing, Integration Testing, Application Debugging, Defect Resolution, Root Cause Analysis, Refactoring, Performance Optimization, Code Quality, Production Troubleshooting, Software Maintenance",
+    "Development Tools & Delivery: Bitbucket, Jira, Version Control, Branching & Merging, Issue Tracking, Agile Development, SDLC, Requirements Analysis, Code Reviews, Release Support, Technical Documentation",
+    "Product & Business Application Engineering: MVP Development, Product Iteration, Feature Design, Internal Business Tools, Desktop Application Development, Workflow Automation, Business-to-Technical Translation, Application Enhancement, Continuous Improvement"
+  ],
+  "experience": [
+    {
+      "company": "Hudl",
+      "title": "Senior Full-Stack Engineer",
+      "start_date": "08/2022",
+      "end_date": "09/2026",
+      "location": "",
+      "base_bullets": [
+        "Develop and maintain end-to-end product functionality using JavaScript and Node.js across client-facing applications, backend services, APIs, and data-access layers, translating complex product requirements into scalable and maintainable production software.",
+        "Build backend services and APIs that support core application workflows, business rules, data processing, validation, and communication between frontend experiences and supporting systems across a large production environment.",
+        "Implement user-facing application features and connect frontend components with backend services, ensuring reliable data flow, consistent application behavior, and responsive experiences across complete product workflows.",
+        "Design reusable application modules, service interfaces, and shared patterns that reduce duplicated code, improve development consistency, and make new features easier to implement and maintain across the codebase.",
+        "Work with relational data and ORM-based persistence patterns, including Entity Framework, to support reliable querying, updates, data modeling, and application workflows that depend on accurate and consistent information.",
+        "Diagnose complex application issues across browser behavior, JavaScript logic, Node.js services, APIs, integrations, and database operations, tracing failures across layers to identify root causes and implement sustainable fixes.",
+        "Improve existing applications through refactoring, performance tuning, and architectural cleanup that reduce technical complexity and improve maintainability without disrupting established product behavior.",
+        "Develop and maintain integrations between application services and internal or external systems, handling data transformation, validation, failure scenarios, and reliable communication across service boundaries.",
+        "Write and maintain automated tests around critical application behavior, service logic, and integration points to improve regression coverage and increase confidence in production releases.",
+        "Use Bitbucket and Jira as part of day-to-day development workflows for source control, code collaboration, defect tracking, technical tasks, and coordinated software delivery.",
+        "Participate in code reviews and technical design discussions, evaluating implementation approaches for correctness, readability, performance, testability, and long-term maintainability.",
+        "Support production software throughout its lifecycle by investigating defects, implementing enhancements, improving existing functionality, and continuously refining applications as product requirements evolve."
+      ]
+    },
+    {
+      "company": "Modea",
+      "title": "Senior Software Engineer",
+      "start_date": "09/2020",
+      "end_date": "01/2022",
+      "location": "",
+      "base_bullets": [
+        "Developed production web applications using JavaScript, Node.js, and server-side technologies, working across frontend functionality, backend services, APIs, integrations, and persistent data to deliver complete end-to-end application features.",
+        "Designed backend services and application workflows that translated complex business rules into maintainable software, integrating client-facing functionality with server-side processing, databases, and supporting systems.",
+        "Built and enhanced API integrations that enabled reliable communication between application components, handling validation, data transformation, error conditions, and service-level dependencies across distributed workflows.",
+        "Worked with data-access and ORM patterns, including Entity Framework, to implement persistence logic, maintain application data models, and support reliable interaction between business logic and relational databases.",
+        "Investigated complex production defects by tracing behavior from frontend interactions through backend services and database operations, identifying root causes and implementing fixes that improved reliability and user experience.",
+        "Refactored existing application modules to improve code structure, reduce duplication, strengthen separation of concerns, and make future feature development easier and less error-prone.",
+        "Improved software performance by identifying inefficient application logic, unnecessary service calls, and data-access bottlenecks that affected response times and overall application behavior.",
+        "Developed automated tests and participated in code reviews to validate functionality, reduce regression risk, and maintain consistent engineering quality across application changes.",
+        "Used Bitbucket for source control and collaborative development and Jira for issue tracking, feature planning, defect management, and coordination of day-to-day engineering work.",
+        "Contributed across the complete software lifecycle, from requirements clarification and technical design through implementation, testing, debugging, release support, and continued maintenance of production applications."
+      ]
+    },
+    {
+      "company": "Modea",
+      "title": "Software Engineer",
+      "start_date": "04/2019",
+      "end_date": "09/2020",
+      "location": "",
+      "base_bullets": [
+        "Developed full-stack web application features by connecting JavaScript-based frontend functionality with backend services, application logic, APIs, and database-backed workflows to support complete user-facing capabilities.",
+        "Built and maintained backend functionality responsible for business rules, data processing, validation, and application integrations while ensuring software remained maintainable as requirements evolved.",
+        "Worked with relational databases and Entity Framework-style ORM patterns to implement data access, persistence, querying, and updates for business-critical application workflows.",
+        "Investigated and resolved application defects across frontend, backend, integration, and database layers, using structured debugging and root-cause analysis to implement durable technical fixes.",
+        "Contributed to testing, refactoring, code review, and performance improvements that strengthened application reliability, readability, and overall software quality.",
+        "Used Bitbucket and Jira to manage source changes, technical tasks, defects, and development workflows while collaborating with other engineers throughout feature delivery."
+      ]
+    },
+    {
+      "company": "Qualtrax, Inc.",
+      "title": "Software Engineer",
+      "start_date": "05/2015",
+      "end_date": "04/2019",
+      "location": "",
+      "base_bullets": [
+        "Began at Qualtrax as a Software Engineer Intern in May 2015 and transitioned into a full-time Software Engineer role, building nearly four years of progressive experience developing and maintaining production business applications.",
+        "Developed application functionality across web interfaces, backend business logic, data-access layers, and relational databases, translating business requirements into maintainable software features that supported day-to-day customer workflows.",
+        "Built and maintained database-backed functionality using Entity Framework and ORM-based development patterns, implementing data persistence, model relationships, queries, validation, and application-level business rules.",
+        "Worked across frontend and backend application layers to connect user-facing workflows with server-side processing and persistent data, ensuring consistent behavior from interface interactions through database operations.",
+        "Investigated software defects and production issues by analyzing application behavior, tracing execution paths, and identifying root causes across application and data layers before implementing reliable fixes.",
+        "Enhanced existing software through refactoring, performance improvements, and code-quality changes that reduced technical complexity while making established functionality easier to maintain and extend.",
+        "Participated in requirements analysis, technical implementation, testing, debugging, code review, and ongoing software maintenance while building a strong foundation in professional full-stack and backend engineering.",
+        "Used structured engineering workflows and tools such as Bitbucket and Jira for version control, issue tracking, development coordination, defect management, and continued improvement of production software."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor's Degree, Computer Science",
+      "school": "Virginia Polytechnic Institute and State University",
+      "start_year": "2012",
+      "end_year": "2015"
+    },
+    {
+      "degree": "Associate's Degree, Engineering",
+      "school": "New River Community College",
+      "start_year": "2008",
+      "end_year": "2012"
+    }
+  ],
+  "street": "107 Lawn St",
+  "birthday": "5/17/1992",
+  "ssn": "0572"
+}

@@ -51,6 +51,14 @@ export const AVAILABLE_MODELS = {
     { id: "gpt-4.1", name: "GPT-4.1" },
     { id: "gpt-4.1-mini", name: "GPT-4.1 Mini" },
     { id: "gpt-4.1-nano", name: "GPT-4.1 Nano" }
+  ],
+  // Uses your own logged-in ChatGPT web session (CHATGPT_SESSION_TOKEN) instead
+  // of an API key. Model slugs mirror chatgpt.com's web UI and may change or
+  // be unavailable depending on your plan (Free/Plus).
+  "chatgpt-session": [
+    { id: "auto", name: "ChatGPT Auto (your plan's default)" },
+    { id: "gpt-5", name: "GPT-5 (if available on your plan)" },
+    { id: "gpt-4o", name: "GPT-4o (if available on your plan)" }
   ]
 };
 
@@ -63,6 +71,9 @@ export function getDefaultModel(provider) {
   }
   if (provider === 'claude' && process.env.ANTHROPIC_MODEL) {
     return process.env.ANTHROPIC_MODEL;
+  }
+  if (provider === 'chatgpt-session' && process.env.CHATGPT_MODEL) {
+    return process.env.CHATGPT_MODEL;
   }
   const models = AVAILABLE_MODELS[provider];
   return models && models.length > 0 ? models[0].id : null;

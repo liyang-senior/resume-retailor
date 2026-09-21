@@ -44,6 +44,8 @@ export default function ProfilePage() {
   const { profile: profileSlug } = router.query;
 
   const [jd, setJd] = useState("");
+  const [provider, setProvider] = useState("openai");
+  const [providerTouched, setProviderTouched] = useState(false);
   const [companyName, setCompanyName] = useState("");
   const [targetRole, setTargetRole] = useState("");
   const [generating, setGenerating] = useState(null);
@@ -124,6 +126,29 @@ export default function ProfilePage() {
     return () => clearTimeout(timer);
   }, [profileSlug, router]);
 
+  // Default the AI provider to whatever is actually configured on the
+  // server (prefers an API key if set, otherwise falls back to the
+  // ChatGPT session) so the app works out of the box with no manual pick.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/ai-config");
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled && !providerTouched && data?.defaultProvider) {
+          setProvider(data.defaultProvider);
+        }
+      } catch {
+        // Keep the existing default if this lookup fails.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Copy to clipboard function
   const copyToClipboard = async (text, fieldName) => {
     const str = text == null ? "" : String(text);
@@ -187,6 +212,7 @@ export default function ProfilePage() {
         body: JSON.stringify({
           profile: profileSlug,
           jd: jd,
+          provider,
           companyName: companyName.trim() || null,
           format: fmt,
         }),
@@ -266,6 +292,7 @@ export default function ProfilePage() {
         body: JSON.stringify({
           profile: profileSlug,
           jd: jd,
+          provider,
           companyName: companyName.trim() || null,
           targetRole: targetRole.trim() || null,
           format: fmt,
@@ -677,6 +704,54 @@ export default function ProfilePage() {
                   e.currentTarget.style.boxShadow = "none";
                 }}
               />
+            </div>
+
+            {/* AI Provider */}
+            <div style={{ marginBottom: "16px" }}>
+              <label style={{
+                display: "block",
+                fontSize: "11px",
+                fontWeight: "600",
+                color: colors.textSecondary,
+                marginBottom: "6px",
+                textTransform: "uppercase",
+                letterSpacing: "0.3px"
+              }}>
+                AI Provider
+              </label>
+              <select
+                value={provider}
+                onChange={(e) => {
+                  setProviderTouched(true);
+                  setProvider(e.target.value);
+                }}
+                style={{
+                  width: "100%",
+                  maxWidth: "100%",
+                  padding: "8px 12px",
+                  fontSize: "13px",
+                  fontFamily: "inherit",
+                  color: colors.text,
+                  background: colors.inputBg,
+                  border: `1px solid ${colors.inputBorder}`,
+                  borderRadius: "6px",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              >
+                <option value="openai">OpenAI (server API key)</option>
+                <option value="claude">Claude (server API key)</option>
+                <option value="chatgpt-session">
+                  ChatGPT — your session (no API key)
+                </option>
+              </select>
+              {provider === "chatgpt-session" ? (
+                <p style={{ fontSize: "11px", color: colors.textMuted, margin: "6px 0 0" }}>
+                  Uses your logged-in ChatGPT session (CHATGPT_SESSION_TOKEN on the
+                  server). Unofficial — may fail if the session expired or OpenAI
+                  blocks the request; re-copy the token from your browser if so.
+                </p>
+              ) : null}
             </div>
 
             {/* Company Name */}
