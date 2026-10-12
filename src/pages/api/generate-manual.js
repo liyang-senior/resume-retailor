@@ -119,12 +119,16 @@ export default async function handler(req, res) {
         jd,
         evidenceText
       );
-    const allowedTech = [evidenceText, ...Object.values(exportSkills).flat()].join(" ");
+    const allowedTech = [
+      evidenceText,
+      String(jd || ""),
+      ...Object.values(exportSkills).flat(),
+    ].join(" ");
     let mergedDetails = prepareExperienceForExport(
       profileData.experience,
       mergeExperienceDetails(profileData.experience, resumeContent.experience),
       allowedTech,
-      ""
+      jd || ""
     );
     const emptyRoles = mergedDetails
       .map((row, idx) => ({ row, idx }))

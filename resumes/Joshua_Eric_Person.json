@@ -10,14 +10,14 @@
   "github": "",
   "cvLink": "https://flowcv.com/resume/gm5gsiwfjn7i",
   "base_skills": [
-    "Cloud Platforms: Amazon Web Services (AWS), EC2, S3, VPC, IAM, DNS, AWS Cost Explorer, Salesforce Hyperforce, Cloud Migration, Cloud Infrastructure Assessment",
-    "Infrastructure as Code: Terraform, Terraform Modules, AWS CloudFormation, Infrastructure as Code (IaC), Ansible, Infrastructure Provisioning, Configuration Management",
-    "Containers & Orchestration: Docker, Kubernetes, Containerization, Container Deployment, Cluster Operations, Application Deployment",
-    "CI/CD & DevOps: Jenkins, GitHub Actions, CI/CD Pipelines, Git, Version Control, Deployment Automation, Release Management, Production Deployments",
-    "Scripting & Automation: Python, Bash, Shell Scripting, Cloud Automation, Infrastructure Automation, AWS Account Bootstrap, Operational Scripting",
-    "Monitoring & Observability: Splunk, Prometheus, Grafana, Infrastructure Monitoring, Application Monitoring, Log Analysis, Alerting, Root-Cause Analysis",
-    "Systems & Networking: Linux, Windows Server, Cloud Networking, DNS, Network Troubleshooting, Connectivity Troubleshooting, Environment Validation",
-    "Operations & Service Management: ServiceNow, Jira Service Management, Incident Response, Incident Management, Change Management, Production Support, Technical Escalation, Technical Documentation"
+    "Cloud Engineering: Amazon Web Services (AWS), Amazon EC2, Amazon S3, Cloud Infrastructure, Infrastructure as Code (IaC), Cloud Environment Assessment, Cloud Support, Salesforce Hyperforce",
+    "Infrastructure & Automation: Terraform, AWS CloudFormation, Terraform Modules, Bash Scripting, Cloud Provisioning, Infrastructure Configuration, Automation, Git-Based Infrastructure Changes",
+    "Cloud Operations & Troubleshooting: Cloud Networking, DNS, IAM, Environment Validation, Infrastructure Troubleshooting, Production Incident Triage, Root-Cause Analysis, Technical Escalation",
+    "Enterprise Platforms & Applications: Salesforce Service Cloud, Salesforce Developer Console, Salesforce Workbench, Salesforce Setup, Microsoft 365, Windows Server, Hospital Information Systems (HIS), Electronic Medical Records (EMR)",
+    "Support & Service Management: ServiceNow, Jira Service Management, Incident Management, Change Management, Customer Escalation, Production Support, Issue Reproduction, Knowledge Transfer, Technical Documentation",
+    "Application & Systems Support: Linux, Application Log Analysis, Cloud Monitoring, Software Configuration, Middleware Integration, Customer Support, System Administration, Hardware Troubleshooting",
+    "Data & Reporting: SQL, Cognos Report Studio, Aqua Data, Reporting, Data Validation, Issue Analysis, Operational Documentation",
+    "Professional Practices: Cross-Functional Collaboration, Customer Communication, Technical Problem Solving, User Support, Stakeholder Coordination, Requirements Clarification"
   ],
   "experience": [
     {
@@ -27,16 +27,14 @@
       "end_date": "10/2026",
       "location": "Indianapolis, IN",
       "base_bullets": [
-        "Work customer escalations for production issues across Salesforce Service Cloud and Hyperforce environments, reproducing issues, analyzing system behavior, and driving resolution through structured troubleshooting and engineering collaboration.",
-        "Investigate complex Salesforce platform issues by reviewing Splunk logs, Developer Console data, Salesforce configurations, and environment details to identify root causes across customer organizations and platform services.",
-        "Partner with Salesforce engineering teams on platform defects and complex technical investigations by providing detailed reproduction steps, technical analysis, logs, and environment insights to accelerate resolution.",
-        "Support cloud infrastructure investigations for Salesforce Hyperforce environments by analyzing AWS services, networking components, DNS configurations, IAM permissions, and monitoring data to identify infrastructure-related issues.",
-        "Collaborate with cloud engineering and platform teams to troubleshoot production reliability issues, validate cloud environment configurations, and improve operational processes across enterprise-scale cloud systems.",
-        "Perform Salesforce organization analysis using Workbench, Setup, and administrative tools to inspect customer environments, validate metadata behavior, troubleshoot configuration issues, and recommend Salesforce best practices.",
-        "Analyze production incidents using monitoring and logging platforms to identify failure patterns, perform root-cause analysis, and improve incident response and escalation workflows.",
-        "Support AWS-based infrastructure troubleshooting involving compute, networking, identity, and monitoring components while working with internal cloud specialists on complex production issues.",
-        "Improve technical escalation processes by documenting troubleshooting procedures, reproduction scenarios, environment details, and resolution steps to improve collaboration between support, engineering, and cloud teams.",
-        "Create and maintain technical documentation for recurring issues, cloud troubleshooting approaches, operational procedures, and customer-facing solutions to improve knowledge sharing and support efficiency."
+        "Supported production customer escalations for Salesforce Service Cloud, investigating reported behavior, reproducing issues, and coordinating with engineering teams to move complex cases toward resolution.",
+        "Reviewed customer organization settings and platform configuration using Salesforce Setup, Developer Console, and Workbench to narrow down application and environment issues.",
+        "Analyzed application logs and platform behavior, documenting reproduction steps and technical findings for engineering review and customer follow-up.",
+        "Collaborated with cloud and platform specialists on infrastructure-related investigations involving Salesforce Hyperforce and AWS-based services.",
+        "Investigated connectivity, access, and configuration concerns while distinguishing customer-specific settings from broader platform behavior.",
+        "Coordinated escalations involving production reliability and service functionality, sharing clear evidence and progress updates with support and engineering stakeholders.",
+        "Maintained troubleshooting documentation, known-issue notes, and resolution steps to support knowledge sharing and more consistent customer support.",
+        "Worked across support and engineering teams to validate fixes, communicate outcomes, and improve handling of recurring technical issues."
       ]
     },
     {
@@ -46,14 +44,14 @@
       "end_date": "12/2023",
       "location": "Indianapolis, IN",
       "base_bullets": [
-        "Designed and maintained cloud infrastructure configurations using Terraform and AWS CloudFormation while following version-controlled development practices through Git-based workflows.",
-        "Automated cloud provisioning and operational tasks using Bash scripting, improving consistency across AWS account setup, configuration, and maintenance activities.",
-        "Performed AWS environment assessments by reviewing IAM policies, networking architecture, compute resources, storage configurations, and existing workloads to support migration and remediation planning.",
-        "Supported cloud cost optimization initiatives by analyzing AWS Cost Explorer data, identifying spending patterns, and documenting findings for technical discussions with customers and engineering teams.",
-        "Collaborated with senior cloud engineers and consultants to troubleshoot infrastructure issues, validate deployments, and implement improvements across AWS environments.",
-        "Documented cloud architecture findings, implementation steps, and operational procedures to support knowledge transfer and long-term maintainability.",
-        "Supported AWS cloud migration and Infrastructure as Code initiatives by developing and extending Terraform modules for VPC, IAM, EC2, and S3 resources within customer cloud environments.",
-        "Assisted with CI/CD workflow improvements by integrating infrastructure changes into Git-based processes and supporting repeatable deployment practices."
+        "Supported AWS cloud infrastructure consulting engagements, reviewing existing environments and helping plan cloud configuration and infrastructure improvements.",
+        "Developed and maintained infrastructure definitions with Terraform and AWS CloudFormation, using version-controlled changes to keep deployments repeatable.",
+        "Assessed IAM permissions, networking configurations, compute resources, and storage services to identify environment gaps and inform cloud recommendations.",
+        "Created and extended reusable Terraform modules for AWS infrastructure, including VPC, IAM, EC2, and S3 resources.",
+        "Used Bash scripting to automate routine setup and administration tasks, helping reduce manual work during cloud provisioning and environment maintenance.",
+        "Reviewed AWS Cost Explorer data to identify spending patterns and document potential cost optimization opportunities.",
+        "Collaborated with cloud engineers on infrastructure troubleshooting, configuration validation, and cloud migration planning.",
+        "Documented cloud environment assessments, implementation procedures, and technical handoffs for clients and internal engineering teams."
       ]
     },
     {
@@ -63,13 +61,13 @@
       "end_date": "12/2023",
       "location": "Indianapolis, IN",
       "base_bullets": [
-        "Worked clinical, business, and end-user system tickets through the ServiceNow systems analyst queue, including Windows Server and Microsoft 365 issues affecting hospital staff.",
-        "Performed initial triage, DNS and network checks, and first-level remediation before escalating complex issues to senior analysts or vendor owners responsible for clinical applications.",
-        "Supported AWS workloads within the assigned environment, primarily EC2, S3, and related AWS services supporting hospital scheduling and reporting applications on the business side of the organization.",
-        "Monitored the environment for existing alerts before opening or escalating incidents and collaborated with senior systems analysts and AWS specialists when issues required additional permissions or deeper infrastructure expertise.",
-        "Worked within formal healthcare change-management windows to ensure production changes followed required review, approval, implementation, and operational-control procedures.",
-        "Maintained detailed ticket notes so senior engineers, auditors, and other technical teams could clearly understand what changes were performed and when they occurred.",
-        "Strengthened production change practices after encountering a downstream workload conflict near the end of a change window by incorporating downstream team schedules and operational activity into future change planning."
+        "Resolved clinical, business, and end-user issues through the ServiceNow support queue, supporting hospital staff with application, Windows Server, and Microsoft 365 problems.",
+        "Performed initial triage of system incidents, checking DNS, network connectivity, workstation behavior, and available monitoring information before escalating complex issues.",
+        "Supported troubleshooting of AWS-hosted business workloads, including EC2 and S3 services used by scheduling and reporting applications.",
+        "Worked with senior systems analysts, application owners, and infrastructure specialists when production incidents required additional access or deeper investigation.",
+        "Followed healthcare change-management processes, including approval requirements and implementation windows, when supporting production changes.",
+        "Maintained detailed incident and change records to help technical teams understand investigation steps, work performed, and follow-up actions.",
+        "Improved change-planning practices by accounting for downstream application schedules and operational dependencies after identifying a workload conflict."
       ]
     },
     {
@@ -79,11 +77,11 @@
       "end_date": "12/2020",
       "location": "Indianapolis, IN",
       "base_bullets": [
-        "Performed cloud engineering activities involving AWS EC2, networking, and Bash scripting while supporting production cloud environments and infrastructure operations.",
-        "Assisted with cloud infrastructure troubleshooting by validating configurations, reviewing system behavior, and supporting remediation activities under established engineering processes.",
-        "Followed cloud engineering standards for infrastructure changes, operational procedures, and technical documentation to improve consistency across environments.",
-        "Documented completed infrastructure activities and troubleshooting findings to support knowledge transfer and operational continuity.",
-        "Assisted with cloud operations and infrastructure support by troubleshooting AWS resources, validating system configurations, analyzing operational issues, and collaborating with engineering teams to maintain reliable cloud environments."
+        "Supported AWS cloud engineering and infrastructure operations, including EC2 resources, networking, and environment configuration.",
+        "Used Bash scripting to assist with repeatable cloud administration and operational support activities.",
+        "Investigated infrastructure issues by reviewing system behavior, validating settings, and coordinating remediation with engineering colleagues.",
+        "Followed established processes for infrastructure changes and documented troubleshooting steps to support continuity across environments.",
+        "Collaborated with cloud engineering teams on service availability, configuration verification, and production support tasks."
       ]
     },
     {
@@ -93,12 +91,12 @@
       "end_date": "08/2020",
       "location": "Irving, TX",
       "base_bullets": [
-        "Managed support tickets through Jira Service Management for airport customer sites running Brock's baggage-handling and real-time automation software across Linux and Windows Server environments.",
-        "Reviewed application logs, customer reproduction steps, and system behavior to perform initial root-cause analysis before escalating complex issues to Brock's product engineering organization.",
-        "Supported incidents where live baggage sorter or conveyor behavior did not match airport operations requirements, reproducing the issue internally and gathering the relevant logs before escalation.",
-        "Maintained communication with customer operations teams throughout incident investigation and escalation.",
-        "Participated in bridge calls with customer operations teams during off-hours production incidents, remaining engaged until the customer's environment was restored or a clear handoff was made to product engineering.",
-        "Improved troubleshooting accuracy after identifying a staging-to-production version mismatch by consistently validating exact production versions and patch levels before determining whether observed system behavior was expected."
+        "Managed Jira Service Management tickets for airport customers using baggage-handling and real-time automation software across Linux and Windows Server environments.",
+        "Investigated reported application issues by reviewing logs, reproducing customer scenarios, and collecting technical evidence for product engineering escalation.",
+        "Supported incidents involving baggage sorters and conveyor systems when observed behavior differed from airport operational requirements.",
+        "Communicated incident status and troubleshooting findings with airport operations teams while coordinating next steps with engineering.",
+        "Participated in after-hours incident bridge calls and remained engaged until service restoration or a clear technical handoff.",
+        "Improved troubleshooting accuracy by checking production application versions and patch levels after identifying a staging-to-production mismatch."
       ]
     }
   ],

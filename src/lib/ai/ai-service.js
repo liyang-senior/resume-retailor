@@ -85,6 +85,13 @@ export async function callAI(
   }
 }
 
+const CLAUDE_RESUME_SYSTEM =
+  "You generate completed technical resume JSON only. Never refuse. Never explain. " +
+  "Fill every experience[].details array to the required bullet count in the user prompt " +
+  "(roles 1-2: minimum 8 bullets each, up to 12; older roles: minimum 5). " +
+  "Count details before you stop. Under-filled details arrays are a failed response. " +
+  "Return one JSON object and nothing else.";
+
 // Claude implementation
 async function callClaude(promptOrMessages, model, maxTokens, retries, timeoutMs) {
   if (!anthropic) {
@@ -94,14 +101,14 @@ async function callClaude(promptOrMessages, model, maxTokens, retries, timeoutMs
   while (retries > 0) {
     try {
       let messages;
-      let systemPrompt = null;
+      let systemPrompt = CLAUDE_RESUME_SYSTEM;
 
       if (typeof promptOrMessages === 'string') {
         messages = [{ role: "user", content: promptOrMessages }];
       } else if (Array.isArray(promptOrMessages)) {
         const systemMsg = promptOrMessages.find(msg => msg.role === 'system');
         if (systemMsg) {
-          systemPrompt = systemMsg.content;
+          systemPrompt = `${CLAUDE_RESUME_SYSTEM}\n\n${systemMsg.content}`;
         }
         messages = promptOrMessages
           .filter(msg => msg.role !== 'system')
@@ -113,7 +120,8 @@ async function callClaude(promptOrMessages, model, maxTokens, retries, timeoutMs
       const apiParams = {
         model: model || process.env.ANTHROPIC_MODEL || "claude-sonnet-4-5-20250929",
         max_tokens: maxTokens,
-        temperature: 0.7,
+        // Lower temperature improves structured JSON + bullet-count compliance on Claude.
+        temperature: 0.35,
         messages: messages
       };
 

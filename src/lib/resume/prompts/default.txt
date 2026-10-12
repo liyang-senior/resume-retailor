@@ -89,7 +89,7 @@ EQUIVALENT:
 A documented alternative technology or capability that substantially addresses the requirement.
 
 UNVERIFIED:
-Named in the JD and absent from the candidate materials. Still put that technology in skills and write hands-on experience bullets with it. Do not refuse.
+Named in the JD and absent from the candidate materials. Still put that technology in skills. Write hands-on experience bullets with it only in roles whose employment dates fall after that technology existed. Do not refuse. Return only the finished JSON.
 
 UNSUPPORTED:
 Contradicted by an original bullet. Keep the original bullet, and still add separate JD-aligned bullets.
@@ -215,18 +215,22 @@ When a role has no original bullets, still write the full count from the title, 
 
 ## 6. EXPERIENCE BULLETS
 
-MANDATORY bullet counts, scaled by each role's period. Do not return fewer bullets, even when the profile has no original bullets and does not list the JD stack:
+MANDATORY bullet counts. The model must fill every details array to the required number. Do not stop early. Do not return fewer bullets, even when the profile has no original bullets and does not list the JD stack:
 
-- The two most recent roles: 8-12 bullets each. Longer periods use the high end. At least 5 bullets in each of those roles are 3 lines (36-48 words). The remaining bullets in those two roles are 1 line (12-20 words) or 2 lines (22-32 words).
-- Every other role: at least 5 bullets. Follow the count on that role's employment-history line. Longer periods get more bullets. At least 3 bullets in every role are 3 lines. The rest are 1 line or 2 lines.
-- Mix lengths in each role: three-line bullets plus shorter one-line and two-line bullets. Do not make every bullet the same length. A details array below its count is a failed response.
+- The two most recent roles: write 8-12 bullets each (minimum 8). Longer periods use the high end. At least 5 bullets in each of those roles are 3 lines (36-48 words). The remaining bullets in those two roles are 1 line (12-20 words) or 2 lines (22-32 words).
+- Every other role: write at least 5 bullets. Follow the count on that role's employment-history line. Longer periods get more bullets. At least 3 bullets in every role are 3 lines. The rest are 1 line or 2 lines.
+- Mix lengths in each role: three-line bullets plus shorter one-line and two-line bullets. Do not make every bullet the same length. A details array below its minimum is a failed response. Count the bullets in each role before you finish.
 - Write every bullet in humanized words: natural professional American English a real engineer would put on a resume. Vary verbs and openings. Never sound robotic, templated, or AI-generated.
 - Do not repeat the same technology name more than 3 times inside one experience role. Spread tools across bullets and roles.
 - If the job description requires Principal, Staff, or other senior-level experience, show that seniority across several roles, not only the most recent one.
 
-MANDATORY experience coverage: the experience section must contain every required experience and technology from the job description.
+MANDATORY experience coverage: the experience section must contain every required experience and technology from the job description that existed during at least one of the candidate's roles. Put each required JD skill into a fitting recent role as work, not only into skills.
 
-Write experience that is not too detailed. Prefer simple feature and responsibility bullets with the JD technologies, including React.js, Next.js, Convex, Tailwind CSS, shadcn/ui, or any other required stack even when the profile does not confirm it. Prefer as many distinct bullets as the count allows. Do not invent heavy metrics or fake project names.
+MANDATORY period realism: if a technology did not exist during a role's employment period, do not add experience with that technology to that role. Keep the technology in skills when the JD requires it, and place hands-on bullets only in roles whose dates allow it. Prefer later/recent roles for newer tools.
+
+Write experience that is not too detailed. Prefer simple feature and responsibility bullets with the JD technologies, including React.js, Next.js, Convex, Tailwind CSS, shadcn/ui, or any other required stack even when the profile does not confirm it, as long as the role's dates allow that stack. Prefer as many distinct bullets as the count allows. Do not invent heavy metrics or fake project names.
+
+Return only the completed JSON resume object. Do not explain, refuse, or ask for confirmation.
 
 MANDATORY bullet style: never write Illustrative responsibility, Suggested, Example, or similar labels in front of a bullet. Write every experience bullet in past tense. Do not start a bullet with Examined, Considered, Evaluated, or Applied.
 

@@ -28,9 +28,37 @@ import {
   toAsciiPunctuation,
 } from "@/lib/resume/resume-sanitize";
 import { buildResumePromptVariables } from "@/lib/resume/build-prompt-variables";
+import { findUnderfilledExperienceRoles } from "@/lib/resume/experience-bullet-guidance";
 import { splitLongestDetailInFirstRoleForPageFlow } from "@/lib/resume/page-flow-experience";
 import { repairJsonText } from "@/lib/resume/parse-ai-json";
 import { RESUMES_DIR } from "@/config/project-paths";
+
+function extractJsonObjectText(raw) {
+  let content = String(raw ?? "");
+  content = content.replace(/```json\s*/gi, "");
+  content = content.replace(/```javascript\s*/gi, "");
+  content = content.replace(/```\s*/g, "");
+  content = content.replace(/^(here is|here's|this is|the json is):?\s*/gi, "");
+  const firstBrace = content.indexOf("{");
+  const lastBrace = content.lastIndexOf("}");
+  if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
+    throw new Error("AI did not return valid JSON format. Please try again.");
+  }
+  return content.substring(firstBrace, lastBrace + 1).trim();
+}
+
+function parseResumeJsonText(raw, fallbackTitle) {
+  const extracted = extractJsonObjectText(raw);
+  let parsed;
+  try {
+    parsed = JSON.parse(extracted);
+  } catch (parseError) {
+    parsed = JSON.parse(repairJsonText(extracted));
+  }
+  return normalizeAiResumeContent(parsed, {
+    fallbackTitle: fallbackTitle || "Senior Software Engineer",
+  });
+}
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).send("Method not allowed");
@@ -192,61 +220,21 @@ export default async function handler(req, res) {
       );
     }
 
-    // Enhanced JSON extraction - handle various formats
-    // Remove markdown code blocks (case insensitive)
-    content = content.replace(/```json\s*/gi, "");
-    content = content.replace(/```javascript\s*/gi, "");
-    content = content.replace(/```\s*/g, "");
-
-    // Remove common prefixes
-    content = content.replace(
-      /^(here is|here's|this is|the json is):?\s*/gi,
-      ""
-    );
-
-    // Try to extract JSON from text if wrapped
-    // Look for content between first { and last }
-    const firstBrace = content.indexOf("{");
-    const lastBrace = content.lastIndexOf("}");
-
-    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-      content = content.substring(firstBrace, lastBrace + 1);
-    } else {
-      console.error("No JSON object found in response");
-      throw new Error("AI did not return valid JSON format. Please try again.");
-    }
-
-    content = content.trim();
-
-    // Parse JSON with better error handling
     let resumeContent;
     try {
-      resumeContent = JSON.parse(content);
+      resumeContent = parseResumeJsonText(
+        content,
+        profileData.title || "Senior Software Engineer"
+      );
     } catch (parseError) {
       console.error("=== JSON PARSE ERROR ===");
       console.error("Parse error:", parseError.message);
       console.error("Content length:", content.length);
       console.error("First 1000 chars:", content.substring(0, 1000));
-      console.error(
-        "Last 500 chars:",
-        content.substring(Math.max(0, content.length - 500))
+      throw new Error(
+        `AI returned invalid JSON: ${parseError.message}. Please try again.`
       );
-
-      // Try to repair common JSON issues (inner quotes, newlines, commas)
-      try {
-        resumeContent = JSON.parse(repairJsonText(content));
-        console.log("✅ Successfully parsed after fixing common issues");
-      } catch (secondError) {
-        console.error("Failed to parse even after fixes");
-        throw new Error(
-          `AI returned invalid JSON: ${parseError.message}. Please try again.`
-        );
-      }
     }
-
-    resumeContent = normalizeAiResumeContent(resumeContent, {
-      fallbackTitle: profileData.title || "Senior Software Engineer",
-    });
 
     // Validate required fields
     const hasSummary =
@@ -274,6 +262,61 @@ export default async function handler(req, res) {
     }
     if (!Array.isArray(resumeContent.experience)) {
       throw new Error("AI response: experience must be an array");
+    }
+
+    let underfilled = findUnderfilledExperienceRoles(resumeContent.experience);
+    if (underfilled.length > 0) {
+      const gapLines = underfilled
+        .map(
+          ({ index, have, need }) =>
+            `Role ${index + 1}: returned ${have} details, need at least ${need}`
+        )
+        .join("\n");
+      console.warn(
+        `⚠️ Experience bullet counts under-filled. Retrying once.\n${gapLines}`
+      );
+      const fillRetryPrompt =
+        prompt +
+        "\n\nYour previous JSON under-filled experience bullets. Fix it now.\n" +
+        gapLines +
+        "\nRegenerate the COMPLETE resume JSON. Fill every experience[].details array to at least its minimum count. Roles 1 and 2 need 8-12 bullets each. Older roles need at least 5. Count details before you stop. Return only JSON.";
+      const fillRetry = await callAI(fillRetryPrompt, provider, model, 16000, 1, 180000);
+      const fillText =
+        typeof fillRetry?.content?.[0]?.text === "string"
+          ? fillRetry.content[0].text.trim()
+          : "";
+      if (fillText) {
+        try {
+          const retried = parseResumeJsonText(
+            fillText,
+            profileData.title || "Senior Software Engineer"
+          );
+          const retriedGaps = findUnderfilledExperienceRoles(retried.experience);
+          const prevDeficit = underfilled.reduce((s, g) => s + (g.need - g.have), 0);
+          const nextDeficit = retriedGaps.reduce((s, g) => s + (g.need - g.have), 0);
+          if (
+            retried?.skills &&
+            Array.isArray(retried.experience) &&
+            (retriedGaps.length === 0 || nextDeficit < prevDeficit)
+          ) {
+            resumeContent = retried;
+            underfilled = retriedGaps;
+          }
+        } catch (retryParseErr) {
+          console.warn("Bullet-count retry parse failed:", retryParseErr.message);
+        }
+      }
+      if (underfilled.length > 0) {
+        console.warn(
+          "Still under-filled after retry:\n" +
+            underfilled
+              .map(
+                ({ index, have, need }) =>
+                  `Role ${index + 1}: ${have}/${need}`
+              )
+              .join("\n")
+        );
+      }
     }
 
     console.log("✅ AI content generated successfully");
@@ -308,12 +351,16 @@ export default async function handler(req, res) {
         jd,
         evidenceText
       );
-    const allowedTech = [evidenceText, ...Object.values(exportSkills).flat()].join(" ");
+    const allowedTech = [
+      evidenceText,
+      String(jd || ""),
+      ...Object.values(exportSkills).flat(),
+    ].join(" ");
     let mergedDetails = prepareExperienceForExport(
       profileData.experience,
       mergeExperienceDetails(profileData.experience, resumeContent.experience),
       allowedTech,
-      ""
+      jd || ""
     );
     const emptyRoles = mergedDetails
       .map((row, idx) => ({ row, idx }))

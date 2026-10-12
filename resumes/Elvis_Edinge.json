@@ -10,15 +10,15 @@
   "github": "",
   "cvLink": "https://flowcv.com/resume/45koh0slbnmj",
   "base_skills": [
-    "Cloud & Infrastructure: AWS, Cloud Infrastructure, Infrastructure as a Service (IaaS), High Availability, Scalability, Capacity Planning, Enterprise Infrastructure, Production & Non-Production Environments",
-    "DevOps & CI/CD: Jenkins, GitHub, Bitbucket, CI/CD Pipelines, Continuous Integration, Continuous Delivery, Build Automation, Deployment Automation, Release Management, Software Delivery Lifecycle",
-    "Infrastructure as Code & Automation: Terraform, Ansible, Ansible Playbooks, Infrastructure as Code (IaC), Configuration Management, Infrastructure Provisioning, Workflow Automation, Orchestration, Scripting, API Integration",
-    "Containers & Operating Systems: Docker, Containerization, Containerized Environments, Linux, Unix, Red Hat Enterprise Linux (RHEL), Linux Administration, System Administration, Package & Repository Management",
-    "SRE, Monitoring & Observability: Site Reliability Engineering, Prometheus, Grafana, SolarWinds, Infrastructure Monitoring, Application Monitoring, SLA/SLO Management, Incident Response, Root Cause Analysis, Post-Mortems, Performance Optimization, Capacity Management, 24x7 Production Support",
-    "Build, Release & Application Platforms: Maven, Nexus, Subversion, Build Management, Artifact Management, Application Release Management, Tomcat 6.x/7.x/8.x, Apache, Java Application Environments",
-    "Middleware, Messaging & Data Systems: Redis, Redis Replication, Failover & Redundancy, ActiveMQ, Message Queuing, Sybase, Database Connectivity, Database Support, Distributed Application Integration",
-    "IT Operations & Service Management: ServiceNow, Jira, Change Management, Incident Management, Asset Management, Configuration Management, IP Management, BMC Control-M, FileNet, Job Scheduling, Workload Automation",
-    "Security & DevSecOps: DevSecOps, Vulnerability Management, Infrastructure Security, Security Controls, Penetration Testing, Security Monitoring, Assets & Malware Management, Log Management, Security Policies & Standards"
+    "Cloud & Platform Engineering: Amazon Web Services (AWS), Cloud-Based Technologies, Infrastructure as a Service (IaaS), Production Infrastructure, Non-Production Environments, High-Availability Cloud Platforms, Infrastructure Scalability, Capacity Planning",
+    "DevOps & Continuous Delivery: Jenkins, Bitbucket, GitHub, Maven, Nexus, Subversion, Continuous Integration (CI), Continuous Delivery (CD), Automated Build Pipelines, Application Deployment, Release Management, Production Elevation",
+    "Infrastructure Automation & Configuration: Terraform, Ansible, Ansible Playbooks, Infrastructure as Code (IaC), Configuration Management, Software Automation, Infrastructure Orchestration, Automation Scripting, API Integrations, Provisioning",
+    "Containers, Operating Systems & Web Servers: Docker, Containerization, Linux, Unix, Red Hat Enterprise Linux (RHEL), Linux Administration, Package Management, Third-Party Repositories, Apache, Apache Tomcat",
+    "Site Reliability Engineering & Observability: Site Reliability Engineering (SRE), Prometheus, Grafana, SolarWinds, Infrastructure Monitoring, Application Health Monitoring, Incident Troubleshooting, Post-Mortem Analysis, Service Level Agreements (SLAs), Service Level Objectives (SLOs), Performance Optimization, 24x7 Production Support",
+    "Middleware, Data & Enterprise Systems: Redis, Redis Replication, Failover, Redundancy, ActiveMQ, Message Queuing, Sybase, Mainframe Integrations, Database Operations, IBM FileNet, BMC Control-M, Workload Scheduling",
+    "IT Operations & Service Management: ServiceNow, Jira, Change Management, Asset Management, Configuration Management, IP Management, Issue Tracking, Project Coordination, On-Call Support, Application Support",
+    "Security & DevSecOps: Cybersecurity, DevSecOps, Security Vulnerability Monitoring, Penetration Testing, Asset and Malware Management, Log Management, Cybersecurity Policies, Security Standards, Architecture Security Reviews, Access and Password Policy Validation",
+    "Engineering & Collaboration: Cross-Functional Collaboration, Systems Troubleshooting, Root Cause Analysis, Technical Recommendations, Enterprise System Design, Application Integration, Incident Management, Software Lifecycle Improvements"
   ],
   "experience": [
     {
@@ -28,15 +28,11 @@
       "end_date": "10/2026",
       "location": "",
       "base_bullets": [
-        "Develop and deploy software automation that streamlines repetitive operational processes, improves production efficiency, and increases the reliability and consistency of business-critical applications and supporting infrastructure.",
-        "Lead troubleshooting of complex production incidents by analyzing application behavior, system health, and infrastructure dependencies, coordinating recovery activities, and contributing technical findings to post-mortem reviews that help prevent recurring service disruptions.",
-        "Design and improve monitoring frameworks that provide actionable visibility into application health, infrastructure performance, and service behavior, supporting proactive issue detection, performance optimization, capacity planning, and long-term platform reliability.",
-        "Drive continuous reliability improvements by identifying operational bottlenecks, recurring failure patterns, and opportunities for automation across supported application environments.",
-        "Support fulfillment of SLAs and SLOs by monitoring service performance, availability, and operational health across highly available cloud platforms while helping engineering teams address conditions that could affect reliability.",
-        "Optimize application and infrastructure performance through monitoring, troubleshooting, capacity analysis, and operational improvements aligned with reliability engineering objectives.",
-        "Provide 24x7 production support coverage, responding to service disruptions and working across application and infrastructure layers to restore stable operations.",
-        "Build deep technical expertise across assigned application suites, enabling faster diagnosis of production issues and more effective collaboration with engineering and operations teams.",
-        "Participate in incident reviews and operational improvement initiatives, translating lessons from production issues into practical improvements to automation, monitoring, and system stability."
+        "Developed and deployed software automation to improve operational efficiency and reliability across supported application environments.",
+        "Led production incident troubleshooting and contributed technical findings to post-mortem analyses to strengthen system stability.",
+        "Optimized application and platform performance and implemented monitoring frameworks for capacity planning and service-level objectives.",
+        "Supported fulfillment of service level agreements (SLAs) and service level objectives (SLOs) for high-availability cloud platforms.",
+        "Provided 24x7 production support and developed in-depth expertise in assigned application suites to resolve incidents effectively."
       ]
     },
     {
@@ -46,17 +42,14 @@
       "end_date": "11/2023",
       "location": "",
       "base_bullets": [
-        "Developed fully automated CI/CD pipelines for building, testing, and deploying applications across multiple platform environments, establishing repeatable delivery processes that improved deployment consistency and reduced manual intervention throughout the software delivery lifecycle.",
-        "Containerized application environments and leveraged cloud technologies to improve portability, scalability, and deployment consistency while creating standardized environments that supported reliable application delivery across enterprise infrastructure.",
-        "Maintained core infrastructure capable of supporting hundreds of thousands of concurrent users, helping ensure that enterprise platforms could scale effectively while maintaining availability, resiliency, and operational performance under demanding workloads.",
-        "Designed, built, and implemented resilient enterprise-class systems supporting production applications, information systems, networks, and data while aligning infrastructure architecture with availability, scalability, reliability, and operational requirements.",
-        "Built automated orchestration routines that measured and contextualized infrastructure and operational issues, giving engineering teams better visibility into conditions requiring remediation and improving the efficiency of ongoing platform management.",
-        "Identified infrastructure design gaps and recommended architecture improvements that strengthened scalability, maintainability, resiliency, and operational readiness across production environments.",
-        "Supported cloud and platform environments through rotational on-call responsibilities, troubleshooting infrastructure and application issues and helping maintain service continuity.",
-        "Monitored implementation of organizational technology policies, standards, and procedures across infrastructure environments to support consistent and controlled platform operations.",
-        "Collaborated across engineering, infrastructure, networking, and operations teams to resolve production issues and support reliable delivery of enterprise applications and services.",
-        "Improved operational consistency by applying automation and repeatable infrastructure processes across deployment, environment management, and production-support activities.",
-        "Supported continuous improvement of cloud and platform operations by evaluating existing infrastructure practices, identifying technical risks, and recommending practical enhancements to reliability and service performance."
+        "Developed fully automated pipelines to build, test, and deploy applications across multiple environments.",
+        "Designed, built, and implemented enterprise-class security systems for production infrastructure, information systems, networks, and data resilience.",
+        "Containerized environments and adopted cloud technologies to meet business and infrastructure goals.",
+        "Identified security design gaps in existing infrastructure and proposed architectural enhancements.",
+        "Maintained core infrastructure capable of scaling to support hundreds of thousands of concurrent users.",
+        "Built automated orchestration routines to measure and contextualize security issues for operational teams.",
+        "Monitored adherence to cybersecurity policies, standards, and procedures across supported environments.",
+        "Provided systems support through a rotational on-call schedule."
       ]
     },
     {
@@ -66,14 +59,14 @@
       "end_date": "09/2021",
       "location": "",
       "base_bullets": [
-        "Built and operated Infrastructure as Code and automation workflows using Terraform, Ansible, Docker, GitHub, and Jenkins, improving repeatability across infrastructure provisioning, configuration management, and application delivery processes.",
-        "Led the Change Management Lifecycle, implementing structured change strategies and plans that improved adoption of infrastructure changes while supporting controlled execution across production and non-production environments.",
-        "Managed, upgraded, and troubleshot databases, systems, and supporting infrastructure for internal enterprise applications running across RHEL platforms, helping maintain reliable application operations.",
-        "Installed and configured infrastructure equipment across production and non-production environments to support automation initiatives and delivery of infrastructure through IaaS-oriented operational models.",
-        "Integrated automation with ServiceNow, Jira, Asset Management, Configuration Management, and IP Management platforms, enabling more consistent workflows across infrastructure and operations teams.",
-        "Developed scripting and API-based integrations between applications and operational platforms, reducing manual processes and enabling automated workflows across enterprise systems.",
-        "Implemented Prometheus and Grafana monitoring to collect infrastructure and application metrics and present operational data through dashboards that improved visibility into system health.",
-        "Applied project management, time management, and cross-functional communication skills to prioritize infrastructure issues, coordinate technical work, and communicate operational status effectively."
+        "Led the change management lifecycle, developing strategies and implementation plans to support adoption of infrastructure changes.",
+        "Built and operated Infrastructure as Code and automation workflows using Ansible, Docker, GitHub, Terraform, and Jenkins CI/CD.",
+        "Managed, upgraded, and troubleshot databases and systems supporting internal applications on Red Hat Enterprise Linux (RHEL).",
+        "Installed and configured equipment in production and non-production environments to support automation and Infrastructure as a Service (IaaS).",
+        "Integrated ServiceNow, Jira, asset management, configuration management, and IP management platforms into automated operations workflows.",
+        "Developed scripting and API integrations between applications and operational tools to automate workflows.",
+        "Used Prometheus and Grafana to collect metrics and display infrastructure and application monitoring data in dashboards.",
+        "Coordinated operational work using project management, time management, and clear technical communication."
       ]
     },
     {
@@ -83,13 +76,13 @@
       "end_date": "03/2019",
       "location": "",
       "base_bullets": [
-        "Automated deployment of Redis multi-node environments using Ansible playbooks, configuring replication, failover, and redundancy to strengthen service availability and improve consistency across distributed application environments.",
-        "Implemented continuous-delivery workflows using Bitbucket, Jenkins, and Ansible, automating application build and deployment processes and contributing to a documented 20% reduction in release time.",
-        "Used SolarWinds to monitor application health and infrastructure vulnerabilities, helping identify operational conditions and potential issues affecting enterprise application environments.",
-        "Configured and integrated ActiveMQ to provide reliable message queuing and communication between distributed application components across supported environments.",
-        "Managed core software update policies and third-party repositories, providing guidance on repository configuration, package management, and controlled software updates.",
-        "Designed and recommended integrated system solutions that supported operational requirements while protecting proprietary and confidential systems and enterprise data.",
-        "Continuously evaluated infrastructure technologies, application environments, and operational threats to identify opportunities for platform improvement, reliability, and better system support."
+        "Used SolarWinds to monitor security vulnerabilities and application health across supported environments.",
+        "Configured Redis multi-node environments with Ansible playbooks, including replication, failover, and redundancy.",
+        "Advised on core software update policies, third-party repositories, and repository maintenance.",
+        "Configured and integrated ActiveMQ for message queuing between applications.",
+        "Automated continuous integration and delivery using Bitbucket, Jenkins, and Ansible, reducing application release times by 20%.",
+        "Designed and recommended integrated systems solutions that protected proprietary and confidential enterprise data.",
+        "Improved technologies and infrastructure supporting application environments while identifying and monitoring operational threats."
       ]
     },
     {
@@ -99,13 +92,17 @@
       "end_date": "05/2018",
       "location": "",
       "base_bullets": [
-        "Configured Java application build environments and automated deployments using Maven, Jenkins, and Ansible, helping standardize software delivery processes and contributing to a documented 20% reduction in release times.",
-        "Collaborated with development, application, networking, and security teams to coordinate application releases, provision environments, resolve deployment issues, and support controlled production elevation across shared enterprise systems.",
-        "Supported application packaging, build, and deployment pipelines for continuous integration and continuous delivery, creating staging directories, workspaces, and control files for production and non-production provisioning.",
-        "Managed application releases and maintained repository accuracy using Subversion and Nexus, supporting controlled source code, artifact management, and build processes.",
-        "Used ServiceNow and Jira for change, project, and defect management, contributing to a documented 90% improvement in alerting efficiency while maintaining environment and project visibility.",
-        "Supported production operations using FileNet, BMC Control-M, Tomcat, Apache, Linux, and RHEL, including automated job scheduling, enterprise content workflows, and application deployment activities.",
-        "Supported application configuration and production elevation involving vault integrations, application IDs, mainframe systems, Sybase, and database connection information across enterprise environments."
+        "Supported application packaging and deployment pipelines for continuous integration and continuous delivery.",
+        "Coordinated with change management to provision connection strings and application IDs in a vault for mainframe, Sybase, and database integrations during production elevation.",
+        "Used ServiceNow to manage the change management lifecycle and support controlled application releases.",
+        "Managed application build releases and source and artifact repositories using Subversion and Nexus.",
+        "Worked with development, application, networking, and security teams to provision environments and coordinate build releases.",
+        "Created staging directories, workspaces, and control files for CI and provisioning in production and non-production environments.",
+        "Used Jira to track projects and defects and improved alerting efficiency by 90% without losing environment or project visibility.",
+        "Configured Java application build environments with Maven, Jenkins, and Ansible, reducing release times by 20%.",
+        "Used a policy reader tool to validate agent groups, agent configuration objects, authentication schemes, and password policies.",
+        "Used IBM FileNet for enterprise content management and BMC Control-M for scheduling jobs and workloads on Unix and Linux systems.",
+        "Deployed applications on Apache Tomcat 6.x, 7.x, and 8.x and Apache web servers running on Linux and Red Hat environments."
       ]
     }
   ],

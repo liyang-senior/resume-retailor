@@ -26,6 +26,29 @@ export const EXPERIENCE_BULLET_RULES = {
 
 const R = EXPERIENCE_BULLET_RULES;
 
+/** Minimum `details.length` the model must return for role index (0-based). */
+export function minBulletCountForRole(index) {
+  return index < R.recentRolesCount ? R.recentRolesMin : R.olderRolesMin;
+}
+
+/**
+ * Roles whose `details` arrays are below the mandatory floor.
+ * @param {Array<{ details?: string[] }>} experience
+ * @returns {{ index: number, have: number, need: number }[]}
+ */
+export function findUnderfilledExperienceRoles(experience) {
+  const list = Array.isArray(experience) ? experience : [];
+  const gaps = [];
+  for (let i = 0; i < list.length; i += 1) {
+    const have = Array.isArray(list[i]?.details)
+      ? list[i].details.map((d) => String(d ?? "").trim()).filter(Boolean).length
+      : 0;
+    const need = minBulletCountForRole(i);
+    if (have < need) gaps.push({ index: i, have, need });
+  }
+  return gaps;
+}
+
 /** Injected as {{experienceBulletGuidance}} when the profile has permanent base content. */
 export const EXPERIENCE_BULLET_GUIDANCE_WITH_BASE = `Preserve every meaningful base_bullets fact and every classified base_skills technology. Rewrite, merge, split, or reorder for the detected job family; do not drop important original accomplishments and do not invent tools, employers, dates, or metrics. Use ${R.recentRolesMin}-${R.recentRolesMax} humanized bullets for each of the two most recent roles and at least ${R.olderRolesMin} for older roles. In each of the two most recent roles, at least ${R.longBulletsRecentMin} bullets are 3 lines (${R.longBulletMinWords}-${R.longBulletMaxWords} words); the rest are 1 line (up to ${R.shortBulletMaxWords} words) or 2 lines (${R.mediumBulletMinWords}-${R.mediumBulletMaxWords} words). Write natural professional American English. Order bullets by verified job-description relevance. Use 7-9 role-specific skill categories and about 45-65 verified skill entries when the background supports that breadth. Summary is one paragraph of 80-110 words and may name verified technologies.`;
 
