@@ -15,7 +15,7 @@ const FORBIDDEN_FRAGMENTS = [
 ];
 
 const MEANINGLESS_SKILL =
-  /^(experience|capabilities|requirements|responsibilities|skills|technical skills|computer skills|software skills|hard skills|problem solving|fast learner|technology|modern development|programming|full[-\s]?stack development|backend application development|user interface development|website development|software maintenance|application development|technical problem[-\s]?solving|technical documentation|data loading|form handling|error handling|user management|automated testing|database indexing|schema validation|end[-\s]?to[-\s]?end testing|application routing|module provisioning|production debugging|deployment workflows|configuration management|performance optimization|third[-\s]?party api integration|secure credential management|business requirements|developer coordination|product design collaboration|in[-\s]?house desktop application development|mvp development|technical leadership|software design|technical specifications|server[-\s]?side engineering|data[-\s]?backed web applications|database development|database maintenance|database design)$/i;
+  /^(experience|capabilities|requirements|responsibilities|skills|technical skills|computer skills|software skills|hard skills|problem solving|fast learner|technology|modern development|programming|full[-\s]?stack development|backend application development|user interface development|website development|software maintenance|application development|technical problem[-\s]?solving|data loading|form handling|error handling|user management|database indexing|schema validation|application routing|module provisioning|production debugging|deployment workflows|configuration management|performance optimization|third[-\s]?party api integration|secure credential management|business requirements|developer coordination|product design collaboration|in[-\s]?house desktop application development|mvp development|technical leadership|technical specifications|server[-\s]?side engineering|data[-\s]?backed web applications|database development|database maintenance|database design)$/i;
 
 const PROGRAMMING_LANGUAGE =
   /^(c\+\+|c#|sql|googlesql|matlab|python|java|javascript|typescript|go|golang|rust|php|ruby|kotlin|swift|scala|bash)$/i;
@@ -251,7 +251,7 @@ const DEMONSTRATED_SKILLS = [
   [/\bazure\b/i, "Azure", "Cloud services"],
   [/\bgcp\b/i, "GCP", "Cloud services"],
   [/\blinux\b/i, "Linux", "Infrastructure"],
-  [/\bgit\b/i, "Git", "Engineering practices"],
+  [/\bgit\b/i, "Git", "DevOps"],
 ];
 
 /** Named technologies that actually appear in candidate text. The JD is not evidence. */
@@ -364,37 +364,65 @@ function stackCategoryForSkill(name) {
   }
   if (/^algorithms?$/i.test(n)) return "Engineering practices";
   if (isProgrammingLanguage(n)) return "Languages";
+  // Frontend techniques and UI stack (before bare "server-side" backend rules elsewhere)
   if (
-    /\b(react(?:\.js)?|next\.js|vue\.js|nuxt|angular|tailwind|shadcn|html5?|css3?)\b/i.test(
+    /server[-\s]?side\s+render(?:ing)?|client[-\s]?side\s+rout(?:ing)?|client[-\s]?side\s+render(?:ing)?|server\s+components?|app\s+router|pages?\s+router|\bssr\b|\bcsr\b|\bssg\b|\bisr\b/i.test(
       n
-    )
+    ) ||
+    /\b(react(?:\.js)?|next\.js|vue\.js|nuxt|angular|svelte|astro|tailwind(?:\s*css)?|shadcn(?:\/ui)?|html5?|css3?|sass|less|bootstrap|storybook)\b/i.test(
+      n
+    ) ||
+    /user\s+interface|responsive\s+design|web\s+accessibility|\baccessibility\b|\ba11y\b/i.test(n)
   ) {
     return "Frontend engineering";
   }
   if (
-    /\b(node\.js|nest\.js|express\.js|fastapi|django|flask|spring boot|gin|laravel|ruby on rails|asp\.net core|graphql|openapi|entity framework|webhooks|rest apis?)\b/i.test(
+    /\b(node\.js|nest\.js|express\.js|fastapi|django|flask|spring boot|gin|laravel|ruby on rails|asp\.net core|graphql|openapi|webhooks|rest apis?|api\s+integrations?)\b/i.test(
       n
     )
   ) {
     return "Backend engineering";
   }
-  if (/\b(postgres(?:ql)?|mysql|mongodb|redis|convex|snowflake|bigquery)\b/i.test(n)) return "Databases";
   if (
-    /\b(docker|kubernetes|helm|terraform|ci\/?cd)\b/i.test(n) ||
+    /\b(postgres(?:ql)?|mysql|mongodb|redis|convex|snowflake|bigquery|entity framework)\b/i.test(n)
+  ) {
+    return "Databases";
+  }
+  if (
+    /\b(docker|kubernetes|helm|terraform|ci\/?cd|github\s*actions|jenkins|bitbucket|gitlab|github)\b/i.test(
+      n
+    ) ||
     /^git$/i.test(n)
   ) {
     return "DevOps";
   }
-  if (/\b(aws|azure|gcp)\b/i.test(n)) return "Cloud engineering";
-  if (/\bkafka\b/i.test(n)) return "Messaging";
+  if (/\b(aws|azure|gcp|amazon\s+ec2|amazon\s+s3|aws\s+lambda)\b/i.test(n)) {
+    return "Cloud engineering";
+  }
+  if (/\b(kafka|rabbitmq|sqs|pubsub)\b/i.test(n)) return "Messaging";
   if (/\b(pandas|numpy|spark|pyspark|airflow|dremel)\b/i.test(n)) return "Data engineering";
-  if (/\b(jest|pytest|junit|cypress|playwright)\b/i.test(n)) return "Testing";
   if (
-    /\b(authentication|authorization|role[-\s]?based access|iam|oauth|jwt)\b/i.test(n)
+    /\b(jest|pytest|junit|cypress|playwright|vitest|mocha|testing\s+library|unit\s+tests?(?:ing)?|integration\s+tests?(?:ing)?|end[-\s]?to[-\s]?end\s+tests?(?:ing)?)\b/i.test(
+      n
+    )
+  ) {
+    return "Testing";
+  }
+  if (
+    /\b(authentication|authorization|role[-\s]?based\s+access|rbac|multi[-\s]?tenant(?:\s+access(?:\s+control)?)?|iam|oauth(?:\s*2(?:\.0)?)?|jwt)\b/i.test(
+      n
+    )
   ) {
     return "Security";
   }
-  if (/\b(jira|bitbucket|code review|agile|scrum)\b/i.test(n)) return "Engineering practices";
+  // Practices / process only — not source control or frontend techniques
+  if (
+    /\b(jira|confluence|code review|agile|scrum|kanban|pair programming|technical documentation|software architecture)\b/i.test(
+      n
+    )
+  ) {
+    return "Engineering practices";
+  }
   return "";
 }
 

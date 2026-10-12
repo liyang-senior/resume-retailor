@@ -187,24 +187,27 @@ export function dedupeSkillsAcrossCategories(skillMap) {
  */
 const CATEGORY_INFERENCE = [
   { re: /multiplatform|cross[-\s]?platform|react native|flutter|xamarin|ionic/i, cat: "Cross-platform development" },
+  // Frontend techniques before bare "server-side" backend matching
+  {
+    re: /server[-\s]?side\s+render(?:ing)?|client[-\s]?side\s+rout(?:ing)?|client[-\s]?side\s+render(?:ing)?|server\s+components?|app\s+router|pages?\s+router|\bssr\b|\bcsr\b|\bssg\b|\bisr\b|tailwind|shadcn|storybook|responsive\s*design|web\s+accessibility|\baccessibility\b|\ba11y\b/i,
+    cat: "Frontend engineering",
+  },
   { re: /front[-\s]?end|\bfed\b|react|angular|vue|next\.?js|microsoft front|css|html|\bui\b|ux\b|pwa/i, cat: "Frontend engineering" },
   { re: /client[-\s]?side/i, cat: "Frontend engineering" },
-  { re: /server[-\s]?side|django|fastapi|flask|express|nest|spring|\.net|laravel|graphql|rest\b|openapi|backend/i, cat: "Backend engineering" },
+  { re: /django|fastapi|flask|express|nest|spring|\.net|laravel|graphql|rest\s*apis?|openapi|webhooks|backend|server[-\s]?side\s+components?/i, cat: "Backend engineering" },
   { re: /python framework|node\.?js|\bnode\b/i, cat: "Backend engineering" },
   { re: /aws|azure|gcp|cloud computing|cloud platform|scalable application|lambda|ec2|s3/i, cat: "Cloud engineering" },
   { re: /docker|kubernetes|helm|container|ecs|eks|terraform|cloudformation|ansible|iac\b|infrastructure as code|version control|\bgit\b|github|gitlab|bitbucket|ci\/?cd|jenkins|github actions|pipeline|devops/i, cat: "DevOps" },
-  { re: /database|postgres|mysql|mongodb|redis|nosql|snowflake|bigquery/i, cat: "Databases" },
+  { re: /database|postgres|mysql|mongodb|redis|nosql|snowflake|bigquery|\bconvex\b|entity framework/i, cat: "Databases" },
   { re: /dremel|data (storage|management|collection|processing|query)|warehouse|etl|pandas|numpy|spark/i, cat: "Data engineering" },
   { re: /machine learning|\bml\b|unsupervised|neural|\bai\b|llm|embedding|vector search|predictive/i, cat: "AI & machine learning" },
-  { re: /\bconvex\b/i, cat: "Databases" },
   { re: /^(c\+\+|c#|sql|googlesql|matlab|python|java|javascript|typescript|go|golang|rust|php|ruby|kotlin|swift|scala|bash)$/i, cat: "Languages" },
   { re: /kafka|rabbitmq|sqs|pubsub|streaming|message queue/i, cat: "Messaging" },
   { re: /datadog|prometheus|grafana|opentelemetry|observab|sre|pagerduty|splunk|monitor/i, cat: "Observability & SRE" },
-  { re: /jest|cypress|playwright|pytest|junit|testing|qa\b|unit test/i, cat: "Testing" },
-  { re: /security|oauth|oidc|iam|auth|encryption|pci/i, cat: "Security & identity" },
-  { re: /agile|scrum|sprint|iterative|roadmap|architecture|delivery|sme\b|subject matter/i, cat: "Architecture & delivery" },
-  { re: /cross[-\s]?functional|collaborat|mentor|knowledge sharing|leadership|stakeholder/i, cat: "Collaboration & leadership" },
-  { re: /document|configuration|knowledge|process/i, cat: "Architecture & delivery" },
+  { re: /jest|cypress|playwright|vitest|pytest|junit|testing|qa\b|unit test|integration test|end[-\s]?to[-\s]?end/i, cat: "Testing" },
+  { re: /security|oauth|oidc|iam|auth|encryption|pci|multi[-\s]?tenant/i, cat: "Security" },
+  { re: /agile|scrum|sprint|iterative|roadmap|architecture|delivery|sme\b|subject matter|code review|technical documentation/i, cat: "Engineering practices" },
+  { re: /cross[-\s]?functional|collaborat|mentor|knowledge sharing|leadership|stakeholder/i, cat: "Engineering practices" },
   { re: /performance|optimiz|reliab|maintain|quality|improvement/i, cat: "Engineering practices" },
 ];
 
@@ -373,16 +376,22 @@ function skillMatchesAnyTerm(token, terms) {
   });
 }
 
-/** Practices/methods — not concrete languages, frameworks, or platforms. */
+/** Frontend techniques that belong under Frontend engineering, not practices. */
+const FRONTEND_TECHNIQUE_SKILL =
+  /server[-\s]?side\s+render(?:ing)?|client[-\s]?side\s+rout(?:ing)?|client[-\s]?side\s+render(?:ing)?|server\s+components?|app\s+router|pages?\s+router|\bssr\b|\bcsr\b|\bssg\b|\bisr\b|responsive\s*design|web\s+accessibility|\baccessibility\b|\ba11y\b/i;
+
+/** Practices/methods — not concrete languages, frameworks, platforms, or frontend techniques. */
 const METHOD_LIKE_SKILL =
-  /\b(responsive\s*design|internationali[sz]ation|\bi18n\b|locali[sz]ation|\bl10n\b|accessibility|\ba11y\b|frontend\s+architecture|reusable\s+component|component\s+design|browser\s+rendering|core\s+web\s+vitals|caching|code\s+review|pair\s+programming|agile|scrum|kanban|mentorship|mentoring|collaboration|knowledge\s+sharing|incremental\s+delivery|technical\s+design\s+reviews?|design\s+review|scalable\s+architecture|software\s+design|cross[-\s]?functional|engineering\s+mentorship|performance\s+measurement|conversion\s+optimi[sz]ation|user\s+experience\s+optimi[sz]ation|growth\s+experimentation|publishing\s+workflows?|content\s+modeling|website\s+modernization|crawlability|canonicalization|redirect\s+management|site\s+architecture|structured\s+content|structured\s+data|metadata|search\s+indexing|technical\s+seo|progressive\s+web|service\s+workers?|client[-\s]?side|server[-\s]?side|multiplatform\s+application\s+development|front\s*end\s+development)\b/i;
+  /\b(internationali[sz]ation|\bi18n\b|locali[sz]ation|\bl10n\b|frontend\s+architecture|reusable\s+components?|component\s+design|browser\s+rendering|core\s+web\s+vitals|caching|code\s+review|pair\s+programming|agile|scrum|kanban|mentorship|mentoring|collaboration|knowledge\s+sharing|incremental\s+delivery|technical\s+design\s+reviews?|design\s+review|scalable\s+architecture|software\s+design|cross[-\s]?functional|engineering\s+mentorship|performance\s+measurement|conversion\s+optimi[sz]ation|user\s+experience\s+optimi[sz]ation|growth\s+experimentation|publishing\s+workflows?|content\s+modeling|website\s+modernization|crawlability|canonicalization|redirect\s+management|site\s+architecture|structured\s+content|structured\s+data|metadata|search\s+indexing|technical\s+seo|progressive\s+web|service\s+workers?|multiplatform\s+application\s+development|front\s*end\s+development)\b/i;
 
 /** Concrete named tech: languages, frameworks, libraries, platforms, protocols. */
 const CONCRETE_TECH_SKILL =
   /\b(react(?:\.?js)?|next\.?js|nuxt|vue(?:\.?js)?|angular|svelte|astro|gatsby|remix|ember|backbone|jquery|typescript|javascript|python|django|fastapi|flask|java\b|spring|kotlin|swift|c\+\+|c#|\.net|node(?:\.?js)?|express(?:\.?js)?|nestjs|graphql|rest\b|openapi|html5?|css3?|sass|less|tailwind|bootstrap|aws|azure|gcp|docker|kubernetes|helm|terraform|ansible|postgres(?:ql)?|mysql|mongodb|redis|kafka|rabbitmq|elasticsearch|opensearch|datadog|prometheus|grafana|jest|cypress|playwright|pytest|junit|git\b|github|gitlab|jenkins|lambda|s3|ec2|rds|sql\b|nosql|pandas|numpy|pytorch|tensorflow|scikit|fastapi|laravel|rails|php|go\b|golang|rust|ruby|scala|hadoop|spark|airflow|snowflake|bigquery|dremel|matlab|fastapi|prisma|typeorm|sequelize|webpack|vite|babel|eslint|prettier|storybook|figma|jira|confluence|splunk|sentry|new\s*relic|pagerduty|openai|langchain|pinecone|weaviate|payload\s*cms|contentful|sanity|strapi|wordpress|shopify|salesforce|service\s*now)\b/i;
 
 function isMethodLikeSkill(token) {
-  return METHOD_LIKE_SKILL.test(String(token ?? ""));
+  const t = String(token ?? "");
+  if (FRONTEND_TECHNIQUE_SKILL.test(t)) return false;
+  return METHOD_LIKE_SKILL.test(t);
 }
 
 function isConcreteTechSkill(token) {
@@ -412,25 +421,47 @@ export function relocateMethodsFromTechCategories(skillMap) {
   if (!skillMap || typeof skillMap !== "object") return skillMap;
   const out = {};
   const methods = [];
+  const frontendTechniques = [];
   for (const [cat, list] of Object.entries(skillMap)) {
     if (!Array.isArray(list)) continue;
     if (!isTechCategoryName(cat)) {
+      // Pull frontend techniques out of Engineering practices / dump rows
+      if (/engineering practice|architecture|delivery|collaborat/i.test(cat)) {
+        const kept = [];
+        for (const tok of list) {
+          if (FRONTEND_TECHNIQUE_SKILL.test(String(tok ?? ""))) frontendTechniques.push(tok);
+          else kept.push(tok);
+        }
+        if (kept.length) out[cat] = kept;
+        continue;
+      }
       out[cat] = [...list];
       continue;
     }
     const kept = [];
     for (const tok of list) {
+      if (FRONTEND_TECHNIQUE_SKILL.test(String(tok ?? ""))) {
+        frontendTechniques.push(tok);
+        continue;
+      }
       if (isMethodLikeSkill(tok)) methods.push(tok);
       else kept.push(tok);
     }
     if (kept.length) out[cat] = kept;
   }
+
+  if (frontendTechniques.length) {
+    const frontKey =
+      Object.keys(out).find((c) => /frontend/i.test(c)) || "Frontend engineering";
+    out[frontKey] = dedupeSkillsPreserveOrder(out[frontKey] || [], frontendTechniques);
+  }
+
   if (methods.length === 0) return out;
 
   const dest =
-    Object.keys(out).find((c) => /architecture|delivery/i.test(c)) ||
     Object.keys(out).find((c) => /engineering practice|practice/i.test(c)) ||
-    "Architecture & delivery";
+    Object.keys(out).find((c) => /architecture|delivery/i.test(c)) ||
+    "Engineering practices";
   out[dest] = dedupeSkillsPreserveOrder(out[dest] || [], methods);
   return out;
 }

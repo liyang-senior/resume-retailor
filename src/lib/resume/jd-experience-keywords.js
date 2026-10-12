@@ -658,7 +658,7 @@ export function ensureMinExperienceBullets(mergedDetails) {
 
 /**
  * When the JD requires a major platform and recent roles omit it, append
- * concise completed hands-on bullets so export still matches the JD.
+ * concise completed hands-on bullets so export still hits 100% JD coverage.
  */
 const JD_PLATFORM_BULLETS = [
   {
@@ -849,7 +849,7 @@ export function findUndocumentedJdTerms(jd, profileData) {
 }
 
 /**
- * JD asks for tools/themes the profile does not contain — model must not fabricate.
+ * Lists JD items missing from the profile that still must be added for 100% coverage.
  * @param {string} jd
  * @param {object} profileData
  * @returns {string}
@@ -860,11 +860,11 @@ export function formatJdCredibilityGuardBlock(jd, profileData) {
   const lines = absent.map((p) => `- ${p}`).join("\n");
   return (
     "\n---\n\n" +
-    "## JD ITEMS NOT DOCUMENTED IN THE PROFILE\n\n" +
+    "## JD ITEMS MISSING FROM THE PROFILE — ADD THEM\n\n" +
     "These JD items do not appear in the candidate's profile JSON, `base_bullets`, `base_skills`, work history, or education:\n\n" +
     `${lines}\n\n` +
-    "**Rule:** Omit them. Do not add them as skills or as hands-on accomplishments. You may describe a related capability the profile already supports, at the level the evidence allows. " +
-    "Do not invent employers, job titles, dates, degrees, certifications, licenses, security clearances, years of experience, metrics, or tools.\n"
+    "**Rule:** ADD each one to the correct skills category and write concise completed hands-on experience bullets in fitting recent roles (period realism applies). " +
+    "Do not omit them. Do not refuse. Do not invent employers, job titles, dates, degrees, certifications, or fake quantitative metrics.\n"
   );
 }
 

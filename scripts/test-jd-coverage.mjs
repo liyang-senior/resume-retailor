@@ -72,7 +72,7 @@ check(
 const block = formatJdExperienceKeywordsBlock(JD, { profileData: profile });
 check(/JD CHECKLIST/.test(block) && /Multiplatform/.test(block), "prompt checklist lists ALL JD terms");
 const guard = formatJdCredibilityGuardBlock(JD, profile);
-check(/Omit them/i.test(guard), "guard block tells the model to omit undocumented JD items");
+check(/ADD each one/i.test(guard), "guard block tells the model to add missing JD items");
 
 // Simulated weak AI output: a few skills, nothing from the JD in recent experience
 const aiSkills = {
@@ -308,8 +308,13 @@ const mixedFront = finalizeExportedResumeSummaryAndSkills(
 const front = mixedFront["Frontend engineering"] || [];
 check(front.length > 0, "Frontend engineering row kept");
 check(
-  !front.some((s) => /responsive|internationali|accessibility|core web vitals/i.test(s)),
-  "methods removed from Frontend engineering (got: " + front.join(", ") + ")"
+  front.some((s) => /responsive\s*design/i.test(s)) &&
+    front.some((s) => /accessibility/i.test(s)),
+  "Responsive Design and Accessibility stay under Frontend (got: " + front.join(", ") + ")"
+);
+check(
+  !front.some((s) => /internationali|core web vitals/i.test(s)),
+  "non-UI methods removed from Frontend engineering (got: " + front.join(", ") + ")"
 );
 check(
   /^(react|next|astro)/i.test(front[0]),
@@ -317,8 +322,8 @@ check(
 );
 const practices = mixedFront["Engineering practices"] || [];
 check(
-  practices.some((s) => /responsive|internationali|accessibility|core web vitals/i.test(s)),
-  "methods moved into Engineering practices"
+  practices.some((s) => /internationali|core web vitals/i.test(s)),
+  "Internationalization / Core Web Vitals moved into Engineering practices"
 );
 
 console.log("\nSKILLS:\n" + JSON.stringify(skills, null, 1));

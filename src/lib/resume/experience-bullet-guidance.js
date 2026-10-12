@@ -1,12 +1,12 @@
 /**
- * Shared experience / skills guidance injected into the resume prompt.
- * Bullet-count, length and skills-inventory rules used by prompts/default.txt.
+ * Shared experience / skills guidance aligned with prompts/default.txt §8–§9.
  */
 
 export const EXPERIENCE_BULLET_RULES = {
-  /** Most recent 2 roles: at least this many bullets each. */
+  /** Most recent role: 8-12. Second-most-recent: 8-11. */
   recentRolesMin: 8,
   recentRolesMax: 12,
+  secondRecentRolesMax: 11,
   recentRolesCount: 2,
   /** Older roles: 5-8 bullets scaled by tenure. */
   olderRolesMin: 5,
@@ -14,7 +14,7 @@ export const EXPERIENCE_BULLET_RULES = {
   /** ~1 printed line ≈ this many words (PDF ~90–100 chars/line). */
   shortBulletMinWords: 12,
   shortBulletMaxWords: 20,
-  /** Max short (1-line) bullets allowed per role; the rest are 2- or 3-line. */
+  /** Soft cap on short bullets when evidence allows variety. */
   shortBulletsPerRoleMax: 2,
   /** ~2 printed lines ≈ this many words. */
   mediumBulletMinWords: 22,
@@ -22,21 +22,24 @@ export const EXPERIENCE_BULLET_RULES = {
   /** ~3 printed lines ≈ this many words. */
   longBulletMinWords: 36,
   longBulletMaxWords: 48,
-  /** Every role: at least this many ~3-line bullets. */
+  /** Prefer at least this many detailed bullets in older roles when evidence supports. */
   longBulletsPerRoleMin: 3,
-  /** Each of the 2 most recent roles: at least this many ~3-line bullets. */
+  /** Prefer at least this many detailed bullets in recent roles when evidence supports. */
   longBulletsRecentMin: 5,
+  /** Summary word band from default.txt §9. */
+  summaryMinWords: 90,
+  summaryMaxWords: 120,
 };
 
 const R = EXPERIENCE_BULLET_RULES;
 
-/** Minimum `details.length` the model must return for role index (0-based). */
+/** Soft floor for role index (0-based); do not invent work solely to hit it. */
 export function minBulletCountForRole(index) {
   return index < R.recentRolesCount ? R.recentRolesMin : R.olderRolesMin;
 }
 
 /**
- * Roles whose `details` arrays are below the mandatory floor.
+ * Roles whose `details` arrays are below the soft floor.
  * @param {Array<{ details?: string[] }>} experience
  * @returns {{ index: number, have: number, need: number }[]}
  */
@@ -54,7 +57,7 @@ export function findUnderfilledExperienceRoles(experience) {
 }
 
 /** Injected as {{experienceBulletGuidance}} when the profile has permanent base content. */
-export const EXPERIENCE_BULLET_GUIDANCE_WITH_BASE = `Preserve every meaningful base_bullets fact and every classified base_skills technology. Rewrite, merge, split, or reorder for the detected job family; do not drop important original accomplishments. Write completed hands-on experience bullets that also cover every JD-required technology. Use ${R.recentRolesMin}-${R.recentRolesMax} bullets for each of the two most recent roles and ${R.olderRolesMin}-${R.olderRolesMax} for older roles (scale older roles by tenure). In each of the two most recent roles, at least ${R.longBulletsRecentMin} bullets are 3 lines (${R.longBulletMinWords}-${R.longBulletMaxWords} words). In every role, at least ${R.longBulletsPerRoleMin} bullets are 3 lines. Most bullets are 2 lines (${R.mediumBulletMinWords}-${R.mediumBulletMaxWords} words) or 3 lines; at most ${R.shortBulletsPerRoleMax} bullets per role may be 1 line (${R.shortBulletMinWords}-${R.shortBulletMaxWords} words). Write natural professional American English. Use 7-9 role-specific skill categories. Summary is one paragraph of 80-110 words.`;
+export const EXPERIENCE_BULLET_GUIDANCE_WITH_BASE = `Preserve every meaningful base_bullets fact and every classified base_skills technology. Rewrite, merge, split, or reorder for the job family; do not drop important original accomplishments. Also ADD hands-on bullets for every JD-required technology missing from the originals (100% JD experience coverage). Every experience bullet must be hands-on engineering (ACTION + TECHNOLOGY + IMPLEMENTATION). Every concrete skill in skills must appear in experience. Do not name the same technology more than 3 times in one role; spread senior/long-tenure depth across roles. Target ${R.recentRolesMin}-${R.recentRolesMax} bullets for the most recent role, ${R.recentRolesMin}-${R.secondRecentRolesMax} for the second-most-recent, and ${R.olderRolesMin}-${R.olderRolesMax} for older roles (scale by tenure). Prefer >=${R.longBulletsRecentMin} detailed bullets (${R.longBulletMinWords}-${R.longBulletMaxWords} words) in recent roles and >=${R.longBulletsPerRoleMin} in older roles. Mix short (${R.shortBulletMinWords}-${R.shortBulletMaxWords}), medium (${R.mediumBulletMinWords}-${R.mediumBulletMaxWords}), and detailed lengths. Summary: one paragraph of ${R.summaryMinWords}-${R.summaryMaxWords} words.`;
 
 /** Injected when the profile has no permanent base_skills / base_bullets. */
-export const EXPERIENCE_BULLET_GUIDANCE_NO_BASE = `No base_bullets or base_skills were supplied. Write completed hands-on experience from the employment history, education, job title, dates, and job description, covering every JD-required technology. Use ${R.recentRolesMin}-${R.recentRolesMax} bullets for each of the two most recent roles and ${R.olderRolesMin}-${R.olderRolesMax} for older roles (scale older roles by tenure). In each of the two most recent roles, at least ${R.longBulletsRecentMin} bullets are 3 lines (${R.longBulletMinWords}-${R.longBulletMaxWords} words). In every role, at least ${R.longBulletsPerRoleMin} bullets are 3 lines. Most bullets are 2 lines (${R.mediumBulletMinWords}-${R.mediumBulletMaxWords} words) or 3 lines; at most ${R.shortBulletsPerRoleMax} bullets per role may be 1 line (${R.shortBulletMinWords}-${R.shortBulletMaxWords} words). Write natural professional American English. Use 7-9 skill categories. Summary is one paragraph of 80-110 words.`;
+export const EXPERIENCE_BULLET_GUIDANCE_NO_BASE = `No base_bullets or base_skills were supplied. Write completed hands-on experience from employment history, titles, dates, and the job description. ADD every JD-required skill and experience (100% JD coverage). Every experience bullet must be hands-on engineering. Every concrete skill in skills must appear in experience. Do not name the same technology more than 3 times in one role; spread senior/long-tenure depth across roles. Target ${R.recentRolesMin}-${R.recentRolesMax} bullets for the most recent role, ${R.recentRolesMin}-${R.secondRecentRolesMax} for the second-most-recent, and ${R.olderRolesMin}-${R.olderRolesMax} for older roles (scale by tenure). Prefer >=${R.longBulletsRecentMin} detailed bullets (${R.longBulletMinWords}-${R.longBulletMaxWords} words) in recent roles and >=${R.longBulletsPerRoleMin} in older roles. Mix short (${R.shortBulletMinWords}-${R.shortBulletMaxWords}), medium (${R.mediumBulletMinWords}-${R.mediumBulletMaxWords}), and detailed lengths. Summary: one paragraph of ${R.summaryMinWords}-${R.summaryMaxWords} words.`;
