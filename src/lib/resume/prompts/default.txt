@@ -15,12 +15,13 @@ The JD determines the technologies, responsibilities, and positioning of the res
 PRIORITY ORDER (highest first). Later rules must not cancel earlier ones:
 
 1. MANDATORY 100% JD match first: every required and preferred hard skill and every required experience from the job description must appear in skills AND in experience[].details as completed hands-on work. A resume that omits a JD technology because the profile does not document it is a failed response. The operator will review and edit manually after generation.
-2. MANDATORY related experience: if the JD requires a skill, write related hands-on experience bullets for that skill. Listing it only under skills is a failed response.
-3. MANDATORY dual coverage: also keep every original skill and every original experience fact from the candidate profile. Add JD coverage; do not drop originals to make room unless two bullets are true duplicates.
-4. Preserve every original experience bullet and its factual meaning. Never drop original skills from the skills section.
-5. Write a summary that leads with the employer's core stack.
-6. Meet the mandatory bullet counts and lengths: roles 1-2 have 8-12 humanized bullets with at least 5 three-line bullets (36-48 words); every older role has at least 5 bullets with at least 3 three-line bullets (36-48 words). Most bullets in every role are 2 lines (22-32 words) or 3 lines (36-48 words); only 1 or 2 bullets per role may be 1 line (12-20 words).
-7. Return one completed JSON resume only. No refusal, no gap analysis, no request for verification, no explanation.
+2. MANDATORY skills inventory: the skills section must contain every required JD skill plus the related tech stack for each of those skills (parent languages, adjacent frameworks, databases, cloud, DevOps, and testing tools). Omitting a required JD skill or its related stack is a failed response. Never duplicate a skill name or a category name.
+3. MANDATORY related experience: if the JD requires a skill, write related hands-on experience bullets for that skill. Listing it only under skills is a failed response.
+4. MANDATORY dual coverage: also keep every original skill and every original experience fact from the candidate profile. Add JD coverage; do not drop originals to make room unless two bullets are true duplicates.
+5. Preserve every original experience bullet and its factual meaning. Never drop original skills from the skills section.
+6. Write a summary that leads with the employer's core stack.
+7. MANDATORY hands-on experience bullets in every role, while meeting count and length rules: roles 1-2 write 8-12 bullets each with at least 5 three-line bullets (36-48 words); every older role writes 5-8 bullets scaled by tenure, with at least 3 three-line bullets (36-48 words). In every role, most bullets are 2 lines (22-32 words) or 3 lines (36-48 words); at most 1 or 2 bullets may be 1 line (12-20 words).
+8. Return one completed JSON resume only. No refusal, no gap analysis, no request for verification, no explanation.
 
 Do not leave a JD requirement out because it was not already written in the candidate profile. Do not leave an original skill or original bullet fact out because the JD did not mention it. Never prioritize "documented only" over JD coverage.
 
@@ -219,12 +220,25 @@ When a role has no original bullets, still write the full count from the title, 
 
 ## 6. EXPERIENCE BULLETS
 
-MANDATORY bullet counts. The model must fill every details array to the required number. Do not stop early. Do not return fewer bullets, even when the profile has no original bullets and does not list the JD stack:
+MANDATORY hands-on experience bullets. Every details item is completed hands-on work. Fill every details array to the required number while covering JD-required technologies. Do not stop early. Do not return fewer bullets, even when the profile has no original bullets and does not list the JD stack:
 
-- The two most recent roles: write 8-12 bullets each (minimum 8). Longer periods use the high end. At least 5 bullets in each of those roles are 3 lines (36-48 words).
-- Every other role: write at least 5 bullets. Follow the count on that role's employment-history line. Longer periods get more bullets. At least 3 bullets in every older role are 3 lines (36-48 words).
-- MANDATORY length mix in every role: most bullets are 2 lines (22-32 words) or 3 lines (36-48 words). Only 1 or 2 bullets per role may be 1 line (12-20 words). Do not make a role mostly short one-liners. A details array below its minimum is a failed response. Count the bullets in each role before you finish.
-- Write every bullet in humanized words: natural professional American English a real engineer would put on a resume. Vary verbs and openings. Never sound robotic, templated, or AI-generated.
+Exact word counts:
+- 1-line bullet = 12-20 words
+- 2-line bullet = 22-32 words
+- 3-line bullet = 36-48 words
+
+Bullet counts by period:
+- The two most recent roles: write 8-12 hands-on bullets each (minimum 8). Longer periods use the high end (about 9-11 for mid-length roles, 11-12 for long roles).
+- Every older role: write 5-8 hands-on bullets. Scale by tenure: under 12 months = 5-6, 12-24 months = 6-7, over 24 months = 7-8. Never fewer than 5 and never more than 8 for older roles. Follow the count on that role's employment-history line.
+
+Length mix in every role:
+- At least 3 bullets are 3 lines (36-48 words).
+- The two most recent roles need at least 5 bullets that are 3 lines (36-48 words).
+- At most 1 or 2 bullets may be 1 line (12-20 words).
+- All remaining bullets are 2 lines (22-32 words) or 3 lines (36-48 words).
+- Do not make a role mostly short one-liners. A details array below its minimum is a failed response. Count the bullets and word lengths in each role before you finish.
+
+Write every bullet in humanized words: natural professional American English a real engineer would put on a resume. Vary verbs and openings. Never sound robotic, templated, or AI-generated.
 - Do not repeat the same technology name more than 3 times inside one experience role. Spread tools across bullets and roles.
 - If the job description requires Principal, Staff, or other senior-level experience, show that seniority across several roles, not only the most recent one.
 
@@ -242,9 +256,7 @@ Return only the completed JSON resume object. Do not explain, refuse, ask for co
 
 MANDATORY bullet style: never write Illustrative responsibility, Suggested, Example, or similar labels in front of a bullet. Write every experience bullet in past tense. Do not start a bullet with Examined, Considered, Evaluated, or Applied.
 
-MANDATORY skills richness: the skills section must contain every original profile skill and every required JD skill plus related tech stacks, so it is rich with frameworks, libraries, databases, cloud, DevOps, and testing tools. Every technology named in experience must also appear in skills. When the JD requires Convex, write separate bullets for schemas, queries, mutations, actions, background jobs, validation, and access control.
-
-MANDATORY skill uniqueness: never list the same product twice under different labels. Convex and Convex Database are one skill: Convex. Do the same for every tool.
+MANDATORY skills richness: the skills section must contain every original profile skill and every required JD skill plus related tech stacks, so it is rich with frameworks, libraries, databases, cloud, DevOps, and testing tools. Every technology named in experience must also appear in skills. No duplicate skill names and no duplicate category names. When the JD requires Convex, write separate experience bullets for schemas, queries, mutations, actions, background jobs, validation, and access control, while listing Convex once under Databases in skills.
 
 Every details array must meet its bullet count and must not be empty.
 
@@ -275,11 +287,19 @@ Use 8-12 of the allowed categories when the JD supports that breadth. One key pe
 
 Each category array holds concrete tool and product names, about 8-15 names when that layer is central. Do not put responsibilities, soft skills, or process phrases in skills. Examples of items that do not belong as skills: Full-Stack Development, Form Handling, Error Handling, Technical Documentation, Business Requirements, MVP Development, Website Development.
 
-Cover every required and preferred hard skill from the job description first, filed under the matching allowed stack row. Then add the parent language and credible adjacent tools for that stack. JavaScript or Node.js also brings TypeScript, Nest.js, Express.js, OpenAPI, Redis, Kafka, Docker, Jest, and Terraform. Python also brings FastAPI, Django, Flask, Pandas, and NumPy. Java also brings Spring Boot. React.js also brings Next.js and TypeScript. Convex belongs under Databases as the single skill name Convex, not as Convex Schemas, Convex Queries, Convex Mutations, or Convex Actions.
+MANDATORY JD skills coverage: put every required and preferred hard skill from the job description into skills under the matching allowed stack row. Then add the related skills for that stack. Leaving out a required JD skill is a failed response.
+
+Related-skills examples (use the same approach for every JD stack):
+- JavaScript or Node.js also brings TypeScript, Nest.js, Express.js, OpenAPI, Redis, Kafka, Docker, Jest, and Terraform
+- Python also brings FastAPI, Django, Flask, Pandas, and NumPy
+- Java also brings Spring Boot
+- React.js also brings Next.js, TypeScript, and JavaScript
+- Convex belongs under Databases as the single skill name Convex, not as Convex Schemas, Convex Queries, Convex Mutations, or Convex Actions
+- Tailwind CSS and shadcn/ui belong under Frontend engineering when the JD names them
 
 If the job description requires a framework or a discipline and does not name the language, still add that language under Languages. Nest.js, Next.js, or Angular add TypeScript and JavaScript. Rails adds Ruby.
 
-MANDATORY skill uniqueness: each tool appears once in the whole skills object. Never duplicate a skill across two categories. Never list Convex and Convex Database, or Convex Schemas and Convex, as separate skills.
+MANDATORY no duplicates: each tool appears exactly once in the whole skills object. Never repeat a skill across two categories. Never invent two category keys for the same layer. Never list Convex and Convex Database, or Convex Schemas and Convex, as separate skills. Never output Skills and Technical Skills, or Testing and Testing and Quality Engineering, as two keys.
 
 MANDATORY naming format: one spelling per tool everywhere. If you write Next.js, write React.js not React. NestJS is Nest.js. Express is Express.js. Vue is Vue.js. Keep that .js style consistent across skills and experience.
 
