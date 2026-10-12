@@ -87,6 +87,18 @@ export default async function handler(req, res) {
           ]
         }
       ],
+      certifications: [
+        {
+          name: "AWS Certified Solutions Architect – Associate",
+          issuer: "Amazon Web Services",
+          date: "2023",
+        },
+        {
+          name: "Certified Kubernetes Application Developer (CKAD)",
+          issuer: "The Linux Foundation",
+          date: "2022",
+        },
+      ],
       education: [
         {
           degree: "Bachelor of Science in Computer Science",

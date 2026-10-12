@@ -15,18 +15,21 @@ import {
   computeResumeBaseFileName,
 } from "@/lib/resume/resume-to-docx";
 import {
-  formatPermanentContextForPrompt,
   finalizeExportedResumeSummaryAndSkills,
   mergeExperienceDetails,
-  profileHasPermanentContent,
+  normalizeAiResumeContent,
+  normalizeCertifications,
 } from "@/lib/resume/merge-resume-base";
+import { orderAllExperienceBulletsJdFirst } from "@/lib/resume/jd-experience-keywords";
 import {
-  formatJdExperienceKeywordsBlock,
-  formatJdCredibilityGuardBlock,
-  injectJdKeywordsIntoFirstRoleDetails,
-  orderAllExperienceBulletsJdFirst,
-} from "@/lib/resume/jd-experience-keywords";
+  prepareExperienceForExport,
+  skillEvidenceText,
+  stripDraftWording,
+  toAsciiPunctuation,
+} from "@/lib/resume/resume-sanitize";
+import { buildResumePromptVariables } from "@/lib/resume/build-prompt-variables";
 import { splitLongestDetailInFirstRoleForPageFlow } from "@/lib/resume/page-flow-experience";
+import { repairJsonText } from "@/lib/resume/parse-ai-json";
 import { RESUMES_DIR } from "@/config/project-paths";
 
 export default async function handler(req, res) {
@@ -40,7 +43,10 @@ export default async function handler(req, res) {
       provider: requestedProvider = null,
       model = null,
       companyName = null,
+      targetRole = null,
       format = "pdf",
+      stage = "file",
+      approvedResume = null,
     } = req.body;
 
     // Fall back to whichever provider is actually configured (prefers an API
@@ -49,7 +55,7 @@ export default async function handler(req, res) {
     const provider = requestedProvider || resolveDefaultProvider();
 
     if (!profileSlug) return res.status(400).send("Profile slug required");
-    if (!jd) return res.status(400).send("Job description required");
+    if (!jd && stage !== "export") return res.status(400).send("Job description required");
 
     // Get profile configuration from slug
     const profileConfig = getProfileBySlug(profileSlug);
@@ -99,75 +105,24 @@ export default async function handler(req, res) {
     if (!Array.isArray(profileData.experience)) profileData.experience = [];
     if (!Array.isArray(profileData.education)) profileData.education = [];
 
-    // Calculate years of experience
-    const calculateYears = (experience) => {
-      if (!experience || experience.length === 0) return 0;
+    if (stage === "export") {
+      const approved = approvedResume && typeof approvedResume === "object" ? approvedResume : null;
+      if (!approved || !Array.isArray(approved.experience)) {
+        return res.status(400).send("Approved resume content is required before export.");
+      }
+      const templateData = templateDataFromProfile(profileData, approved);
+      return deliverResume(res, { templateData, templateName, resumeName, companyName, format });
+    }
 
-      const parseDate = (dateStr) => {
-        if (dateStr.toLowerCase() === "present") return new Date();
-        return new Date(dateStr);
-      };
+    const prompt = loadPromptForProfile(
+      profileSlug,
+      buildResumePromptVariables(profileData, { jd, targetRole, companyName })
+    );
+    console.log(
+      `Resume prompt ready: ${prompt.length} chars, about ${Math.round(prompt.length / 4)} tokens`
+    );
 
-      const earliest = experience.reduce((min, job) => {
-        const date = parseDate(job.start_date);
-        return date < min ? date : min;
-      }, new Date());
-
-      const years = (new Date() - earliest) / (1000 * 60 * 60 * 24 * 365);
-      return Math.round(years);
-    };
-
-    const yearsOfExperience = calculateYears(profileData.experience);
-
-    // Prepare variables for prompt template
-    const workHistory = profileData.experience
-      .map((job, idx) => {
-        const parts = [`${idx + 1}. ${job.company}`];
-        if (job.title) parts.push(job.title);
-        if (job.location) parts.push(job.location);
-        parts.push(`${job.start_date} - ${job.end_date}`);
-        return parts.join(" | ");
-      })
-      .join("\n");
-
-    const education = profileData.education
-      .map((edu) => {
-        let eduStr = `- ${edu.degree}, ${edu.school} (${edu.start_year}-${edu.end_year})`;
-        if (edu.grade) eduStr += ` | GPA: ${edu.grade}`;
-        return eduStr;
-      })
-      .join("\n");
-
-    const hasPermanent = profileHasPermanentContent(profileData);
-    const permanentResumeContext =
-      formatPermanentContextForPrompt(profileData);
-    const jdExperienceKeywords = formatJdExperienceKeywordsBlock(jd, {
-      max: 45,
-      profileData,
-    });
-    const jdCredibilityGuard = formatJdCredibilityGuardBlock(jd, profileData);
-    const experienceBulletGuidance = hasPermanent
-      ? "Follow **all seven rules** + **2b**, **4b**, **5a** in the prompt header. (**1**) Every **`base_bullets`** fact in **`details`**. (**2**) Count flexible; (**2b**) merge **≥2** bases → **≥35 words**. (**3**) Flagship lines **≥40** words typical (**exp[0]**/**[1]**); expand thin lines. (**4**) **`experience[0]`** **≥8** lines, **`experience[1]`** **≥6** lines in **`details`** (split/expand—**no** invented metrics). (**4b**) JD-first order. (**5/5a**) Metrics/tenure digits **never** in **`summary`**/**`skills`**; hard numbers only in **`details`** per rule **5**. (**6**) **Skills** **55–75** items, **title-complete**. (**7**) **2–3** pages; **`summary`** **3–6** lines only (export uses **model summary**—no pasted profile prose). **Impact Highlights** → **`experience[0]`/`[1]`**. **`base_skills` never removed.**"
-      : "Follow **all seven rules** + **2b**, **4b**, **5a**. **`details`**: long, JD-first; flagship **≥40** words/line when credible; merged **≥35 words**. **Recent two roles:** **≥8** / **≥6** lines when credible. **Skills** **55–75** items, **title-complete**. **No** tenure digits or `%`/`$` in **`summary`**/**`skills`**. **2–3** pages; **`summary`** **3–6** lines. **JD → experience** when **profile-supported**—**never** claim **unsupported must-haves**.";
-
-    // Load prompt template for this profile (using slug)
-    const prompt = loadPromptForProfile(profileSlug, {
-      name: profileData.name,
-      email: profileData.email,
-      location: profileData.location,
-      yearsOfExperience: yearsOfExperience,
-      workHistory: workHistory,
-      education: education,
-      jobDescription: jd,
-      experienceCount: profileData.experience.length,
-      resumeTitle: profileData.title || "Senior Software Engineer",
-      permanentResumeContext,
-      experienceBulletGuidance,
-      jdExperienceKeywords,
-      jdCredibilityGuard,
-    });
-
-    const aiResponse = await callAI(prompt, provider, model);
+    const aiResponse = await callAI(prompt, provider, model, 16000, 2, 180000);
 
     // Log token usage to debug if we're hitting limits
     console.log(`${provider.toUpperCase()} API Response Metadata:`);
@@ -191,16 +146,10 @@ export default async function handler(req, res) {
 
       // Retry: trim skills footprint only—never lower experience bullet counts or word minimums
       const concisePrompt =
-        prompt
-          .replace(/TOTAL: 60-80 skills maximum/g, "TOTAL: 50-60 skills maximum")
-          .replace(/Per category: 8-12 skills/g, "Per category: 6-10 skills")
-          .replace(/55–75 total skills/g, "50-62 total skills")
-          .replace(/55-75 total skills/g, "50-62 total skills")
-          .replace(/60–75 total skills/g, "50-62 total skills")
-          .replace(/60-75 total skills/g, "50-62 total skills") +
-        "\n\n**Retry (token limit):** Keep **all seven** header rules + **5a**: **preserve** every **`base_bullets`** fact (merge ok); flagship **`experience[0]`**/**`[1]`** substantive (**≥8**/**≥6** lines, **≥40** words/line typical); **no** new `%`/`$` unless allowed by rule **5**; **no** metrics or tenure digits in **`summary`**/**`skills`**; **`summary`** **3–6** lines; **skills** **55–75** items; **2–3** pages—trim redundant skills if needed. **Never** drop `base_skills`.";
+        prompt +
+        "\n\nRetry after a truncated reply. Return one complete JSON object and nothing else. Keep every original bullet fact. Include every job-description technology. Close every array and object.";
 
-      const retryResponse = await callAI(concisePrompt, provider, model);
+      const retryResponse = await callAI(concisePrompt, provider, model, 16000, 1, 180000);
       console.log("Retry Response Metadata:");
       console.log("- Stop reason:", retryResponse.stop_reason);
       console.log("- Output tokens:", retryResponse.usage?.output_tokens);
@@ -283,16 +232,9 @@ export default async function handler(req, res) {
         content.substring(Math.max(0, content.length - 500))
       );
 
-      // Try to fix common JSON issues
+      // Try to repair common JSON issues (inner quotes, newlines, commas)
       try {
-        // Remove trailing commas
-        let fixedContent = content.replace(/,(\s*[}\]])/g, "$1");
-        // Fix unescaped quotes in strings (basic attempt)
-        fixedContent = fixedContent.replace(
-          /([^\\])"([^",:}\]]*)":/g,
-          '$1\\"$2":'
-        );
-        resumeContent = JSON.parse(fixedContent);
+        resumeContent = JSON.parse(repairJsonText(content));
         console.log("✅ Successfully parsed after fixing common issues");
       } catch (secondError) {
         console.error("Failed to parse even after fixes");
@@ -302,10 +244,19 @@ export default async function handler(req, res) {
       }
     }
 
+    resumeContent = normalizeAiResumeContent(resumeContent, {
+      fallbackTitle: profileData.title || "Senior Software Engineer",
+    });
+
     // Validate required fields
+    const hasSummary =
+      (Array.isArray(resumeContent.summary) &&
+        resumeContent.summary.length > 0) ||
+      (typeof resumeContent.summary === "string" &&
+        resumeContent.summary.trim().length > 0);
     if (
       !resumeContent.title ||
-      !resumeContent.summary ||
+      !hasSummary ||
       !resumeContent.skills ||
       !resumeContent.experience
     ) {
@@ -345,39 +296,59 @@ export default async function handler(req, res) {
 
     console.log(`Using template: ${templateName}`);
 
-    let mergedDetails = mergeExperienceDetails(
-      profileData.experience,
-      resumeContent.experience
-    );
-    if (mergedDetails.length > 0) {
-      mergedDetails = [
-        injectJdKeywordsIntoFirstRoleDetails(
-          mergedDetails[0],
-          jd,
-          profileData
-        ),
-        ...mergedDetails.slice(1),
-      ];
-    }
-    mergedDetails = orderAllExperienceBulletsJdFirst(mergedDetails, jd);
-    mergedDetails = splitLongestDetailInFirstRoleForPageFlow(mergedDetails);
+    const evidenceText = [
+      skillEvidenceText(profileData),
+      ...profileData.experience.flatMap((job) => job.base_bullets || job.base_details || []),
+    ].join(" ");
     const { summary: exportSummary, skills: exportSkills } =
       finalizeExportedResumeSummaryAndSkills(
         profileData.base_skills,
         resumeContent.summary,
-        resumeContent.skills
+        resumeContent.skills,
+        jd,
+        evidenceText
       );
+    const allowedTech = [evidenceText, ...Object.values(exportSkills).flat()].join(" ");
+    let mergedDetails = prepareExperienceForExport(
+      profileData.experience,
+      mergeExperienceDetails(profileData.experience, resumeContent.experience),
+      allowedTech,
+      ""
+    );
+    const emptyRoles = mergedDetails
+      .map((row, idx) => ({ row, idx }))
+      .filter(({ row }) => !Array.isArray(row) || row.length === 0);
+    if (emptyRoles.length > 0) {
+      const gaps = emptyRoles.map(({ idx }) => {
+        const job = profileData.experience[idx] || {};
+        const label = [job.company, job.title].filter(Boolean).join(" | ") || `Role ${idx + 1}`;
+        return `${label}: the generated experience section is empty.`;
+      });
+      console.warn("INCOMPLETE_INFORMATION\n" + gaps.join("\n"));
+      return res.status(422).json({
+        status: "INCOMPLETE_INFORMATION",
+        message:
+          "The model returned empty experience for one or more roles, so this was not exported as a completed resume.",
+        gaps,
+      });
+    }
+    mergedDetails = orderAllExperienceBulletsJdFirst(mergedDetails, jd);
+    mergedDetails = splitLongestDetailInFirstRoleForPageFlow(mergedDetails);
 
     // Prepare data for template
     const templateData = {
       name: profileData.name,
-      title: profileData.title,
+      title: stripDraftWording(
+        (typeof resumeContent.title === "string" && resumeContent.title.trim()) ||
+          profileData.title ||
+          ""
+      ),
       email: profileData.email,
       phone: profileData.phone, // Excluded from resume
       location: profileData.location,
       linkedin: profileData.linkedin, // Excluded from resume
       website: null, // Excluded from resume (may contain GitHub)
-      summary: exportSummary,
+      summary: toAsciiPunctuation(exportSummary),
       skills: exportSkills,
       experience: profileData.experience.map((job, idx) => ({
         title: job.title || resumeContent.experience[idx]?.title || "Engineer",
@@ -387,59 +358,70 @@ export default async function handler(req, res) {
         end_date: job.end_date,
         details: mergedDetails[idx] || [],
       })),
+      certifications: normalizeCertifications(
+        profileData.certifications,
+        resumeContent.certifications
+      ),
       education: profileData.education,
     };
 
-    const baseName = computeResumeBaseFileName(resumeName, companyName);
-    const outFormat =
-      format === "docx" || format === "word" ? "docx" : "pdf";
-
-    if (outFormat === "docx") {
-      const docxBuffer = await buildResumeDocxBuffer(templateData);
-      const fileName = `${baseName}.docx`;
-      res.setHeader(
-        "Content-Type",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      );
-      res.setHeader(
-        "Content-Disposition",
-        `attachment; filename="${fileName}"`
-      );
-      res.end(docxBuffer);
-      console.log("Word document generated successfully!");
-      return;
-    }
-
-    // Get React PDF template component
-    const TemplateComponent = getTemplate(templateName);
-
-    if (!TemplateComponent) {
-      console.error(`Template not found: ${templateName}`);
-      return res.status(404).send(`Template "${templateName}" not found`);
-    }
-
-    // Render PDF with React PDF
-    const pdfDocument = React.createElement(TemplateComponent, {
-      data: templateData,
-    });
-    const pdfStream = await renderToStream(pdfDocument);
-
-    // Convert stream to buffer
-    const chunks = [];
-    for await (const chunk of pdfStream) {
-      chunks.push(chunk);
-    }
-    const pdfBuffer = Buffer.concat(chunks);
-
-    console.log("PDF generated successfully!");
-
-    const fileName = `${baseName}.pdf`;
-
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
-    res.end(pdfBuffer);
+    return deliverResume(res, { templateData, templateName, resumeName, companyName, format });
   } catch (err) {
-    console.error("PDF generation error:", err);
+    console.error("PDF generation error:", {
+      message: err.message,
+      status: err.status || err.statusCode || null,
+    });
     res.status(500).send("PDF generation failed: " + err.message);
   }
+}
+
+function templateDataFromProfile(profileData, approved) {
+  const experience = Array.isArray(approved.experience) ? approved.experience : [];
+  return {
+    name: profileData.name,
+    title:
+      (typeof approved.title === "string" && approved.title.trim()) || profileData.title,
+    email: profileData.email,
+    phone: profileData.phone,
+    location: profileData.location,
+    linkedin: profileData.linkedin,
+    website: null,
+    summary: toAsciiPunctuation(approved.summary || ""),
+    skills: approved.skills && typeof approved.skills === "object" ? approved.skills : {},
+    experience: profileData.experience.map((job, idx) => ({
+      title: job.title || experience[idx]?.title || "Engineer",
+      company: job.company,
+      location: job.location,
+      start_date: job.start_date,
+      end_date: job.end_date,
+      details: Array.isArray(experience[idx]?.details) ? experience[idx].details : [],
+    })),
+    certifications: normalizeCertifications(profileData.certifications, approved.certifications),
+    education: profileData.education,
+  };
+}
+
+async function deliverResume(res, { templateData, templateName, resumeName, companyName, format }) {
+  const baseName = computeResumeBaseFileName(resumeName, companyName);
+  const outFormat = format === "docx" || format === "word" ? "docx" : "pdf";
+  if (outFormat === "docx") {
+    const docxBuffer = await buildResumeDocxBuffer(templateData);
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    );
+    res.setHeader("Content-Disposition", `attachment; filename="${baseName}.docx"`);
+    res.end(docxBuffer);
+    return;
+  }
+  const TemplateComponent = getTemplate(templateName);
+  if (!TemplateComponent) {
+    return res.status(404).send(`Template "${templateName}" not found`);
+  }
+  const pdfStream = await renderToStream(React.createElement(TemplateComponent, { data: templateData }));
+  const chunks = [];
+  for await (const chunk of pdfStream) chunks.push(chunk);
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", `attachment; filename="${baseName}.pdf"`);
+  res.end(Buffer.concat(chunks));
 }

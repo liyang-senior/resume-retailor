@@ -161,7 +161,12 @@ export default function ManualProfilePage() {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ profile: profileSlug, jd }),
+        body: JSON.stringify({
+          profile: profileSlug,
+          jd,
+          targetRole: targetRole.trim() || null,
+          companyName: companyName.trim() || null,
+        }),
       });
 
       if (!response.ok) {
@@ -219,9 +224,21 @@ export default function ManualProfilePage() {
 
       if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(errorText || "Download failed");
+        let message = errorText || "Download failed";
+        try {
+          const body = JSON.parse(errorText);
+          if (body.status === "INCOMPLETE_INFORMATION") {
+            message = [body.message, ...(body.gaps || [])].filter(Boolean).join("\n");
+          } else if (body.message) {
+            message = body.message;
+          }
+        } catch {
+          /* plain-text error */
+        }
+        throw new Error(message);
       }
 
+      const qualityGaps = response.headers.get("X-Resume-Quality-Gaps");
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -245,6 +262,12 @@ export default function ManualProfilePage() {
       setLastGenerationTime(
         Math.floor((Date.now() - startTimeRef.current) / 1000)
       );
+      if (qualityGaps) {
+        alert(
+          "Resume downloaded. Some roles still need original details before the bullet targets can be met:\n\n" +
+            decodeURIComponent(qualityGaps)
+        );
+      }
     } catch (error) {
       console.error("Generation error:", error);
       alert(

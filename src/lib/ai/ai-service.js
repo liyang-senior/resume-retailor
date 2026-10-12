@@ -35,14 +35,21 @@ export function resolveDefaultProvider() {
   return "openai";
 }
 
+function outputTokenCap(model) {
+  const id = String(model || "");
+  if (/^gpt-3\.5/.test(id)) return 4096;
+  if (id === "gpt-4") return 8192;
+  return 16000;
+}
+
 // Call AI with timeout & retries (provider-agnostic)
 export async function callAI(
   promptOrMessages,
   provider = "openai",
   model = null,
-  maxTokens = 8000,
+  maxTokens = 16000,
   retries = 2,
-  timeoutMs = 120000
+  timeoutMs = 180000
 ) {
   // Validate provider
   if (!AVAILABLE_MODELS[provider]) {
@@ -62,6 +69,8 @@ export async function callAI(
   if (!model) {
     model = getDefaultModel(provider);
   }
+
+  maxTokens = Math.min(maxTokens, outputTokenCap(model));
 
   // Route to appropriate provider
   switch (provider) {
@@ -141,6 +150,7 @@ async function callOpenAI(promptOrMessages, model, maxTokens, retries, timeoutMs
     throw new Error("OpenAI API key not configured");
   }
 
+  let allowReasoning = true;
   while (retries > 0) {
     try {
       let messages;
@@ -165,11 +175,17 @@ async function callOpenAI(promptOrMessages, model, maxTokens, retries, timeoutMs
         messages = [{ role: "system", content: systemPrompt }, ...messages];
       }
 
+      const resolvedModel = model || process.env.OPENAI_MODEL || "gpt-5-mini";
       const apiParams = {
-        model: model || process.env.OPENAI_MODEL || "gpt-5-mini",
+        model: resolvedModel,
         max_completion_tokens: maxTokens,
         messages: messages
       };
+      // Reasoning models spend completion tokens on hidden reasoning. Keep that
+      // budget small so the resume JSON is actually returned.
+      if (allowReasoning && /^gpt-5/.test(resolvedModel)) {
+        apiParams.reasoning_effort = "low";
+      }
 
       const response = await Promise.race([
         openai.chat.completions.create(apiParams),
@@ -187,7 +203,18 @@ async function callOpenAI(promptOrMessages, model, maxTokens, retries, timeoutMs
           .join("");
       }
       if (textOut == null || (typeof textOut === "string" && !textOut.trim())) {
-        throw new Error("OpenAI returned no usable message content");
+        const usage = response.usage || {};
+        console.error("OpenAI empty message", {
+          status: 200,
+          model: response.model,
+          finish_reason: choice0?.finish_reason,
+          prompt_tokens: usage.prompt_tokens,
+          completion_tokens: usage.completion_tokens,
+          reasoning_tokens: usage.completion_tokens_details?.reasoning_tokens,
+        });
+        throw new Error(
+          `OpenAI returned no text (finish_reason=${choice0?.finish_reason || "unknown"}, completion_tokens=${usage.completion_tokens ?? "unknown"}). The token budget was likely used before any resume JSON was written.`
+        );
       }
       const finish = choice0?.finish_reason ?? "stop";
 
@@ -204,6 +231,12 @@ async function callOpenAI(promptOrMessages, model, maxTokens, retries, timeoutMs
       };
     } catch (err) {
       retries--;
+      if (/reasoning_effort/i.test(String(err.message || ""))) allowReasoning = false;
+      console.error("OpenAI request failed", {
+        status: err.status || err.statusCode || null,
+        message: err.message,
+        attemptsLeft: retries,
+      });
       if (retries === 0) throw err;
       console.log(`Retrying OpenAI... (${retries} attempts left)`);
     }

@@ -14,12 +14,18 @@ import {
 import {
   finalizeExportedResumeSummaryAndSkills,
   mergeExperienceDetails,
+  normalizeAiResumeContent,
+  normalizeCertifications,
 } from "@/lib/resume/merge-resume-base";
+import { orderAllExperienceBulletsJdFirst } from "@/lib/resume/jd-experience-keywords";
 import {
-  injectJdKeywordsIntoFirstRoleDetails,
-  orderAllExperienceBulletsJdFirst,
-} from "@/lib/resume/jd-experience-keywords";
+  prepareExperienceForExport,
+  skillEvidenceText,
+  stripDraftWording,
+  toAsciiPunctuation,
+} from "@/lib/resume/resume-sanitize";
 import { splitLongestDetailInFirstRoleForPageFlow } from "@/lib/resume/page-flow-experience";
+import { parseAiJson } from "@/lib/resume/parse-ai-json";
 import { RESUMES_DIR } from "@/config/project-paths";
 
 /**
@@ -71,53 +77,22 @@ export default async function handler(req, res) {
     if (!Array.isArray(profileData.experience)) profileData.experience = [];
     if (!Array.isArray(profileData.education)) profileData.education = [];
 
-    // Clean and extract JSON from pasted ChatGPT response
-    let content = rawResponse.trim();
+    // Parse pasted ChatGPT response (strips fences, repairs common JSON breakage)
+    let resumeContent = parseAiJson(rawResponse);
 
-    // Remove markdown code blocks
-    content = content.replace(/```json\s*/gi, "");
-    content = content.replace(/```javascript\s*/gi, "");
-    content = content.replace(/```\s*/g, "");
+    resumeContent = normalizeAiResumeContent(resumeContent, {
+      fallbackTitle: profileData.title || "Senior Software Engineer",
+    });
 
-    // Remove common prefixes
-    content = content.replace(
-      /^(here is|here's|this is|the json is):?\s*/gi,
-      ""
-    );
-
-    // Extract content between first { and last }
-    const firstBrace = content.indexOf("{");
-    const lastBrace = content.lastIndexOf("}");
-
-    if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-      content = content.substring(firstBrace, lastBrace + 1);
-    } else {
-      throw new Error(
-        "No JSON object found. Please paste the full JSON from ChatGPT."
-      );
-    }
-
-    content = content.trim();
-
-    // Parse JSON
-    let resumeContent;
-    try {
-      resumeContent = JSON.parse(content);
-    } catch (parseError) {
-      try {
-        const fixedContent = content.replace(/,(\s*[}\]])/g, "$1");
-        resumeContent = JSON.parse(fixedContent);
-      } catch (secondError) {
-        throw new Error(
-          `Invalid JSON: ${parseError.message}. Check the pasted response.`
-        );
-      }
-    }
-
-    // Validate required fields
+    // Validate required fields (summary may be string[] or string)
+    const hasSummary =
+      (Array.isArray(resumeContent.summary) &&
+        resumeContent.summary.length > 0) ||
+      (typeof resumeContent.summary === "string" &&
+        resumeContent.summary.trim().length > 0);
     if (
       !resumeContent.title ||
-      !resumeContent.summary ||
+      !hasSummary ||
       !resumeContent.skills ||
       !resumeContent.experience
     ) {
@@ -132,38 +107,58 @@ export default async function handler(req, res) {
       throw new Error("Invalid JSON: experience must be an array");
     }
 
-    let mergedDetails = mergeExperienceDetails(
-      profileData.experience,
-      resumeContent.experience
-    );
-    if (jd && mergedDetails.length > 0) {
-      mergedDetails = [
-        injectJdKeywordsIntoFirstRoleDetails(
-          mergedDetails[0],
-          jd,
-          profileData
-        ),
-        ...mergedDetails.slice(1),
-      ];
-    }
-    mergedDetails = orderAllExperienceBulletsJdFirst(mergedDetails, jd);
-    mergedDetails = splitLongestDetailInFirstRoleForPageFlow(mergedDetails);
+    const evidenceText = [
+      skillEvidenceText(profileData),
+      ...profileData.experience.flatMap((job) => job.base_bullets || job.base_details || []),
+    ].join(" ");
     const { summary: exportSummary, skills: exportSkills } =
       finalizeExportedResumeSummaryAndSkills(
         profileData.base_skills,
         resumeContent.summary,
-        resumeContent.skills
+        resumeContent.skills,
+        jd,
+        evidenceText
       );
+    const allowedTech = [evidenceText, ...Object.values(exportSkills).flat()].join(" ");
+    let mergedDetails = prepareExperienceForExport(
+      profileData.experience,
+      mergeExperienceDetails(profileData.experience, resumeContent.experience),
+      allowedTech,
+      ""
+    );
+    const emptyRoles = mergedDetails
+      .map((row, idx) => ({ row, idx }))
+      .filter(({ row }) => !Array.isArray(row) || row.length === 0);
+    if (emptyRoles.length > 0) {
+      const gaps = emptyRoles.map(({ idx }) => {
+        const job = profileData.experience[idx] || {};
+        const label = [job.company, job.title].filter(Boolean).join(" | ") || `Role ${idx + 1}`;
+        return `${label}: the generated experience section is empty.`;
+      });
+      console.warn("INCOMPLETE_INFORMATION\n" + gaps.join("\n"));
+      return res.status(422).json({
+        status: "INCOMPLETE_INFORMATION",
+        message:
+          "The model returned empty experience for one or more roles, so this was not exported as a completed resume.",
+        gaps,
+      });
+    }
+    mergedDetails = orderAllExperienceBulletsJdFirst(mergedDetails, jd);
+    mergedDetails = splitLongestDetailInFirstRoleForPageFlow(mergedDetails);
 
     const templateData = {
       name: profileData.name,
-      title: profileData.title,
+      title: stripDraftWording(
+        (typeof resumeContent.title === "string" && resumeContent.title.trim()) ||
+          profileData.title ||
+          ""
+      ),
       email: profileData.email,
       phone: profileData.phone,
       location: profileData.location,
       linkedin: profileData.linkedin,
       website: profileData.website,
-      summary: exportSummary,
+      summary: toAsciiPunctuation(exportSummary),
       skills: exportSkills,
       experience: profileData.experience.map((job, idx) => ({
         title: job.title || resumeContent.experience[idx]?.title || "Engineer",
@@ -173,6 +168,10 @@ export default async function handler(req, res) {
         end_date: job.end_date,
         details: mergedDetails[idx] || [],
       })),
+      certifications: normalizeCertifications(
+        profileData.certifications,
+        resumeContent.certifications
+      ),
       education: profileData.education,
     };
 

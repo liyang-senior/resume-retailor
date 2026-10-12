@@ -16,6 +16,7 @@ export const CLASSIC_PDF_RESUME_CONFIG = {
     summary: "SUMMARY",
     skills: "SKILLS",
     experience: "PROFESSIONAL EXPERIENCE",
+    certifications: "CERTIFICATIONS",
     education: "EDUCATION",
   },
   headerLayout: "center",

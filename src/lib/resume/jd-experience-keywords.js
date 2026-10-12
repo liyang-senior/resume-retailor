@@ -1,7 +1,8 @@
 /**
- * Detect concrete phrases from a job description and (1) surface them in the AI prompt
- * and (2) optionally append a bullet so keywords land in experience even when the model drifts.
+ * Detect concrete phrases from a job description for prompt checklists.
+ * Experience text is not padded with these phrases.
  */
+import { cleanBulletText, containsForbiddenPhrase } from "./resume-sanitize.js";
 
 const RAW_PHRASES = `
 Amazon Web Services
@@ -315,6 +316,25 @@ On-call Support
 Incident Management
 Vendor Management
 Partner Integration
+Client-Side Development
+Server-Side Development
+Client-Side Components
+Server-Side Components
+Cloud Computing
+Cloud Platforms
+Scalable Applications
+Version Control
+Agile Methodologies
+Iterative Delivery
+Technical Documentation
+System Configuration
+Knowledge Sharing
+Mentoring
+Junior Developer Support
+Subject Matter Expert
+End-to-End Development
+Backend Development
+Frontend Development
 `.trim();
 
 function uniqLongestFirst(phrases) {
@@ -422,36 +442,223 @@ export function extractJdKeywords(jd, opts = {}) {
   return out;
 }
 
+/* ------------------------------------------------------------------ *
+ * JD requirement terms: the full checklist that MUST land in Skills and
+ * in the most recent roles' experience bullets.
+ * ------------------------------------------------------------------ */
+
+const GENERIC_TERM_WORDS =
+  /\b(frameworks?|development|developer|skills?|experience|tools?|technologies|technology|platforms?|applications?|proficiency|knowledge)\b/gi;
+
+function normTerm(s) {
+  return String(s ?? "")
+    .toLowerCase()
+    .replace(/[^a-z0-9+#.]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/** "Microsoft Front End Development (FED)" → "microsoft front end" */
+function coreTerm(s) {
+  return normTerm(
+    String(s ?? "")
+      .replace(/\([^)]*\)/g, " ")
+      .replace(GENERIC_TERM_WORDS, " ")
+  );
+}
+
+/** True if normalized haystack contains the term (or its core) on word boundaries. */
+function haystackHasTerm(haystackNorm, term) {
+  const hay = ` ${haystackNorm} `;
+  const full = normTerm(term);
+  const core = coreTerm(term);
+  if (full && hay.includes(` ${full} `)) return true;
+  return core.length >= 2 && hay.includes(` ${core} `);
+}
+
+const TECH_STOP =
+  /^(services?|platforms?|systems?|applications?|components?|tools?|technologies|team(?:\s+members)?|effectively|both|and|the|with|for|in|of|to|a|an|our|your|this|that|these|those|using|via)$/i;
+
+function looksLikeTechTerm(s) {
+  const t = String(s ?? "").trim();
+  if (!t || TECH_STOP.test(t)) return false;
+  if (/^[A-Z]{2,12}$/.test(t)) return true; // FED, AWS, SQL
+  if (/\([^)]*[A-Z]{2,}/.test(t)) return true;
+  if (
+    /\b(framework|language|python|java|react|angular|vue|node|typescript|javascript|cloud|aws|azure|gcp|docker|kubernetes|agile|sql|api|git|frontend|front[-\s]?end|backend|server[-\s]?side|client[-\s]?side|multiplatform|cross[-\s]?platform|version control|fed|devops|ci\/?cd|microservices?|graphql|rest|kafka|redis|postgres|mysql|mongodb|terraform|linux)\b/i.test(
+      t
+    )
+  )
+    return true;
+  // Multi-word Proper-ish phrases (e.g. "Python Frameworks")
+  if (t.split(/\s+/).length >= 2 && /[A-Z]/.test(t)) return true;
+  return false;
+}
+
 /**
- * Markdown block injected after the JD in the resume prompt.
+ * Pull tech / stack tokens from JD skill-list lines and "experience with X" clauses
+ * (beyond the fixed phrase dictionary).
+ */
+export function extractJdTechListPhrases(jd) {
+  if (!jd || typeof jd !== "string") return [];
+  const out = [];
+  const seen = new Set();
+  const add = (raw) => {
+    let s = String(raw ?? "")
+      .replace(/\*\*/g, "")
+      .replace(/^[\s\-•*]+/, "")
+      .replace(
+        /^(?:strong\s+)?(?:experience|proficiency|familiarity|understanding|knowledge)\s+(?:in|with|of)\s+/i,
+        ""
+      )
+      .replace(
+        /\s+to\s+(?:manage|deploy|create|adapt|deliver|collaborate|identify|ensure|support|foster|become)[\s\S]*$/i,
+        ""
+      )
+      .replace(/^(?:developing|building|writing|using|working)\s+(?:both\s+)?/i, "")
+      .trim()
+      .replace(/[.;]+$/, "");
+    if (s.length < 2 || s.length > 55) return;
+    if (s.split(/\s+/).length > 6) return;
+    if (/^(na|n\/a|none|nil|tbd)$/i.test(s)) return;
+    if (
+      /\b(education|degree|office|based|located|salary|visa|candidate|years?|yrs?)\b/i.test(
+        s
+      )
+    )
+      return;
+    if (!looksLikeTechTerm(s)) return;
+    const k = normTerm(s);
+    if (!k || seen.has(k)) return;
+    seen.add(k);
+    out.push(s);
+  };
+
+  const listLine =
+    /(?:must\s*(?:to\s*)?have(?:\s+skills?)?|good\s*to\s*have(?:\s+skills?)?|required(?:\s+skills?)?|preferred(?:\s+skills?)?|tech(?:nical)?\s*skills?|technologies|technology\s*stack|tech\s*stack|skills?)\s*[:\-]\s*([^\n]+)/gi;
+  let m;
+  while ((m = listLine.exec(jd)) !== null) {
+    for (const part of splitRequirementClause(m[1])) add(part);
+  }
+
+  // Prefer compact tech objects after "experience with/in" (stop at purpose "to …")
+  const withClause =
+    /\b(?:experience|proficiency|familiarity|understanding|knowledge)\s+(?:in|with|of)\s+([A-Za-z0-9][^\n.;]{1,60}?)(?=\s+to\s+|\s+and\s+collaborate|\s*$|[.;])/gi;
+  while ((m = withClause.exec(jd)) !== null) {
+    for (const part of splitRequirementClause(m[1])) add(part);
+  }
+
+  // Keep full phrase + acronym: "Front End Development (FED)"
+  const paren =
+    /([A-Za-z][A-Za-z0-9+.#/\- ]{2,48}?)\s*\(([A-Z][A-Z0-9+.#\-]{1,12})\)/g;
+  while ((m = paren.exec(jd)) !== null) {
+    add(`${m[1].trim()} (${m[2]})`);
+    add(m[2]);
+  }
+
+  return out;
+}
+
+/**
+ * Every skill/experience requirement named in the JD: known tech phrases + skill-list
+ * lines + "Must have" / "Required" clauses + "hands-on experience in X".
+ * Noise (years, degrees, locations) is dropped.
+ * @param {string} jd
+ * @param {{ max?: number }} [opts]
+ * @returns {string[]}
+ */
+export function extractJdRequirementTerms(jd, opts = {}) {
+  if (!jd || typeof jd !== "string") return [];
+  const max = opts.max ?? 90;
+  const out = [];
+  const seen = new Set();
+  const add = (t) => {
+    const s = String(t ?? "")
+      .replace(/\*\*/g, "")
+      .replace(/^skills?\s*:\s*/i, "")
+      .trim()
+      .replace(/[.;:,]+$/, "");
+    if (s.length < 2 || s.length > 60) return;
+    if (s.split(/\s+/).length > 6) return;
+    if (/^(na|n\/a|none|nil|tbd)$/i.test(s)) return;
+    if (
+      /^(experience|capabilities|requirements|responsibilities|skills|knowledge|proficiency)$/i.test(
+        s
+      )
+    )
+      return;
+    if (/^\d/.test(s) || /\d+\s*\+?\s*(years?|yrs?)\b/i.test(s)) return;
+    if (
+      /\b(education|degree|bachelor|master|qualification|office|based|located|location|minimum|candidate|salary|visa|relocat)\b/i.test(
+        s
+      )
+    )
+      return;
+    const k = normTerm(s);
+    if (!k || seen.has(k)) return;
+    seen.add(k);
+    out.push(s);
+  };
+  // Must-haves and explicit tech lists first (highest priority), then dictionary, then hands-on.
+  extractJdMustHavePhrases(jd).forEach(add);
+  extractJdTechListPhrases(jd).forEach(add);
+  extractJdKeywords(jd, { max }).forEach(add);
+  extractHandsOnExperiencePhrases(jd).forEach(add);
+  return out.slice(0, max);
+}
+
+/** Which of `terms` are not present in any of `texts`. */
+export function findMissingJdTerms(terms, texts) {
+  const hay = normTerm((texts || []).map((t) => String(t ?? "")).join(" "));
+  return (terms || []).filter((t) => !haystackHasTerm(hay, t));
+}
+
+/**
+ * Markdown block injected after the JD in the resume prompt: the FULL JD checklist.
  * @param {string} jd
  * @param {{ max?: number }} [opts]
  * @returns {string}
  */
-/**
- * @param {string} jd
- * @param {{ profileData?: object; max?: number }} [opts]
- */
 export function formatJdExperienceKeywordsBlock(jd, opts = {}) {
-  const max = opts.max ?? 45;
-  const rawList = extractJdKeywords(jd, { max });
-  const cred = profileCredibilityBlob(opts.profileData);
-  const list =
-    cred.length > 0
-      ? rawList.filter((p) => cred.includes(p.toLowerCase()))
-      : rawList;
+  const list = extractJdRequirementTerms(jd, { max: opts.max ?? 60 });
   if (list.length === 0) return "";
 
   const lines = list.map((p) => `- ${p}`).join("\n");
   return (
     "\n---\n\n" +
-    "## AUTOMATED JD PHRASES (also in profile — must appear in `experience`)\n\n" +
-    "These strings appear in the **job description** and were **found in the candidate profile JSON** (skills, bullets, titles, education). " +
-    "**Each** must appear as plain text inside **`experience[].details`** for at least one appropriate role (strongly prefer **`experience[0]`**). " +
-    "Listing them only in **`summary`** or **`skills` is invalid** for this checklist. " +
-    "When the **JD REQUIREMENTS NOT SUPPORTED BY PROFILE DATA** section appears in this prompt, **never** claim those items as hands-on experience.\n\n" +
+    "## JD CHECKLIST: MATCH ONLY VERIFIED EVIDENCE\n\n" +
+    "These terms were extracted from the job description for tailoring. They are not permission to invent experience.\n\n" +
+    "For each item:\n\n" +
+    "1. **Verified direct experience:** include the term once in the fitting skills category, and mention it in an experience bullet only for a role where that work is supported.\n" +
+    "2. **Verified related experience:** describe the transferable capability. Do not claim the missing tool as hands-on.\n" +
+    "3. **Unverified:** omit it.\n\n" +
+    "Do not force every term into skills or into the most recent roles. Credible coverage beats keyword stuffing. Mirror a responsibility (collaboration, documentation, mentoring, maintenance, delivery) only when the candidate's history supports it.\n\n" +
     `${lines}\n`
   );
+}
+
+function sanitizeExistingBullets(mergedDetails) {
+  if (!Array.isArray(mergedDetails)) return mergedDetails;
+  return mergedDetails.map((row) =>
+    (Array.isArray(row) ? row : [])
+      .map((b) => cleanBulletText(b))
+      .filter((b) => b && !containsForbiddenPhrase(b))
+  );
+}
+
+/** Kept for callers. Does not invent bullets or insert JD keywords. */
+export function ensureLongExperienceBullets(mergedDetails) {
+  return sanitizeExistingBullets(mergedDetails);
+}
+
+/** Kept for callers. Does not pad roles with template sentences. */
+export function ensureMinExperienceBullets(mergedDetails) {
+  return sanitizeExistingBullets(mergedDetails);
+}
+
+/** Kept for callers. Does not add JD terms as experience. */
+export function ensureJdTermsInRecentRoles(mergedDetails) {
+  return sanitizeExistingBullets(mergedDetails);
 }
 
 /**
@@ -461,6 +668,7 @@ export function formatJdExperienceKeywordsBlock(jd, opts = {}) {
  */
 function splitRequirementClause(clause) {
   return clause
+    .replace(/^\s*(?:technical\s+)?skills?\s*:\s*/i, "")
     .replace(/\s+experience\s*\.?\s*$/i, "")
     .split(/\s*(?:,|;|\band\b)\s*/i)
     .map((s) => s.trim().replace(/^[\s\-•*]+/, ""))
@@ -545,14 +753,14 @@ export function extractHandsOnExperiencePhrases(jd) {
 }
 
 /**
- * JD asks for tools/themes the profile does not contain — model must not fabricate.
+ * JD terms that do not appear in the candidate profile.
  * @param {string} jd
  * @param {object} profileData
- * @returns {string}
+ * @returns {string[]}
  */
-export function formatJdCredibilityGuardBlock(jd, profileData) {
+export function findUndocumentedJdTerms(jd, profileData) {
   const cred = profileCredibilityBlob(profileData);
-  if (!cred) return "";
+  if (!cred) return [];
 
   const candidates = new Set([
     ...extractJdMustHavePhrases(jd),
@@ -567,27 +775,46 @@ export function formatJdCredibilityGuardBlock(jd, profileData) {
 
   const seenAbsent = new Set();
   const absent = [];
+  // "Python Frameworks" is supported if the profile has Python (generic suffixes ignored)
+  const GENERIC_WORDS =
+    /\b(frameworks?|development|developer|skills?|experience|tools?|technologies|technology|platforms?|applications?|proficiency|knowledge)\b/gi;
+  const coreOf = (s) =>
+    s
+      .replace(/^\s*skills?\s*:\s*/i, "")
+      .replace(GENERIC_WORDS, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
   for (const p of candidates) {
     const pl = p.toLowerCase();
     if (pl.length < 2 || cred.includes(pl)) continue;
+    const core = coreOf(pl);
+    if (core.length >= 2 && core !== pl && cred.includes(core)) continue;
     if (seenAbsent.has(pl)) continue;
     seenAbsent.add(pl);
     absent.push(p);
   }
-  if (absent.length === 0) return "";
-
   absent.sort((a, b) => b.length - a.length);
+  return absent;
+}
+
+/**
+ * JD asks for tools/themes the profile does not contain — model must not fabricate.
+ * @param {string} jd
+ * @param {object} profileData
+ * @returns {string}
+ */
+export function formatJdCredibilityGuardBlock(jd, profileData) {
+  const absent = findUndocumentedJdTerms(jd, profileData);
+  if (absent.length === 0) return "";
   const lines = absent.map((p) => `- ${p}`).join("\n");
   return (
     "\n---\n\n" +
-    "## JD REQUIREMENTS NOT SUPPORTED BY PROFILE DATA\n\n" +
-    "The posting emphasizes the items below (from **must-have** / **required** / **hands-on experience** language and high-signal JD phrases). " +
-    "They do **not** appear anywhere in the candidate’s **profile JSON**, **`base_bullets`**, **`base_skills`**, **WORK HISTORY**, or **EDUCATION** text.\n\n" +
+    "## JD ITEMS NOT DOCUMENTED IN THE PROFILE\n\n" +
+    "These JD items do not appear in the candidate's profile JSON, `base_bullets`, `base_skills`, work history, or education:\n\n" +
     `${lines}\n\n` +
-    "**Hard rule:** Do **not** state or imply **employment**, **hands-on production**, or **ownership** of these tools/methods in **`experience`**, **`summary`**, or **`skills`**. " +
-    "Do **not** add them to the **AUTOMATED JD PHRASES** checklist block above (that list is profile-filtered). " +
-    "You may only describe **honestly documented** adjacent work (e.g. generic Spark notebooks on another vendor) **without** renaming it into a missing platform. " +
-    "Silence on unsupported must-haves is **better** than a false match.\n"
+    "**Rule:** Omit them. Do not add them as skills or as hands-on accomplishments. You may describe a related capability the profile already supports, at the level the evidence allows. " +
+    "Do not invent employers, job titles, dates, degrees, certifications, licenses, security clearances, years of experience, metrics, or tools.\n"
   );
 }
 
@@ -605,19 +832,20 @@ export function sortDetailsLongestFirst(details) {
   );
 }
 
-function jdOverlapScore(bullet, jdTerms) {
+function jdOverlapScore(bullet, terms, weight = 1) {
   const b = String(bullet ?? "").toLowerCase();
   let n = 0;
-  for (const t of jdTerms) {
+  for (const t of terms) {
     const tl = String(t).toLowerCase();
     if (tl.length < 3) continue;
-    if (b.includes(tl)) n += 1;
+    if (b.includes(tl) || haystackHasTerm(b, t)) n += weight;
   }
   return n;
 }
 
 /**
- * JD-tailored bullets first (substring hits on extracted JD phrases), then longest.
+ * Required / must-have JD bullets first, then other JD-aligned bullets.
+ * Length is NOT used as a tiebreaker (keeps a natural 2-line / 3-line mix).
  * @param {string[]} details
  * @param {string} jd
  * @returns {string[]}
@@ -625,17 +853,21 @@ function jdOverlapScore(bullet, jdTerms) {
 export function sortDetailsJdFirstThenLength(details, jd) {
   if (!Array.isArray(details) || details.length < 2) return details;
   if (!jd || typeof jd !== "string" || !jd.trim()) {
-    return sortDetailsLongestFirst(details);
+    return details;
   }
-  const terms = extractJdKeywords(jd, { max: 60 });
-  return [...details].sort((a, b) => {
-    const ja = jdOverlapScore(a, terms);
-    const jb = jdOverlapScore(b, terms);
-    if (jb !== ja) return jb - ja;
-    const wa = String(a).trim().split(/\s+/).filter(Boolean).length;
-    const wb = String(b).trim().split(/\s+/).filter(Boolean).length;
-    return wb - wa;
-  });
+  const required = extractJdMustHavePhrases(jd);
+  const allTerms = extractJdRequirementTerms(jd, { max: 60 });
+  return details
+    .map((d, idx) => ({ d, idx }))
+    .sort((a, b) => {
+      const ra =
+        jdOverlapScore(a.d, required, 3) + jdOverlapScore(a.d, allTerms, 1);
+      const rb =
+        jdOverlapScore(b.d, required, 3) + jdOverlapScore(b.d, allTerms, 1);
+      if (rb !== ra) return rb - ra;
+      return a.idx - b.idx; // stable — preserve length variety
+    })
+    .map((x) => x.d);
 }
 
 /**

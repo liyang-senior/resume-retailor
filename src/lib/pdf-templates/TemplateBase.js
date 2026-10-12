@@ -134,10 +134,14 @@ export const createResumeTemplate = (config) => {
         summary: {
             fontSize: fonts.summarySize || 11,
             fontFamily: fonts.body || "Helvetica",
-            lineHeight: 1.52,
+            lineHeight: 1.45,
             letterSpacing: 0.2,
             textAlign: "left",
             color: INK,
+        },
+        summaryRow: {
+            marginBottom: 3,
+            width: "100%",
         },
         /** One flowing line per category: bullet + bold label + comma list (no column gap). */
         skillsRow: {
@@ -251,6 +255,7 @@ export const createResumeTemplate = (config) => {
             summary,
             skills,
             experience,
+            certifications,
             education,
         } = data;
 
@@ -311,7 +316,10 @@ export const createResumeTemplate = (config) => {
                     {summary && (
                         <View style={styles.section}>
                             <Text style={styles.sectionTitle}>{sectionTitles.summary || 'Summary'}</Text>
-                            <BoldText text={summary} style={styles.summary} />
+                            <BoldText
+                                text={String(summary).replace(/\s*\n+\s*/g, " ").trim()}
+                                style={styles.summary}
+                            />
                         </View>
                     )}
 
@@ -340,23 +348,25 @@ export const createResumeTemplate = (config) => {
 
                     {experience && experience.length > 0 && (
                         <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>{sectionTitles.experience || 'Experience'}</Text>
                             {experience.map((exp, idx) => {
                                 const detailLines = (exp.details || []).filter((d) =>
                                     String(d ?? "").trim()
                                 );
-                                const [firstDetail, ...restDetails] = detailLines;
                                 return (
                                 <View key={idx} style={styles.expItem}>
                                     {/*
-                                      Orphan fix (react-pdf): wrap={false} + minPresenceAhead on the
-                                      header row (see /advanced#page-wrapping). Keep title, dates,
-                                      company, and first bullet in one unbreakable slab so the job
-                                      title cannot sit alone at the page foot.
+                                      Keep the section heading, job title, and company in one
+                                      block. If they do not fit, the whole block moves to the
+                                      next page instead of leaving the heading behind.
                                     */}
-                                    <View wrap={false}>
-                                        <View style={styles.expHeader} minPresenceAhead={150}>
-                                            <Text style={styles.expTitle}>{exp.title || 'Engineer'}</Text>
+                                    <View wrap={false} minPresenceAhead={72}>
+                                        {idx === 0 && (
+                                            <Text style={styles.sectionTitle}>
+                                                {sectionTitles.experience || "Experience"}
+                                            </Text>
+                                        )}
+                                        <View style={styles.expHeader}>
+                                            <Text style={styles.expTitle}>{exp.title || "Engineer"}</Text>
                                             <Text style={styles.expDates}>
                                                 {exp.start_date} – {exp.end_date}
                                             </Text>
@@ -365,21 +375,10 @@ export const createResumeTemplate = (config) => {
                                             {exp.company}
                                             {exp.location && `, ${exp.location}`}
                                         </Text>
-                                        {firstDetail && (
-                                            <View style={styles.expDetails}>
-                                                <View style={styles.expDetailRow}>
-                                                    <BoldText
-                                                        text={String(firstDetail)}
-                                                        style={styles.expDetailItem}
-                                                        prefix={"\u2022 "}
-                                                    />
-                                                </View>
-                                            </View>
-                                        )}
                                     </View>
-                                    {restDetails.length > 0 && (
+                                    {detailLines.length > 0 && (
                                         <View style={styles.expDetails}>
-                                            {restDetails.map((detail, detailIdx) => (
+                                            {detailLines.map((detail, detailIdx) => (
                                                 <View key={detailIdx} style={styles.expDetailRow}>
                                                     <BoldText
                                                         text={String(detail)}
@@ -396,9 +395,54 @@ export const createResumeTemplate = (config) => {
                         </View>
                     )}
 
+                    {Array.isArray(certifications) && certifications.length > 0 && (
+                        <View style={styles.section} wrap={false}>
+                            <Text
+                                style={styles.sectionTitle}
+                                minPresenceAhead={80}
+                            >
+                                {sectionTitles.certifications || "CERTIFICATIONS"}
+                            </Text>
+                            {certifications.map((cert, idx) => {
+                                const name =
+                                    typeof cert === "string"
+                                        ? cert
+                                        : cert?.name || cert?.title || "";
+                                if (!name) return null;
+                                const issuer =
+                                    typeof cert === "object"
+                                        ? cert.issuer || cert.org || ""
+                                        : "";
+                                const date =
+                                    typeof cert === "object"
+                                        ? cert.date || cert.year || ""
+                                        : "";
+                                return (
+                                    <View key={idx} style={styles.eduItem}>
+                                        <View style={styles.eduHeader}>
+                                            <Text style={styles.eduDegree}>{name}</Text>
+                                            {date ? (
+                                                <Text style={styles.eduDates}>{date}</Text>
+                                            ) : null}
+                                        </View>
+                                        {issuer ? (
+                                            <Text style={styles.eduSchool}>{issuer}</Text>
+                                        ) : null}
+                                    </View>
+                                );
+                            })}
+                        </View>
+                    )}
+
                     {education && education.length > 0 && (
-                        <View style={styles.section}>
-                            <Text style={styles.sectionTitle}>{sectionTitles.education || 'Education'}</Text>
+                        <View style={styles.section} wrap={false}>
+                            {/* Keep EDUCATION title with its content — never orphan the header alone. */}
+                            <Text
+                                style={styles.sectionTitle}
+                                minPresenceAhead={90}
+                            >
+                                {sectionTitles.education || 'Education'}
+                            </Text>
                             {education.map((edu, idx) => (
                                 <View key={idx} style={styles.eduItem}>
                                     <View>

@@ -10,29 +10,27 @@
   "github": "",
   "cvLink": "https://flowcv.com/resume/tjmnh7gm62e3",
   "base_skills": [
-    "Programming Languages & Runtimes: JavaScript, TypeScript, Node.js, C#, .NET, Java, PHP, Python, C++, MATLAB, Object-Oriented Programming, Asynchronous Programming, Algorithms, Data Structures",
-    "Frontend Engineering: React, Next.js, Angular, Vue.js, HTML5, CSS3, Responsive Web Design, Component-Based Architecture, State Management, Client-Side Routing, Form Handling, API Integration, Browser APIs, Accessibility, Frontend Performance Optimization",
-    "Backend Engineering & Frameworks: Node.js, Express.js, NestJS, ASP.NET Core, .NET Web API, Java/Spring Boot, PHP/Laravel, Python/FastAPI, Django, RESTful APIs, GraphQL, Server-Side Development, Authentication & Authorization, Background Processing, API Integration",
-    "Databases & Data Platforms: SQL, PostgreSQL, MySQL, Microsoft SQL Server, MongoDB, Redis, GoogleSQL, Dremel, Relational Databases, NoSQL, Data Modeling, Query Optimization, Data Processing, Data Transformation, Data Integration, Data Platform Engineering",
-    "System Design & Architecture: Microservices, Distributed Systems, Service-Oriented Architecture, Event-Driven Architecture, Application Architecture, API Design, Integration Patterns, Scalable Systems, Caching, Dependency Management, Performance Optimization, High Availability, Maintainability",
-    "Cloud, DevOps & Engineering Tools: AWS, Azure, GCP, Docker, Kubernetes, CI/CD, Git, GitHub, Build Automation, Environment Management, Application Deployment, Monitoring, Logging, Production Troubleshooting, Agile/Scrum",
-    "AI, Machine Learning & Software Quality: Machine Learning, Unsupervised Learning, Predictive Modeling, Data Analysis, AI-Assisted Features, Unit Testing, Integration Testing, Debugging, Code Reviews, Refactoring, Root Cause Analysis, Performance Testing, Code Quality, SDLC"
+    "MATLAB",
+    "Programming",
+    "Algorithms",
+    "C++",
+    "GoogleSQL",
+    "Dremel",
+    "Machine Learning",
+    "Unsupervised Machine Learning",
+    "Data Collection",
+    "Data Storage",
+    "Data Management",
+    "Software Performance Improvement"
   ],
   "experience": [
     {
       "company": "Capital One",
       "title": "Senior Software Engineer",
       "start_date": "02/2026",
-      "end_date": "09/2026",
+      "end_date": "10/2026",
       "location": "",
-      "base_bullets": [
-        "Develop end-to-end full-stack application features spanning user interfaces, backend services, APIs, and data access layers, translating functional requirements into scalable, maintainable implementations that support reliable enterprise application workflows.",
-        "Build and integrate frontend and backend components, defining data flows, API interactions, validation logic, error handling, and service communication needed to deliver consistent functionality across complete user journeys.",
-        "Diagnose complex application issues across client-side behavior, server-side processing, service integrations, and data layers, tracing root causes and implementing durable fixes that improve performance, stability, and maintainability.",
-        "Develop reusable application modules, backend services, and shared components that reduce code duplication and simplify future feature development across the stack.",
-        "Improve existing applications through refactoring, debugging, testing, and performance optimization, strengthening code quality and overall application responsiveness.",
-        "Implement and maintain integrations between application components and supporting systems, ensuring reliable data exchange and consistent behavior across distributed software workflows."
-      ]
+      "base_bullets": []
     },
     {
       "company": "JPMorganChase",
@@ -40,16 +38,7 @@
       "start_date": "01/2025",
       "end_date": "02/2026",
       "location": "",
-      "base_bullets": [
-        "Designed and implemented enterprise software capabilities across application, backend, and data layers, translating complex business requirements into scalable technical solutions while coordinating dependencies across interconnected services and enterprise platforms.",
-        "Developed application logic and service integrations connecting user-facing functionality with backend processing, data workflows, and supporting systems while maintaining clear boundaries between presentation, business, and integration responsibilities.",
-        "Partnered with product owners, engineering teams, and technical stakeholders to clarify requirements, assess technical feasibility, evaluate implementation alternatives, and establish practical delivery approaches for complex application initiatives.",
-        "Contributed to system and API design discussions involving service boundaries, data movement, integration patterns, performance requirements, reliability considerations, and long-term application maintainability.",
-        "Diagnosed complex application and production issues by tracing behavior across user-facing components, backend services, system integrations, and data flows to isolate underlying technical causes.",
-        "Refactored and optimized existing software to reduce unnecessary complexity, strengthen application performance, improve code readability, and simplify future feature development and maintenance.",
-        "Participated in peer reviews and engineering design sessions, providing feedback on code structure, testing approaches, technical risk, scalability, reliability, and potential implementation concerns.",
-        "Collaborated across engineering and platform teams during feature delivery and production support, resolving technical blockers, coordinating dependencies, and maintaining alignment around expected system behavior."
-      ]
+      "base_bullets": []
     },
     {
       "company": "Flatiron Health",
@@ -57,20 +46,7 @@
       "start_date": "10/2022",
       "end_date": "01/2025",
       "location": "",
-      "base_bullets": [
-        "Developed and enhanced software applications by translating complex product, business, and domain requirements into maintainable implementations spanning application logic, backend processing, data interactions, integrations, and user-oriented workflows.",
-        "Built and maintained application components responsible for business logic, data transformation, service communication, and integration with supporting systems, ensuring consistent behavior across interconnected product workflows.",
-        "Collaborated closely with product managers, engineers, and domain stakeholders to understand user needs, refine requirements, identify technical dependencies, and convert complex problems into actionable engineering work.",
-        "Participated in application and system-design discussions, evaluating service responsibilities, component boundaries, data dependencies, integration patterns, scalability requirements, and implementation alternatives before development.",
-        "Investigated difficult software defects by reproducing issues, tracing execution and data flows across multiple system layers, identifying root causes, and implementing sustainable fixes rather than short-term workarounds.",
-        "Improved existing software through refactoring, modularization, simplification, and performance optimization, reducing technical complexity while making applications easier to maintain, test, and extend.",
-        "Contributed to software quality through code reviews, testing, debugging, validation, and technical documentation, helping identify functional and implementation issues before production release.",
-        "Designed reusable software components and common patterns that improved consistency across application features and reduced duplicated development effort across engineering teams.",
-        "Worked across application and data workflows to ensure reliable processing, transformation, and movement of structured information between system components and supporting services.",
-        "Collaborated with cross-functional teams throughout feature delivery to resolve technical blockers, coordinate dependencies, clarify expected behavior, and maintain alignment around product outcomes.",
-        "Supported continuous improvement of engineering practices by identifying recurring implementation issues, proposing more maintainable approaches, and sharing technical knowledge across development teams.",
-        "Applied strong analytical and algorithmic thinking to data-intensive features, system behavior, and complex engineering problems requiring careful evaluation of performance, correctness, and maintainability."
-      ]
+      "base_bullets": []
     },
     {
       "company": "Raytheon Technologies",
@@ -78,16 +54,7 @@
       "start_date": "06/2020",
       "end_date": "09/2022",
       "location": "",
-      "base_bullets": [
-        "Developed full-stack application functionality across user-facing, backend, and data layers, translating functional requirements into cohesive software solutions and supporting features throughout requirements, design, implementation, testing, and release.",
-        "Contributed to frontend-to-backend integration by defining application flows, service interfaces, data structures, and component interactions required to deliver consistent and reliable functionality across complete user workflows.",
-        "Built and maintained backend application logic supporting system integrations, data processing, business rules, and communication between application components within enterprise software environments.",
-        "Participated throughout the software development lifecycle, including requirements analysis, technical design, implementation, integration, testing, debugging, deployment support, and ongoing maintenance of production applications.",
-        "Designed reusable software components with clear responsibilities and maintainable interfaces, helping reduce duplication and simplify application expansion as functional and technical requirements evolved.",
-        "Integrated application components across system boundaries, troubleshooting interface failures, inconsistent data behavior, and dependency issues that affected overall system reliability and user experience.",
-        "Investigated performance, reliability, and integration issues by tracing execution paths, analyzing dependencies, and implementing targeted improvements to application design and processing logic.",
-        "Collaborated in code reviews, technical design discussions, and engineering problem solving, contributing recommendations around code quality, testability, maintainability, scalability, and overall application architecture."
-      ]
+      "base_bullets": []
     },
     {
       "company": "Google",
@@ -96,12 +63,9 @@
       "end_date": "08/2019",
       "location": "",
       "base_bullets": [
-        "Completed three consecutive engineering internships at Google, progressing from Engineering Practicum Intern in 2017 and 2018 to Software Engineering Intern in 2019, gaining exposure to large-scale software engineering, algorithms, data processing, and production technology environments.",
-        "Designed and implemented an improved C++ algorithm to infer destinations for travelers, enabling Google Now Cards to surface relevant local attractions and contextual information based on travel activity and inferred destination data.",
-        "Used GoogleSQL with Dremel to analyze location-history information and predict cancellation rates for flights and hotels, supporting future predictive work and data-driven improvements to travel-related experiences.",
-        "Applied algorithm design, programming, large-scale data analysis, and structured problem-solving techniques to product-oriented engineering problems involving location data, travel behavior, and predictive functionality.",
-        "Expanded practical knowledge of machine learning and predictive systems by completing an internal Google machine learning course and applying analytical thinking to engineering and data-focused problems.",
-        "Built a strong foundation in software development, data-intensive engineering, and algorithmic problem solving through repeated internship experience across Google offices in Cambridge, Seattle, and Mountain View."
+        "Designed and implemented an improved C++ algorithm to infer destinations for travelers so Google Now Cards could provide relevant local attractions and information.",
+        "Utilized GoogleSQL in Dremel to analyze location-history data and predict cancellation rates for flights and hotels, supporting future predictive work.",
+        "Completed an internal Machine Learning course."
       ]
     }
   ],

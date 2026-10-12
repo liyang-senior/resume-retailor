@@ -83,10 +83,11 @@ const sectionRuleBorder = {
   },
 };
 
-function sectionHeading(text) {
+function sectionHeading(text, { keepWithNext = false } = {}) {
   return new Paragraph({
     spacing: { before: 220, after: 96 },
     border: sectionRuleBorder,
+    keepNext: keepWithNext,
     children: [
       new TextRun({
         text: text.toUpperCase(),
@@ -247,7 +248,9 @@ export async function buildResumeDocxBuffer(templateData) {
     children.push(new Paragraph({ text: "", spacing: { after: 132 } }));
   }
 
-  const summary = safeStr(templateData.summary).trim();
+  const summary = safeStr(templateData.summary)
+    .replace(/\s*\n+\s*/g, " ")
+    .trim();
   if (summary) {
     children.push(sectionHeading("SUMMARY"));
     children.push(
@@ -386,9 +389,80 @@ export async function buildResumeDocxBuffer(templateData) {
     }
   }
 
+  const certifications = Array.isArray(templateData.certifications)
+    ? templateData.certifications
+    : [];
+  if (certifications.length > 0) {
+    children.push(sectionHeading("CERTIFICATIONS", { keepWithNext: true }));
+    for (const cert of certifications) {
+      const name =
+        typeof cert === "string"
+          ? safeStr(cert)
+          : safeStr(cert?.name || cert?.title || "");
+      if (!name) continue;
+      const issuer =
+        typeof cert === "object"
+          ? safeStr(cert.issuer || cert.org || "")
+          : "";
+      const date =
+        typeof cert === "object"
+          ? safeStr(cert.date || cert.year || "")
+          : "";
+
+      children.push(
+        new Paragraph({
+          tabStops: [
+            { type: TabStopType.RIGHT, position: RIGHT_TAB_POS },
+          ],
+          spacing: { after: issuer ? 48 : 120 },
+          keepNext: Boolean(issuer),
+          children: [
+            new TextRun({
+              text: name,
+              bold: true,
+              font: FONT,
+              size: PT(11),
+            }),
+            ...(date
+              ? [
+                  new TextRun({ text: "\t", font: FONT }),
+                  new TextRun({
+                    text: date,
+                    bold: true,
+                    font: FONT,
+                    size: PT(10),
+                  }),
+                ]
+              : []),
+          ],
+        })
+      );
+
+      if (issuer) {
+        children.push(
+          new Paragraph({
+            spacing: {
+              after: 120,
+              line: 280,
+              lineRule: LineRuleType.AUTO,
+            },
+            children: [
+              new TextRun({
+                text: issuer,
+                italics: true,
+                font: FONT,
+                size: PT(10),
+              }),
+            ],
+          })
+        );
+      }
+    }
+  }
+
   const education = templateData.education || [];
   if (education.length > 0) {
-    children.push(sectionHeading("EDUCATION"));
+    children.push(sectionHeading("EDUCATION", { keepWithNext: true }));
     for (const edu of education) {
       const yearLeft = edu.start_year ? safeStr(edu.start_year) : "";
       const yearRight = edu.end_year ? safeStr(edu.end_year) : "";
