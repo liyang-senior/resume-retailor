@@ -17,7 +17,10 @@ import {
   normalizeAiResumeContent,
   normalizeCertifications,
 } from "@/lib/resume/merge-resume-base";
-import { orderAllExperienceBulletsJdFirst } from "@/lib/resume/jd-experience-keywords";
+import {
+  ensureJdTermsInRecentRoles,
+  orderAllExperienceBulletsJdFirst,
+} from "@/lib/resume/jd-experience-keywords";
 import {
   prepareExperienceForExport,
   skillEvidenceText,
@@ -130,6 +133,7 @@ export default async function handler(req, res) {
       allowedTech,
       jd || ""
     );
+    mergedDetails = ensureJdTermsInRecentRoles(mergedDetails, jd || "");
     const emptyRoles = mergedDetails
       .map((row, idx) => ({ row, idx }))
       .filter(({ row }) => !Array.isArray(row) || row.length === 0);

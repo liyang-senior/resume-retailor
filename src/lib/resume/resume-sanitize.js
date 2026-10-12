@@ -15,7 +15,7 @@ const FORBIDDEN_FRAGMENTS = [
 ];
 
 const MEANINGLESS_SKILL =
-  /^(experience|capabilities|requirements|responsibilities|skills|technical skills|computer skills|software skills|hard skills|problem solving|fast learner|technology|modern development|programming)$/i;
+  /^(experience|capabilities|requirements|responsibilities|skills|technical skills|computer skills|software skills|hard skills|problem solving|fast learner|technology|modern development|programming|full[-\s]?stack development|backend application development|user interface development|website development|software maintenance|application development|technical problem[-\s]?solving|technical documentation|data loading|form handling|error handling|user management|automated testing|database indexing|schema validation|end[-\s]?to[-\s]?end testing|application routing|module provisioning|production debugging|deployment workflows|configuration management|performance optimization|third[-\s]?party api integration|secure credential management|business requirements|developer coordination|product design collaboration|in[-\s]?house desktop application development|mvp development|technical leadership|software design|technical specifications|server[-\s]?side engineering|data[-\s]?backed web applications|database development|database maintenance|database design)$/i;
 
 const PROGRAMMING_LANGUAGE =
   /^(c\+\+|c#|sql|googlesql|matlab|python|java|javascript|typescript|go|golang|rust|php|ruby|kotlin|swift|scala|bash)$/i;
@@ -34,7 +34,14 @@ const SYNONYM_CANON = [
   [/^(next\.?js|nextjs)$/i, "Next.js"],
   [/^(vue\.?js|vuejs)$/i, "Vue.js"],
   [/^(sklearn|scikit[\s-]?learn)$/i, "scikit-learn"],
-  [/^convex(?:\s+database)?$/i, "Convex"],
+  [
+    /^convex(?:\s+(?:database|schemas?|queries|mutations|actions|scheduling|access\s+control|validation|background\s+jobs?))?$/i,
+    "Convex",
+  ],
+  [/^(ruby on rails|rails)$/i, "Ruby on Rails"],
+  [/^(entity framework)$/i, "Entity Framework"],
+  [/^(tailwind css|tailwind)$/i, "Tailwind CSS"],
+  [/^(shadcn\/ui|shadcn)$/i, "shadcn/ui"],
 ];
 
 export function toAsciiPunctuation(value) {
@@ -84,7 +91,7 @@ export function stripReviewLabels(value) {
 }
 
 const DRAFT_SENTENCE =
-  /\b(resume draft|draft resume|proposed experience|proposed responsibilities|jd-targeted draft|require(?:s)? confirmation|pending confirmation|unverified claims?)\b/i;
+  /\b(resume draft|draft resume|proposed experience|proposed responsibilities|jd-targeted draft|require(?:s)? confirmation|pending confirmation|unverified claims?|not documented in (the )?supplied materials|not (present |listed |found )?in (the )?supplied materials|absent from (the )?(supplied materials|profile|candidate materials)|not confirmed in (the )?(profile|candidate materials|supplied materials)|inferred from the (job description|jd)|added from the (job description|jd)|assumed from the (job description|jd))\b/i;
 
 /** Remove wording that makes a finished resume sound like an unreviewed draft. */
 export function stripDraftWording(value) {
@@ -103,6 +110,12 @@ export function stripDraftWording(value) {
   s = s.replace(/\brequire(?:s)?\s+confirmation\b/gi, "");
   s = s.replace(/\bpending\s+confirmation\b/gi, "");
   s = s.replace(/\bunverified\s+claims?\b/gi, "");
+  s = s.replace(/\bnot\s+documented\s+in\s+(the\s+)?supplied\s+materials\b/gi, "");
+  s = s.replace(/\bnot\s+(present\s+|listed\s+|found\s+)?in\s+(the\s+)?supplied\s+materials\b/gi, "");
+  s = s.replace(/\babsent\s+from\s+(the\s+)?(supplied\s+materials|profile|candidate\s+materials)\b/gi, "");
+  s = s.replace(/\bnot\s+confirmed\s+in\s+(the\s+)?(profile|candidate\s+materials|supplied\s+materials)\b/gi, "");
+  s = s.replace(/\b(inferred|assumed|added)\s+from\s+the\s+(job\s+description|jd)\b/gi, "");
+  s = s.replace(/\([^)]*(supplied materials|not documented|unverified|require confirmation)[^)]*\)/gi, "");
   return s.replace(/\s{2,}/g, " ").replace(/\s+([,.;])/g, "$1").replace(/^\s*[,;]\s*/, "").trim();
 }
 
@@ -351,20 +364,37 @@ function stackCategoryForSkill(name) {
   }
   if (/^algorithms?$/i.test(n)) return "Engineering practices";
   if (isProgrammingLanguage(n)) return "Languages";
-  if (/\b(react(?:\.js)?|next\.js|vue\.js|nuxt|angular)\b/i.test(n)) return "Frontend engineering";
   if (
-    /\b(node\.js|nest\.js|express\.js|fastapi|django|flask|spring boot|gin|laravel|ruby on rails|asp\.net core|graphql|openapi)\b/i.test(
+    /\b(react(?:\.js)?|next\.js|vue\.js|nuxt|angular|tailwind|shadcn|html5?|css3?)\b/i.test(
+      n
+    )
+  ) {
+    return "Frontend engineering";
+  }
+  if (
+    /\b(node\.js|nest\.js|express\.js|fastapi|django|flask|spring boot|gin|laravel|ruby on rails|asp\.net core|graphql|openapi|entity framework|webhooks|rest apis?)\b/i.test(
       n
     )
   ) {
     return "Backend engineering";
   }
   if (/\b(postgres(?:ql)?|mysql|mongodb|redis|convex|snowflake|bigquery)\b/i.test(n)) return "Databases";
-  if (/\b(docker|kubernetes|helm|terraform)\b/i.test(n) || /^git$/i.test(n)) return "DevOps";
+  if (
+    /\b(docker|kubernetes|helm|terraform|ci\/?cd)\b/i.test(n) ||
+    /^git$/i.test(n)
+  ) {
+    return "DevOps";
+  }
   if (/\b(aws|azure|gcp)\b/i.test(n)) return "Cloud engineering";
   if (/\bkafka\b/i.test(n)) return "Messaging";
   if (/\b(pandas|numpy|spark|pyspark|airflow|dremel)\b/i.test(n)) return "Data engineering";
   if (/\b(jest|pytest|junit|cypress|playwright)\b/i.test(n)) return "Testing";
+  if (
+    /\b(authentication|authorization|role[-\s]?based access|iam|oauth|jwt)\b/i.test(n)
+  ) {
+    return "Security";
+  }
+  if (/\b(jira|bitbucket|code review|agile|scrum)\b/i.test(n)) return "Engineering practices";
   return "";
 }
 
@@ -383,6 +413,8 @@ const CANONICAL_CATEGORIES = [
   ["engineering practices", "Engineering practices"],
 ];
 
+const CANONICAL_CATEGORY_SET = new Set(CANONICAL_CATEGORIES.map(([, label]) => label));
+
 function canonicalCategoryName(cat) {
   const key = String(cat ?? "")
     .trim()
@@ -391,7 +423,7 @@ function canonicalCategoryName(cat) {
   for (const [norm, label] of CANONICAL_CATEGORIES) {
     if (key === norm) return label;
   }
-  return String(cat ?? "").trim();
+  return "";
 }
 
 function destinationCategory(name, cat) {
@@ -403,7 +435,10 @@ function destinationCategory(name, cat) {
   if (/language|programming/i.test(String(cat ?? "")) && !isProgrammingLanguage(name)) {
     return "Engineering practices";
   }
-  return cat;
+  const canon = canonicalCategoryName(cat);
+  if (canon) return canon;
+  // Dump / non-stack categories (Target stack requirements, Software Engineering, etc.)
+  return "Engineering practices";
 }
 
 export function sanitizeSkillMap(skillMap) {
@@ -417,7 +452,8 @@ export function sanitizeSkillMap(skillMap) {
       const key = name.toLowerCase();
       if (seen.has(key)) continue;
       seen.add(key);
-      const dest = canonicalCategoryName(destinationCategory(name, cat));
+      let dest = destinationCategory(name, cat);
+      if (!CANONICAL_CATEGORY_SET.has(dest)) dest = "Engineering practices";
       if (!out[dest]) out[dest] = [];
       out[dest].push(name);
     }

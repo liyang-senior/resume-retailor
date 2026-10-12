@@ -3,7 +3,12 @@ import path from "path";
 import React from "react";
 import { renderToStream } from "@react-pdf/renderer";
 import { getTemplate } from "@/lib/pdf-templates";
-import { callAI, resolveDefaultProvider } from "@/lib/ai/ai-service";
+import {
+  callAI,
+  isResumeGenerationRefusal,
+  resolveDefaultProvider,
+  resolveRefusalFallbackProvider,
+} from "@/lib/ai/ai-service";
 import {
   getTemplateForProfile,
   slugToProfileName,
@@ -20,7 +25,10 @@ import {
   normalizeAiResumeContent,
   normalizeCertifications,
 } from "@/lib/resume/merge-resume-base";
-import { orderAllExperienceBulletsJdFirst } from "@/lib/resume/jd-experience-keywords";
+import {
+  ensureJdTermsInRecentRoles,
+  orderAllExperienceBulletsJdFirst,
+} from "@/lib/resume/jd-experience-keywords";
 import {
   prepareExperienceForExport,
   skillEvidenceText,
@@ -150,74 +158,82 @@ export default async function handler(req, res) {
       `Resume prompt ready: ${prompt.length} chars, about ${Math.round(prompt.length / 4)} tokens`
     );
 
-    const aiResponse = await callAI(prompt, provider, model, 16000, 2, 180000);
-
-    // Log token usage to debug if we're hitting limits
-    console.log(`${provider.toUpperCase()} API Response Metadata:`);
-    console.log("- Provider:", aiResponse.provider);
-    console.log("- Model:", aiResponse.model);
-    console.log("- Stop reason:", aiResponse.stop_reason);
-    console.log("- Input tokens:", aiResponse.usage?.input_tokens);
-    console.log("- Output tokens:", aiResponse.usage?.output_tokens);
-
-    let content;
-    if (
-      aiResponse.stop_reason === "max_tokens" ||
-      aiResponse.stop_reason === "length"
-    ) {
-      console.error(
-        `⚠️ WARNING: ${provider.toUpperCase()} hit max_tokens limit! Response was truncated.`
+    async function runResumeModel(activeProvider, activeModel, activePrompt) {
+      const aiResponse = await callAI(
+        activePrompt,
+        activeProvider,
+        activeModel,
+        16000,
+        2,
+        180000
       );
-      console.log(
-        "🔄 Retrying with reduced requirements to fit in token limit..."
-      );
+      console.log(`${activeProvider.toUpperCase()} API Response Metadata:`);
+      console.log("- Provider:", aiResponse.provider);
+      console.log("- Model:", aiResponse.model);
+      console.log("- Stop reason:", aiResponse.stop_reason);
+      console.log("- Input tokens:", aiResponse.usage?.input_tokens);
+      console.log("- Output tokens:", aiResponse.usage?.output_tokens);
 
-      // Retry: trim skills footprint only—never lower experience bullet counts or word minimums
-      const concisePrompt =
-        prompt +
-        "\n\nRetry after a truncated reply. Return one complete JSON object and nothing else. Keep every original bullet fact. Include every job-description technology. Close every array and object.";
-
-      const retryResponse = await callAI(concisePrompt, provider, model, 16000, 1, 180000);
-      console.log("Retry Response Metadata:");
-      console.log("- Stop reason:", retryResponse.stop_reason);
-      console.log("- Output tokens:", retryResponse.usage?.output_tokens);
-
-      const retryText =
-        typeof retryResponse?.content?.[0]?.text === "string"
-          ? retryResponse.content[0].text.trim()
-          : "";
-      if (!retryText) {
-        throw new Error(
-          "AI returned an empty response after retry. Check API keys or try again."
+      let text;
+      if (
+        aiResponse.stop_reason === "max_tokens" ||
+        aiResponse.stop_reason === "length"
+      ) {
+        console.error(
+          `⚠️ WARNING: ${activeProvider.toUpperCase()} hit max_tokens limit! Response was truncated.`
         );
+        const concisePrompt =
+          activePrompt +
+          "\n\nRetry after a truncated reply. Return one complete JSON object and nothing else. Keep every original skill and original bullet fact. Include every job-description skill and technology. Close every array and object.";
+        const retryResponse = await callAI(
+          concisePrompt,
+          activeProvider,
+          activeModel,
+          16000,
+          1,
+          180000
+        );
+        text =
+          typeof retryResponse?.content?.[0]?.text === "string"
+            ? retryResponse.content[0].text.trim()
+            : "";
+      } else {
+        text =
+          typeof aiResponse?.content?.[0]?.text === "string"
+            ? aiResponse.content[0].text.trim()
+            : "";
       }
-      content = retryText;
-    } else {
-      const firstText =
-        typeof aiResponse?.content?.[0]?.text === "string"
-          ? aiResponse.content[0].text.trim()
-          : "";
-      if (!firstText) {
+      if (!text) {
         throw new Error(
           "AI returned an empty response. Check API keys or model output."
         );
       }
-      content = firstText;
+      return text;
     }
 
-    // Check if AI is apologizing instead of returning JSON
-    if (
-      content.toLowerCase().startsWith("i'm sorry") ||
-      content.toLowerCase().startsWith("i cannot") ||
-      content.toLowerCase().startsWith("i apologize")
-    ) {
+    let activeProvider = provider;
+    let activeModel = model;
+    let content = await runResumeModel(activeProvider, activeModel, prompt);
+
+    if (isResumeGenerationRefusal(content)) {
       console.error(
-        "AI is apologizing instead of returning JSON:",
-        content.substring(0, 200)
+        "AI refused JSON generation:",
+        content.substring(0, 280)
       );
-      throw new Error(
-        "AI refused to generate resume. The prompt may be too complex. Please try again with a shorter job description or simpler requirements."
-      );
+      const fallbackProvider = resolveRefusalFallbackProvider(activeProvider);
+      if (fallbackProvider) {
+        console.warn(
+          `Claude refused the dual-coverage draft contract. Falling back to ${fallbackProvider}.`
+        );
+        activeProvider = fallbackProvider;
+        activeModel = null;
+        content = await runResumeModel(activeProvider, activeModel, prompt);
+      }
+      if (isResumeGenerationRefusal(content)) {
+        throw new Error(
+          "Claude refused to generate a resume that includes both original profile content and all JD-required skills/experience. Use OpenAI / ChatGPT for this contract."
+        );
+      }
     }
 
     let resumeContent;
@@ -279,8 +295,15 @@ export default async function handler(req, res) {
         prompt +
         "\n\nYour previous JSON under-filled experience bullets. Fix it now.\n" +
         gapLines +
-        "\nRegenerate the COMPLETE resume JSON. Fill every experience[].details array to at least its minimum count. Roles 1 and 2 need 8-12 bullets each. Older roles need at least 5. Count details before you stop. Return only JSON.";
-      const fillRetry = await callAI(fillRetryPrompt, provider, model, 16000, 1, 180000);
+        "\nRegenerate the COMPLETE resume JSON. Keep every original skill and original experience fact. Include every JD-required skill and experience. Fill every experience[].details array to at least its minimum count. Roles 1 and 2 need 8-12 bullets each. Older roles need at least 5. Count details before you stop. Return only JSON.";
+      const fillRetry = await callAI(
+        fillRetryPrompt,
+        activeProvider,
+        activeModel,
+        16000,
+        1,
+        180000
+      );
       const fillText =
         typeof fillRetry?.content?.[0]?.text === "string"
           ? fillRetry.content[0].text.trim()
@@ -362,6 +385,7 @@ export default async function handler(req, res) {
       allowedTech,
       jd || ""
     );
+    mergedDetails = ensureJdTermsInRecentRoles(mergedDetails, jd || "");
     const emptyRoles = mergedDetails
       .map((row, idx) => ({ row, idx }))
       .filter(({ row }) => !Array.isArray(row) || row.length === 0);

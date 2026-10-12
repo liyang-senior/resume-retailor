@@ -265,8 +265,15 @@ function pickCategoryForToken(token, categories) {
 }
 
 function isCatchAllCategoryName(cat) {
-  return /^(technical |core |key )?skills$|^core competenc/i.test(
-    String(cat ?? "").trim()
+  const c = String(cat ?? "").trim();
+  return (
+    /^(technical |core |key )?skills$|^core competenc/i.test(c) ||
+    /target\s+stack|stack\s+requirements?|required\s+skills?|jd\s+requirements?/i.test(
+      c
+    ) ||
+    /^(software engineering|collaboration|collaboration & leadership|engineering tools|other|miscellaneous)$/i.test(
+      c
+    )
   );
 }
 

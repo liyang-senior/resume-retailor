@@ -315,10 +315,10 @@ check(
   /^(react|next|astro)/i.test(front[0]),
   "Frontend engineering starts with a real framework (got: " + front[0] + ")"
 );
-const arch = mixedFront["Architecture & delivery"] || [];
+const practices = mixedFront["Engineering practices"] || [];
 check(
-  arch.some((s) => /responsive|internationali|accessibility|core web vitals/i.test(s)),
-  "methods moved into Architecture & delivery"
+  practices.some((s) => /responsive|internationali|accessibility|core web vitals/i.test(s)),
+  "methods moved into Engineering practices"
 );
 
 console.log("\nSKILLS:\n" + JSON.stringify(skills, null, 1));

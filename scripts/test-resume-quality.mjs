@@ -110,6 +110,18 @@ check(
   ),
   "draft and confirmation wording is removed from bullets"
 );
+check(
+  !/supplied materials|not documented/i.test(
+    cleanBulletText(
+      "Built Convex schemas for realtime reads (not documented in supplied materials)."
+    )
+  ) && /Built Convex schemas for realtime reads/.test(
+    cleanBulletText(
+      "Built Convex schemas for realtime reads (not documented in supplied materials)."
+    )
+  ),
+  "not documented in supplied materials is stripped from bullets"
+);
 check(canonicalSkillName("NestJS") === "Nest.js" && canonicalSkillName("Nest.js") === "Nest.js", "NestJS and Nest.js collapse to one name");
 const cased = sanitizeSkillMap({
   "Engineering Practices": ["Algorithms", "Code review"],

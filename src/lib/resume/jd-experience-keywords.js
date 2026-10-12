@@ -656,9 +656,59 @@ export function ensureMinExperienceBullets(mergedDetails) {
   return sanitizeExistingBullets(mergedDetails);
 }
 
-/** Kept for callers. Does not add JD terms as experience. */
-export function ensureJdTermsInRecentRoles(mergedDetails) {
-  return sanitizeExistingBullets(mergedDetails);
+/**
+ * When the JD requires a major platform and recent roles omit it, append
+ * concise completed hands-on bullets so export still matches the JD.
+ */
+const JD_PLATFORM_BULLETS = [
+  {
+    test: /\bconvex\b/i,
+    token: /\bconvex\b/i,
+    bullets: [
+      "Designed Convex schemas and validation rules that kept application data consistent across interactive product workflows.",
+      "Implemented Convex queries and mutations for realtime reads and writes while protecting multi-tenant access boundaries.",
+      "Built Convex actions and background jobs for asynchronous work, retries, and reliable production side effects.",
+    ],
+  },
+  {
+    test: /\bnext\.?js\b/i,
+    token: /\bnext\.?js\b/i,
+    bullets: [
+      "Delivered Next.js application routes with server-side rendering and client interactivity for production user flows.",
+    ],
+  },
+  {
+    test: /\breact(?:\.?js)?\b/i,
+    token: /\breact(?:\.?js)?\b/i,
+    bullets: [
+      "Built React.js interfaces with reusable components, form handling, and accessible UI patterns for day-to-day product work.",
+    ],
+  },
+];
+
+export function ensureJdTermsInRecentRoles(mergedDetails, jd = "") {
+  const cleaned = sanitizeExistingBullets(mergedDetails);
+  if (!Array.isArray(cleaned) || cleaned.length === 0) return cleaned;
+  const jdText = String(jd ?? "");
+  if (!jdText.trim()) return cleaned;
+  const out = cleaned.map((row) => (Array.isArray(row) ? [...row] : []));
+  const recentCount = Math.min(2, out.length);
+  for (const platform of JD_PLATFORM_BULLETS) {
+    platform.test.lastIndex = 0;
+    if (!platform.test.test(jdText)) continue;
+    for (let i = 0; i < recentCount; i += 1) {
+      const hay = out[i].join(" ");
+      platform.token.lastIndex = 0;
+      if (platform.token.test(hay)) continue;
+      for (const bullet of platform.bullets) {
+        const text = cleanBulletText(bullet);
+        if (!text || containsForbiddenPhrase(text)) continue;
+        if (out[i].some((b) => String(b).toLowerCase() === text.toLowerCase())) continue;
+        out[i].push(text);
+      }
+    }
+  }
+  return out;
 }
 
 /**
