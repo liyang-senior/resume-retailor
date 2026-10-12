@@ -76,21 +76,27 @@ export const BoldText = ({ text, style, prefix = '' }) => {
     );
   }
 
-  // Use built-in bold font - react-pdf maps Helvetica->Helvetica-Bold, Times->Times-Bold
+  // Use built-in bold font - react-pdf maps Helvetica->Helvetica-Bold, Times->Times-Bold.
+  // Nested Text must NOT inherit lineHeight/letterSpacing from the outer style.
+  // react-pdf reapplies those on nested nodes and stacks wrapped lines on top of each other.
   const baseFont = (style && style.fontFamily) || 'Helvetica';
-  const boldFont = baseFont.includes('Times') ? 'Times-Bold' : baseFont.includes('Courier') ? 'Courier-Bold' : 'Helvetica-Bold';
-  const boldStyle = style ? [style, { fontFamily: boldFont }] : { fontFamily: boldFont };
+  const boldFont = baseFont.includes('Times')
+    ? 'Times-Bold'
+    : baseFont.includes('Courier')
+      ? 'Courier-Bold'
+      : 'Helvetica-Bold';
+  const boldStyle = { fontFamily: boldFont };
 
   return (
     <Text style={style}>
-      {prefix}
+      {prefix ? <Text>{prefix}</Text> : null}
       {parts.map((part, idx) =>
         part.type === 'bold' ? (
           <Text key={idx} style={boldStyle}>
             {part.text}
           </Text>
         ) : (
-          part.text
+          <Text key={idx}>{part.text}</Text>
         )
       )}
     </Text>

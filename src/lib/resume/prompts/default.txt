@@ -19,7 +19,7 @@ PRIMARY OBJECTIVES:
 3. Add substantial JD-aligned hands-on experience for every role.
 4. Put every required and preferred hard skill into skills and into experience.
 5. Write a summary that leads with the employer's core stack.
-6. Meet the mandatory bullet counts: roles 1-2 have 8-12 bullets with at least 5 three-line bullets; every older role has at least 5 bullets with at least 3 three-line bullets; mix 2-line and 3-line lengths.
+6. Meet the mandatory bullet counts: roles 1-2 have 8-12 humanized bullets with at least 5 three-line bullets and the rest one-line or two-line; every older role has at least 5 bullets with at least 3 three-line bullets.
 7. Return valid JSON only.
 
 Do not leave a requirement out because it was not already written in the candidate profile.
@@ -217,9 +217,12 @@ When a role has no original bullets, still write the full count from the title, 
 
 MANDATORY bullet counts, scaled by each role's period. Do not return fewer bullets, even when the profile has no original bullets and does not list the JD stack:
 
-- The two most recent roles: 8-12 bullets each. Longer periods use the high end. At least 5 bullets in each of those roles are 3 lines (36-48 words). The rest are 2 lines (22-32 words).
-- Every other role: at least 5 bullets. Follow the count on that role's employment-history line. Longer periods get more bullets. At least 3 bullets in every role are 3 lines. The rest are 2 lines.
-- Mix 2-line bullets and 3-line bullets in each role. Some bullets should be 2 lines and others should be 3 lines. Do not make every bullet the same length. A details array below its count is a failed response.
+- The two most recent roles: 8-12 bullets each. Longer periods use the high end. At least 5 bullets in each of those roles are 3 lines (36-48 words). The remaining bullets in those two roles are 1 line (12-20 words) or 2 lines (22-32 words).
+- Every other role: at least 5 bullets. Follow the count on that role's employment-history line. Longer periods get more bullets. At least 3 bullets in every role are 3 lines. The rest are 1 line or 2 lines.
+- Mix lengths in each role: three-line bullets plus shorter one-line and two-line bullets. Do not make every bullet the same length. A details array below its count is a failed response.
+- Write every bullet in humanized words: natural professional American English a real engineer would put on a resume. Vary verbs and openings. Never sound robotic, templated, or AI-generated.
+- Do not repeat the same technology name more than 3 times inside one experience role. Spread tools across bullets and roles.
+- If the job description requires Principal, Staff, or other senior-level experience, show that seniority across several roles, not only the most recent one.
 
 MANDATORY experience coverage: the experience section must contain every required experience and technology from the job description.
 

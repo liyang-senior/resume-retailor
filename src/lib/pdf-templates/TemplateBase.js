@@ -169,7 +169,8 @@ export const createResumeTemplate = (config) => {
             fontFamily: fonts.title || "Helvetica-Bold",
             fontWeight: "bold",
             color: INK,
-            flex: 1,
+            // Avoid flex:1 on Text — react-pdf can stack siblings on the same Y.
+            maxWidth: "70%",
             paddingRight: 8,
             letterSpacing: 0.12,
             lineHeight: 1.35,
@@ -179,7 +180,6 @@ export const createResumeTemplate = (config) => {
             fontFamily: fonts.title || "Helvetica-Bold",
             fontWeight: "bold",
             color: INK,
-            flexShrink: 0,
             letterSpacing: 0.1,
             lineHeight: 1.35,
         },
@@ -195,15 +195,13 @@ export const createResumeTemplate = (config) => {
         expDetails: {
             marginLeft: 4,
         },
-        expDetailRow: {
-            marginBottom: 4,
-        },
         expDetailItem: {
             fontSize: fonts.expDetailSize || 10,
             fontFamily: fonts.body || "Helvetica",
             lineHeight: 1.42,
             letterSpacing: 0.18,
             color: INK,
+            marginBottom: 4,
         },
         eduItem: {
             marginBottom: 10,
@@ -219,7 +217,7 @@ export const createResumeTemplate = (config) => {
             fontFamily: fonts.title || "Helvetica-Bold",
             fontWeight: "bold",
             color: INK,
-            flex: 1,
+            maxWidth: "70%",
             paddingRight: 8,
             letterSpacing: 0.1,
             lineHeight: 1.35,
@@ -229,7 +227,6 @@ export const createResumeTemplate = (config) => {
             fontFamily: fonts.title || "Helvetica-Bold",
             fontWeight: "bold",
             color: INK,
-            flexShrink: 0,
             letterSpacing: 0.08,
             lineHeight: 1.35,
         },
@@ -358,34 +355,39 @@ export const createResumeTemplate = (config) => {
                                       Keep the section heading, job title, and company in one
                                       block. If they do not fit, the whole block moves to the
                                       next page instead of leaving the heading behind.
+                                      Empty View first: react-pdf wrap={false} height bug workaround.
                                     */}
-                                    <View wrap={false} minPresenceAhead={72}>
-                                        {idx === 0 && (
-                                            <Text style={styles.sectionTitle}>
-                                                {sectionTitles.experience || "Experience"}
-                                            </Text>
-                                        )}
-                                        <View style={styles.expHeader}>
-                                            <Text style={styles.expTitle}>{exp.title || "Engineer"}</Text>
-                                            <Text style={styles.expDates}>
-                                                {exp.start_date} – {exp.end_date}
+                                    <View>
+                                        <View style={{ height: 0 }} />
+                                        <View wrap={false} minPresenceAhead={72}>
+                                            {idx === 0 && (
+                                                <Text style={styles.sectionTitle}>
+                                                    {sectionTitles.experience || "Experience"}
+                                                </Text>
+                                            )}
+                                            <View style={styles.expHeader}>
+                                                <Text style={styles.expTitle}>
+                                                    {exp.title || "Engineer"}
+                                                </Text>
+                                                <Text style={styles.expDates}>
+                                                    {exp.start_date} – {exp.end_date}
+                                                </Text>
+                                            </View>
+                                            <Text style={styles.expCompany}>
+                                                {exp.company}
+                                                {exp.location && `, ${exp.location}`}
                                             </Text>
                                         </View>
-                                        <Text style={styles.expCompany}>
-                                            {exp.company}
-                                            {exp.location && `, ${exp.location}`}
-                                        </Text>
                                     </View>
                                     {detailLines.length > 0 && (
                                         <View style={styles.expDetails}>
                                             {detailLines.map((detail, detailIdx) => (
-                                                <View key={detailIdx} style={styles.expDetailRow}>
-                                                    <BoldText
-                                                        text={String(detail)}
-                                                        style={styles.expDetailItem}
-                                                        prefix={"\u2022 "}
-                                                    />
-                                                </View>
+                                                <BoldText
+                                                    key={detailIdx}
+                                                    text={String(detail)}
+                                                    style={styles.expDetailItem}
+                                                    prefix={"\u2022 "}
+                                                />
                                             ))}
                                         </View>
                                     )}
